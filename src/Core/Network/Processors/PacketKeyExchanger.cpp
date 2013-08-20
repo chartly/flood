@@ -294,8 +294,8 @@ bool PacketServerKeyExchanger::processClientSessionPacket(Peer* peer, Packet* pa
     {
         SessionHash oldHash;
 
-        if (oldHash.size() != data.size())
-            return false;
+       // if (oldHash.size() != data.size())
+       //     return false;
 
         memcpy(oldHash.data(), data.data(), data.size());
 
@@ -310,6 +310,12 @@ bool PacketServerKeyExchanger::processClientSessionPacket(Peer* peer, Packet* pa
     else
     {
         session = Allocate(AllocatorGetNetwork(), Session);
+        if(!session)
+        {
+            LogError("Failed to allocate a Session object.");
+            return false;
+        }
+
         session->setHash(newHash);
         server->getSessionManager().addSession(session);
     }

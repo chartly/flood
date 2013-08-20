@@ -222,6 +222,8 @@ static void* HeapAllocate(Allocator* alloc, int32 size, int32 align)
 #endif
 
 	instance = malloc(total_size);
+	if(!instance)
+		return nullptr;
 
 	AllocationMetadata* metadata = (AllocationMetadata*) instance;
 	metadata->size = size;
@@ -255,6 +257,9 @@ static void HeapDellocate(Allocator* alloc, const void* p)
 Allocator* AllocatorCreateHeap( Allocator* alloc )
 {
 	Allocator* heap = Allocate(alloc, Allocator);
+	if(!heap)
+		return nullptr;
+
 
 	heap->allocate = HeapAllocate;
 	heap->deallocate = HeapDellocate;
@@ -312,6 +317,8 @@ static void StackDellocate(Allocator* alloc, const void* p)
 Allocator* AllocatorCreateStack( Allocator* alloc )
 {
 	Allocator* stack = Allocate(alloc, Allocator);
+	if(!stack)
+		return nullptr;
 
 	stack->allocate = StackAllocate;
 	stack->deallocate = StackDellocate;

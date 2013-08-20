@@ -154,7 +154,7 @@ Stream* ArchiveZip::openFile(const Path& path, Allocator* alloc)
 
 	auto zip = Allocate(alloc, ZipStream, (ZZIP_DIR*) handle, nullptr, path, StreamOpenMode::Read);
 	
-	if (!zip->open())
+	if (!zip || !zip->open())
 	{
 		LogWarn("Error opening zip file: %s", path.c_str());
 		Deallocate(zip);

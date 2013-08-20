@@ -42,6 +42,12 @@ REFLECT_CLASS_END()
 ImageHandle ImageCreate(Allocator* alloc, uint32 width, uint32 height, PixelFormat format)
 {
 	Image* image = Allocate(alloc, Image);
+    if(!image)
+    {
+        LogError("Failed to allocate Image.");
+        return HandleInvalid;
+    }
+
 	image->create(width, height, format);
 
 	return HandleCast<Image>( ResourceHandleCreate(image) );

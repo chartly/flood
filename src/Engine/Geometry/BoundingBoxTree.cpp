@@ -893,6 +893,12 @@ public:
 		if ( mFaceNormals == NULL )
 		{
 			mFaceNormals = (float *)::malloc(sizeof(float)*3*mTcount);
+			if(!mFaceNormals)
+			{
+				LogError("Failed to allocate triangle buffer.");
+				return;
+			}
+
 			for (uint32 i=0; i<mTcount; i++)
 			{
 				uint32 i1 = mIndices[i*3+0];

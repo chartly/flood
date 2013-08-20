@@ -78,9 +78,21 @@ void RenderContext::init()
 	backend->checkCapabilities(caps);
 
 	bufferManager = AllocateGraphics(BufferManager);
+	if(!bufferManager)
+	{
+		LogError("Failed to allocate BufferManager.");
+		return;
+	}
+
 	bufferManager->setRenderBackend(backend);
 
 	textureManager = AllocateGraphics(TextureManager);
+    if(!textureManager)
+    {
+        LogError("Failed to allocate TextureManager.");
+        return;
+    }
+
 	textureManager->setRenderBackend(backend);
 
 	programManager = AllocateGraphics(ProgramManager, backend);

@@ -155,6 +155,9 @@ FileWatchStruct* CreateWatch(LPCTSTR szDirectory, DWORD mNotifyFilter)
 	pWatch = static_cast<FileWatchStruct*>(HeapAlloc(GetProcessHeap(),
 		HEAP_ZERO_MEMORY, ptrsize));
 
+	if(!pWatch)
+		return nullptr;
+
 	pWatch->mDirHandle = CreateFile(szDirectory, FILE_LIST_DIRECTORY,
 		FILE_SHARE_READ, nullptr, OPEN_EXISTING,
 		FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, nullptr);

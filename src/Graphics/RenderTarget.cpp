@@ -45,6 +45,12 @@ RenderTarget::~RenderTarget()
 RenderView* RenderTarget::createView()
 {
 	RenderView* renderView = AllocateThis(RenderView);
+	if(!renderView)
+	{
+		LogError("Failed to allocate RenderView.");
+		return nullptr;
+	}
+
 	renderView->setRenderTarget(this);
 	renderView->setSize(getSettings().getSize());
 	views.push_back(renderView);

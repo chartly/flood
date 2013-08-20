@@ -124,8 +124,8 @@ void TextureAtlas::resizeAtlas(uint newSize)
     std::map<ImageHandle, SubTexture>::iterator iter;
     for (iter = imageSubTextures.begin(); iter != imageSubTextures.end(); ++iter) {
         Vector2i rectSize;
-        int width = (iter->second.rightBottomUV.x - iter->second.leftTopUV.x)*width;
-        int height = (iter->second.rightBottomUV.y - iter->second.leftTopUV.y)*height;
+        int width = (iter->second.rightBottomUV.x - iter->second.leftTopUV.x);//*width;
+        int height = (iter->second.rightBottomUV.y - iter->second.leftTopUV.y);//*height;
         
         rectSize.x = width+1;
         rectSize.y = height+1;

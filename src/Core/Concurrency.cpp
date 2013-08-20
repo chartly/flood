@@ -41,10 +41,13 @@ void ThreadDestroy(Thread* thread)
 Task* TaskCreate(Allocator* alloc)
 {
 	Task* task = Allocate(alloc, Task);
-	
-	task->group = 0;
-	task->priority = 0;
-	task->userdata = nullptr;
+
+	if(task)
+	{
+		task->group = 0;
+		task->priority = 0;
+		task->userdata = nullptr;
+	}
 	
 	return task;
 }
@@ -73,6 +76,9 @@ typedef std::vector<Thread*> ThreadQueue;
 TaskPool* TaskPoolCreate(Allocator* alloc, int8 Size)
 {
 	TaskPool* pool = Allocate(alloc, TaskPool);
+
+	if(!pool)
+		return nullptr;
 	
 	pool->IsStopping = false;
 

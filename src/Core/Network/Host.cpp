@@ -211,8 +211,13 @@ void HostClient::onPeerConnect(const PeerPtr& newPeer)
 
 
 	auto keyExchanger = Allocate(AllocatorGetNetwork(), PacketClientKeyExchanger);
-	peer->addProcessor(keyExchanger);
-	keyExchanger->beginKeyExchange(peer.get());
+	if(keyExchanger)
+	{
+		peer->addProcessor(keyExchanger);
+		keyExchanger->beginKeyExchange(peer.get());
+	}
+	else
+		LogError("Network system allocator failed to allocate.");
 }
 
 //-----------------------------------//

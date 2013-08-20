@@ -618,6 +618,12 @@ Serializer* SerializerCreateBinary(Allocator* alloc,
 								   ReflectionHandleContextMap* handleContextMap)
 {
 	SerializerBinary* serializer = Allocate(alloc, SerializerBinary);
+    if(!serializer)
+    {
+        LogError("Failed to allocate SerializerBinary.");
+        return nullptr;
+    }
+
 	serializer->load = SerializeLoad;
 	serializer->save = SerializeSave;
 	serializer->alloc = alloc;

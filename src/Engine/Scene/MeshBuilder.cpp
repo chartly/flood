@@ -65,6 +65,12 @@ static void MeshBuildGeometry(Mesh* mesh, RenderablesVector& rends)
 		gb->addIndex((uint8*)&group.indices.front(), numIndices*sizeof(uint16));
 
 		RenderBatch* renderable = AllocateHeap(RenderBatch);
+		if(!renderable)
+		{
+			LogError("Failed to allocate Renderable.");
+			return;
+		}
+
 		renderable->setPrimitiveType( PrimitiveType::Triangles );
 		renderable->setGeometryBuffer(gb);
 		renderable->setMaterial(material);

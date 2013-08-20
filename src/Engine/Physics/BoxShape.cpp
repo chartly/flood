@@ -51,7 +51,10 @@ void BoxShape::update( float delta )
 	const Vector3& scale = transform->getScale();
 	
 	boxShape = AllocateThis(btBoxShape, Convert::toBullet(box));
-	boxShape->setLocalScaling(Convert::toBullet(scale));
+	if(boxShape)
+		boxShape->setLocalScaling(Convert::toBullet(scale));
+	else
+		LogError("Failed to allocate btBoxShape while updating BoxShape.");
 }
 
 //-----------------------------------//

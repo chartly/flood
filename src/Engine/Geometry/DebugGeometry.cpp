@@ -38,6 +38,12 @@ DebugDrawer::DebugDrawer()
 
 	// Lines
 	GeometryBuffer* linesVB = AllocateThis(GeometryBuffer);
+	if(!linesVB)
+	{
+		LogError("Failed to allocate GeometryBuffer during DebugDrawer construction.");
+		return;
+	}
+
 	linesVB->setBufferAccess(BufferAccess::Write);
 	linesVB->setBufferUsage(BufferUsage::Dynamic);
 	SetupDebugVertexFormat(linesVB);
@@ -176,6 +182,9 @@ RenderablePtr DebugBuildBoundingBox( const BoundingBox& box )
 	//mat->setDepthRange( Vector2(0.1f, 0.9f) );
 
 	Renderable* renderable = AllocateHeap(Renderable);
+	if(!renderable)
+		return nullptr;
+
 	renderable->setPrimitiveType(PrimitiveType::Quads);
 	renderable->setGeometryBuffer(gb);
 	renderable->setMaterial(materialHandle);
@@ -232,12 +241,24 @@ RenderablePtr DebugBuildRay( const Ray& pickRay, float length )
 	std::vector<Vector3> colors( 2, Color::Red );
 
 	GeometryBuffer* gb = AllocateHeap(GeometryBuffer);
+	if(!gb)
+	{
+		LogError("Failed to allocate GeometryBuffer.");
+		return nullptr;
+	}
+
 	gb->set( VertexAttribute::Position, vertex );
 	gb->set( VertexAttribute::Color, colors );
 
 	MaterialHandle material = MaterialCreate(AllocatorGetHeap(), "RayDebug");
 
 	Renderable* renderable = AllocateHeap(Renderable);
+	if(!renderable)
+	{
+		LogError("Failed to allocate Renderable.");
+		return nullptr;
+	}
+
 	renderable->setPrimitiveType(PrimitiveType::Lines);
 	renderable->setGeometryBuffer(gb);
 	renderable->setMaterial(material);
@@ -256,6 +277,12 @@ RenderablePtr DebugBuildFrustum( const Frustum& box )
 	material->setBackfaceCulling( false );
 
 	Renderable* renderable = AllocateHeap(Renderable);
+	if(!renderable)
+	{
+		LogError("Failed to allocate Renderable.");
+		return nullptr;
+	}
+
 	renderable->setPrimitiveType(PrimitiveType::Quads);
 	renderable->setGeometryBuffer(gb);
 	renderable->setMaterial(materialHandle);

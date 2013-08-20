@@ -78,6 +78,7 @@ SUITE(Core)
 
 		// Test explicit set of handle ids.
 		A* a3 = AllocateHeap(A);
+		CHECK(a3 != nullptr);
 
 		HandleA handle3 = HandleCreate(HandleManagerA, a3);
 		HandleA handle4 = handle3;

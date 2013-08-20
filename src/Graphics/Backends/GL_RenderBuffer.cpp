@@ -137,6 +137,12 @@ TexturePtr GL_RenderBuffer::createRenderTexture( RenderBufferType type )
 	}
 
 	Texture* tex = AllocateThis(Texture);
+	if(!tex)
+	{
+		LogError("Failed to allocate Texture.");
+		return nullptr;
+	}
+
 	tex->allocate(settings.getSize(), format);
 
 	attachRenderTexture(tex);

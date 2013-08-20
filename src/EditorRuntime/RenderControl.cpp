@@ -96,10 +96,12 @@ RenderControl::RenderControl( wxWindow* parent, wxWindowID id,
 	WindowSettings settings(sz.GetX(), sz.GetY());
 	
 	// Note: This will be deleted by the engine.
-	window = AllocateThis(RenderWindow, settings, this);
-
 	// Setup input in the engine.
-	input = window->inputManager;
+	window = AllocateThis(RenderWindow, settings, this);
+	if(window)
+		input = window->inputManager;
+	else
+		LogError("Failed to allocate RenderWindow while constructing RenderControl.");
 }
 
 //-----------------------------------//

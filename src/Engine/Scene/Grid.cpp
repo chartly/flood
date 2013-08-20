@@ -36,6 +36,11 @@ GeometryBufferPtr Grid::buildGeometry()
 {
 	// Create a new VBO and upload triangle data
 	GeometryBuffer* gb = AllocateThis(GeometryBuffer);
+	if(!gb)
+	{
+		LogError("Failed to allocate GeometryBuffer.");
+		return nullptr;
+	}
 
 	// Vertex data
 	std::vector< Vector3 > vertex;
@@ -107,6 +112,12 @@ void Grid::update( float update )
 	MaterialHandle materialHandle = MaterialCreate(AllocatorGetHeap(), "Grid");
 
 	RenderBatch* rend = AllocateHeap(Renderable);
+	if(!rend)
+	{
+		LogError("Failed to allocate renderable.");
+		return;
+	}
+
 	rend->setPrimitiveType(PrimitiveType::Lines);
 	rend->setGeometryBuffer( buildGeometry() );
 	rend->setMaterial( materialHandle );

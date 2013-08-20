@@ -508,7 +508,12 @@ void Model::setAttachment(const String& boneName, const EntityPtr& node)
 	if( !bone ) return;
 
 	Attachment* attachment = AllocateThis(Attachment);
-	
+	if(!attachment)
+	{
+		LogError("Failed to allocate Attachment.");
+		return;
+	}
+
 	attachment->bone = bone;
 	attachment->node = node;
 
@@ -571,6 +576,12 @@ RenderBatchPtr Model::createDebugRenderable() const
 	GeometryBuffer* gb = AllocateHeap(GeometryBuffer);
 	
 	RenderBatch* renderable = AllocateHeap(Renderable);
+	if(!renderable)
+	{
+		LogError("Failed to allocate Renderable.");
+		return nullptr;
+	}
+
 	renderable->setPrimitiveType(PrimitiveType::Lines);
 	renderable->setGeometryBuffer(gb);
 	renderable->setMaterial(handleMaterial);

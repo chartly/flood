@@ -53,9 +53,9 @@ Engine::Engine()
 Engine::~Engine()
 {
 	for(auto& subsystem : subsystems)
-    {
+	{
 		Deallocate(subsystem);
-    }
+	}
 	
 	Deallocate(physicsManager);
 	Deallocate(scriptManager);
@@ -110,6 +110,12 @@ void Engine::init()
 
 	// Creates the resource manager.
 	resourceManager = AllocateThis(ResourceManager);
+	if(!resourceManager)
+	{
+		LogError("Failed to allocate ResourceManager.");
+		return;
+	}
+
 	resourceManager->setTaskPool( taskPool );
 	
 	// Registers default resource loaders.
@@ -117,6 +123,11 @@ void Engine::init()
 
 	// Creates the rendering device.
 	renderDevice = AllocateThis(RenderDevice);
+	if(!renderDevice)
+	{
+		LogError("Failed to allocate the RenderDevice.");
+		return;
+	}
 
 #ifdef ENABLE_AUDIO_OPENAL
 	// Creates the audio device.

@@ -29,6 +29,12 @@ REFLECT_CLASS_END()
 MaterialHandle MaterialCreate( Allocator* alloc, const String& name )
 {
 	Material* material = Allocate(alloc, Material);
+	if(!material)
+	{
+		LogError("Failed to allocate Material.");
+		return HandleInvalid;
+	}
+
 	material->setName(name);
 
 	return HandleCast<Material>( ResourceHandleCreate(material) );

@@ -98,10 +98,22 @@ void GLSL_ShaderProgram::detachShaders()
 void GLSL_ShaderProgram::createShaders()
 {
 	vertex = AllocateThis(GLSL_Shader);
+	if(!vertex)
+	{
+		LogError("Failed to allocate GLSL_Shader.");
+		return;
+	}
+
 	vertex->setShaderType( ShaderType::Vertex );
 	vertex->create();
 	
 	fragment = AllocateThis(GLSL_Shader);
+	if(!fragment)
+	{
+		LogError("Failed to allocate GLSL_Shader.");
+		return;
+	}
+
 	fragment->setShaderType( ShaderType::Fragment );
 	fragment->create();
 

@@ -98,7 +98,8 @@ struct C : public Object
 		for(size_t i = 0; i < NUM_AS; i++)
 		{
 			A* a = AllocateThis(A);
-			arrayA.push_back(a);
+			if(a)
+				arrayA.push_back(a);
 		}
 	}
 

@@ -353,6 +353,11 @@ void ResourceManager::decodeResource( ResourceLoadOptions& options )
 	
 	ResourceLoadOptions* taskOptions = Allocate(GetResourcesAllocator(),
 		ResourceLoadOptions);
+	if(!taskOptions)
+	{
+		LogError("Failed to allocate ResourceLoadOptions.");
+		return;
+	}
 
 	*taskOptions = options;
 

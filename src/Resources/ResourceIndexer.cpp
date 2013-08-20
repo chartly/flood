@@ -51,6 +51,12 @@ void ResourceIndexer::update()
 static Task* CreateIndexTask(ResourceIndexer* index, const Path& resPath)
 {
 	Path* path = Allocate(AllocatorGetObject(index), Path);
+	if(!path)
+	{
+		LogError("Failed to allocate Path.");
+		return nullptr;
+	}
+
 	path->assign(resPath);
 
 	Task* task = TaskCreate( AllocatorGetObject(index) );

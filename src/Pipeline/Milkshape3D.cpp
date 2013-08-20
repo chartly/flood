@@ -82,6 +82,11 @@ void Milkshape3D::buildSkeleton()
 		ms3d_joint_t& joint = joints[i];
 		
 		Bone* bone = AllocateThis(Bone);
+		if(!bone)
+		{
+			LogError("Failed to allocate Bone.");
+			return;
+		}
 
 		bone->name = joint.name;
 		bone->index = i;
@@ -252,6 +257,12 @@ void Milkshape3D::buildAnimations()
 Animation* Milkshape3D::buildAnimation(AnimationMetadata& data)
 {
 	Animation* animation = AllocateThis(Animation);
+	if(!animation)
+	{
+		LogError("Failed to allocate Animation.");
+		return nullptr;
+	}
+
 	animation->setName(data.name);
 
 	for( size_t i = 0; i < joints.size(); i++ )

@@ -57,7 +57,10 @@ void CapsuleShape::update( float delta )
 	const Vector3& scale = transform->getScale();
 
 	capsuleShape = AllocateThis(btCapsuleShape, radius, height);
-	capsuleShape->setLocalScaling(Convert::toBullet(scale));
+	if(capsuleShape)
+		capsuleShape->setLocalScaling(Convert::toBullet(scale));
+	else
+		LogError("Failed to allocate btCapsuleShape while updating CapsuleShape.");
 }
 
 //-----------------------------------//

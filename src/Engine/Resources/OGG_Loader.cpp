@@ -46,6 +46,9 @@ static int OggSeek(void* datasource, ogg_int64_t offset, int whence)
 	case SEEK_END:
 		mode = StreamSeekMode::RelativeEnd;
 		break;
+	default:
+		LogError("Invalid StreamSeakMode value passed to OggSeek. Defaulting to Absolute.");
+		mode = StreamSeekMode::Absolute;
 	}
 
 	stream->setPosition(offset, mode);
@@ -148,6 +151,11 @@ Resource* OGG_Loader::prepare(ResourceLoadOptions& options)
 	
 	Sound* sound = AllocateThis(Sound);
 	if( !streamed) return sound;
+	if(!sound)
+	{
+		LogError("Failed to allocate Sound.");
+		return nullptr;
+	}
 	
 	sound->setStreamed(true);
 	options.keepStreamOpen = true;
@@ -163,6 +171,12 @@ Resource* OGG_Loader::prepare(ResourceLoadOptions& options)
 	}
 
 	OggStream* oggStream = AllocateThis(OggStream);
+	if(!oggStream)
+	{
+		LogError("Failed to allocate OggStream.");
+		return sound;
+	}
+
 	oggStream->loader = this;
 	oggStream->stream = options.stream;
 	oggStream->ogg = oggFile;

@@ -778,6 +778,9 @@ Serializer* SerializerCreateJSON(Allocator* alloc, ReflectionHandleContextMap* h
 	//json_set_alloc_funcs(JsonAllocate, JsonDeallocate);
 
 	SerializerJSON* serializer = Allocate(alloc, SerializerJSON);
+	if(!serializer)
+		return nullptr;
+
 	serializer->load = SerializeLoad;
 	serializer->save = SerializeSave;
 	serializer->alloc = alloc;

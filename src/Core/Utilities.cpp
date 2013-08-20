@@ -323,7 +323,7 @@ Path PathGetCurrentDir()
 {
 	char buf[256];
 #ifdef PLATFORM_WINDOWS
-	_getcwd(buf, ARRAY_SIZE(buf));
+	_getcwd(buf, 256);
 #else
 	getcwd(buf, ARRAY_SIZE(buf));
 #endif

@@ -333,6 +333,11 @@ void RenderBackendGLES2::setClearColor(Color color)
 VertexBuffer* RenderBackendGLES2::createVertexBuffer()
 {
 	VertexBuffer* vb = AllocateGraphics(VertexBuffer);
+	if(!vb)
+	{
+		LogError("Failed to allocate VertexBuffer.");
+		return nullptr;
+	}
 	
 	glGenBuffers( 1, (GLuint*) &vb->id );
 	CheckLastErrorGL("Error generating a new buffer");
@@ -400,6 +405,11 @@ void RenderBackendGLES2::setupVertexBuffer(VertexBuffer* vb)
 IndexBuffer* RenderBackendGLES2::createIndexBuffer()
 {
 	IndexBuffer* ib = AllocateGraphics(IndexBuffer);
+	if(!ib)
+	{
+		LogError("Failed to allocate IndexBuffer.");
+		return nullptr;
+	}
 	
 	glGenBuffers( 1, (GLuint*) &ib->id );
 	CheckLastErrorGL("Error generating a new index buffer");
@@ -468,6 +478,12 @@ RenderBuffer* RenderBackendGLES2::createRenderBuffer(const Settings& settings)
 Texture* RenderBackendGLES2::createTexture()
 {
 	Texture* tex = AllocateGraphics(Texture);
+	if(!tex)
+	{
+		LogError("Failed to allocate Texture.");
+		return nullptr;
+	}
+
 	tex->target = TextureTarget::Target2D;
 
 	glGenTextures( 1, (GLuint*) &tex->id );
@@ -617,6 +633,12 @@ Image* RenderBackendGLES2::readTexture(Texture* tex)
 	unbindTexture(tex);
 
 	Image* image = AllocateThis(Image);
+	if(!image)
+	{
+		LogError("Failed to allocate Image.");
+		return nullptr;
+	}
+
 	image->setWidth( tex->width );
 	image->setHeight( tex->height );
 	image->setPixelFormat( tex->format );

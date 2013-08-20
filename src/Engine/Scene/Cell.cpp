@@ -45,8 +45,13 @@ void Cell::setSettings( const TerrainSettings& settings )
 
 	// Make a copy of the default cell material.
 	Material* mat = AllocateHeap(Material, *settings.Material.Resolve());
-	mat->setTexture(0, image);
+	if(!mat)
+	{
+		LogError("Failed to allocate Material in Cell.");
+		return;
+	}
 
+	mat->setTexture(0, image);
 	material = HandleCast<Material>( ResourceHandleCreate(mat) );
 }
 

@@ -14,6 +14,8 @@
 #include "Core/String.h"
 #include "Core/WebServer.h"
 #include "Core/Memory.h"
+#include "Core/Log.h"
+
 #include "mongoose.h"
 
 NAMESPACE_CORE_BEGIN
@@ -55,7 +57,10 @@ static void* MongooseCallback(mg_event event, mg_connection* conn, const mg_requ
 WebContext* WebServerCreate( Allocator* alloc )
 {
 	WebContext* context = Allocate(alloc, WebContext);
-	context->mongoose = nullptr;
+	if(context)
+		context->mongoose = nullptr;
+	else
+		LogError("Failed to allocate a WebContext in WebServerCreate.");
 
 	return context;
 }

@@ -142,15 +142,33 @@ void InitializeGUI(InputManager*);
 void EditorFrame::createEngine()
 {
 	engine = AllocateThis(Engine);
+	if(!engine)
+	{
+		LogError("Failed to allocate the Engine instance while starting up the Editor.");
+		return;
+	}
+
 	engine->init();
 
 	// Setup the input manager.
 	input = AllocateThis(InputManager);
+	if(!input)
+	{
+		LogError("Failed to allocate the InputManager instance during Engine init.");
+		return;
+	}
+
 	input->createDefaultDevices();
 	engine->setInputManager(input);
 
 	// Setup the window manager.
 	WindowManager* windowManager = AllocateThis(EditorWindowManager);
+	if(!windowManager)
+	{
+		LogError("Failed to allocate the EditorWindowManager instance during Engine init.");
+		return;
+	}
+
 	engine->setWindowManager(windowManager);
 
 	// Mount the default assets path.
@@ -158,9 +176,13 @@ void EditorFrame::createEngine()
 	
 	// Get the mount paths from the editor preferences.
 	archive = Allocate(GetResourcesAllocator(), ArchiveVirtual);
-	archive->archiveMountDirectories("Assets/", GetResourcesAllocator());
-	
-	res->setArchive(archive);
+	if(archive)
+	{
+		archive->archiveMountDirectories("Assets/", GetResourcesAllocator());
+		res->setArchive(archive);
+	}
+	else
+		LogError("Failed to allocate the assets Archive during Engine init.");
 
 	InitializeGUI(input);
 }
@@ -192,6 +214,11 @@ void EditorFrame::createUI()
 	SetMainWindow(window);
 
 	Camera* camera = AllocateHeap(Camera);
+	if(!camera)
+	{
+		LogError("Failed to allocate Camera instance during UI init.");
+		return;
+	}
 
 	Frustum& frustum = camera->getFrustum();
 	frustum.farPlane = 10000;
