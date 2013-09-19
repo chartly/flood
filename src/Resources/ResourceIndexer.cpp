@@ -130,7 +130,7 @@ void ResourceIndexer::indexResources(Task* task)
 		return;
 	}
 
-	uint32 hash = HashMurmur2(0xBEEF, &data[0], data.size());
+	uint32 hash = MurmurHash2(0xBEEF, &data[0], data.size());
 		
 	ResourceMetadata metadata;
 	metadata.hash = hash;

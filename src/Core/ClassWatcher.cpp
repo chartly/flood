@@ -40,7 +40,7 @@ bool ClassWatchUpdateField(ClassWatch* watch, const Field* field)
 	byte* max = min + field->size;
 
 	size_t size = max - min;
-	uint32 hash = HashMurmur2(0xF00D, min, size);
+	uint32 hash = MurmurHash2(0xF00D, min, size);
 
 	bool changed = false;
 

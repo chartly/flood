@@ -373,7 +373,7 @@ StringHash::StringHash()
 //-----------------------------------//
 
 StringHash::StringHash(const char* str, size_t size)
-	: hash( HashMurmur2(0xF00D, (uint8*)str, size) )
+	: hash( MurmurHash2(0xF00D, (uint8*)str, size) )
 {
 }
 

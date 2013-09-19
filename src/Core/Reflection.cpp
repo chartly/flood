@@ -313,7 +313,7 @@ void* ClassCreateInstance(const Class* klass, Allocator* alloc)
 
 ClassId ClassCalculateId(const Class* klass)
 {
-	uint32 hash = HashMurmur2(0xBEEF, (uint8*) klass->name, strlen(klass->name));
+	uint32 hash = MurmurHash2(0xBEEF, (uint8*) klass->name, strlen(klass->name));
 	return (ClassId) hash;
 }
 

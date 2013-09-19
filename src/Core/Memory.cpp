@@ -10,8 +10,9 @@
 #include "Core/Log.h"
 #include "Core/References.h"
 #include "Core/Object.h"
+#include "Core/Math/Hash.h"
 
-#define ALLOCATOR_TRACKING
+//#define ALLOCATOR_TRACKING
 #define ALLOCATOR_DEFAULT_GROUP "General";
 
 #ifdef PLATFORM_WINDOWS
@@ -95,9 +96,7 @@ AllocationMetadata::AllocationMetadata()
 
 static const int32 MEMORY_PATTERN = 0xDEADBEEF;
 
-// TODO: Do not use STL in this low level code.
-
-typedef std::map<const char*, AllocationGroup, RawStringCompare> MemoryGroupMap;
+typedef HashMap<AllocationGroup> MemoryGroupMap; // keyed by const char *
 
 static MemoryGroupMap& GetMemoryGroupMap()
 {
@@ -109,9 +108,12 @@ static void AllocatorTrackGroup(AllocationMetadata* metadata, bool alloc)
 {
 	if(!metadata) return;
 
-	MemoryGroupMap& memoryGroups = GetMemoryGroupMap();
-	memoryGroups[metadata->group].total += alloc ? metadata->size : 0;
-	memoryGroups[metadata->group].freed += alloc ? 0 : metadata->size;
+	auto key = MurmurHash64(metadata->group, strlen(metadata->group), 0);
+	auto group = GetMemoryGroupMap().get(key, AllocationGroup());
+	group.total += alloc ? metadata->size : 0;
+	group.freed == alloc ? 0 : metadata->size;
+
+   GetMemoryGroupMap().set(key, group);
 }
 
 //-----------------------------------//
@@ -158,11 +160,10 @@ void AllocatorDumpInfo()
 	LogDebug("Memory stats");
 	LogDebug("-----------------------------------------------------");
 
-	MemoryGroupMap::iterator it;
-	for(it = groups.begin(); it != groups.end(); ++it)
+	for(auto it = groups.begin(); it != groups.end(); ++it)
 	{
-		const char* id = it->first;
-		AllocationGroup& group = it->second;
+		const char* id = "???";
+		auto group = it->value;
 		
 		const char* fs = "%s\t| total freed: %I64d bytes, total allocated: %I64d bytes";
 		String format = StringFormat(fs, id, group.freed, group.total );
@@ -245,9 +246,9 @@ static void HeapDellocate(Allocator* alloc, const void* p)
 
 #if ALIGNED_MALLOC
 	_aligned_free(base);
-#endif
-
+#elif ALLOCATOR_TRACKING
 	free(base);
+#endif
 }
 
 //-----------------------------------//
