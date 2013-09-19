@@ -13,11 +13,9 @@
 #include "Core/Object.h"
 #include "Core/Stream.h"
 #include "ReflectionTypes.h"
-
 #include <UnitTest++.h>
 
-namespace
-{
+NAMESPACE_CORE_BEGIN
 
 	void SerializeH(ReflectionContext* context, ReflectionWalkType wt)
 	{
@@ -59,7 +57,6 @@ namespace
 			context->walkPrimitive(context, wt);
 		}
 	}
-}
 
 REFLECT_CHILD_CLASS(H, Object)
 	REFLECT_CLASS_SET_SERIALIZER(SerializeH)
@@ -69,6 +66,10 @@ REFLECT_CHILD_CLASS(I, Object)
 	FIELD_CLASS(2, H, h)
 	FIELD_PRIMITIVE(3, uint32, hook) FIELD_SET_SERIALIZER(hook, SerializeHookI)
 REFLECT_CLASS_END()
+
+NAMESPACE_CORE_END
+
+using namespace fld;
 
 SUITE(Core)
 {

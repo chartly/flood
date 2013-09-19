@@ -8,8 +8,9 @@
 #include "Core/API.h"
 #include "Core/Archive.h"
 #include "Core/Stream.h"
-
 #include <UnitTest++.h>
+
+using namespace fld;
 
 SUITE(Core)
 {

@@ -12,8 +12,9 @@
 #include "Core/Serialization.h"
 #include "Core/ClassWatcher.h"
 #include "ReflectionTypes.h"
-
 #include <UnitTest++.h>
+
+NAMESPACE_CORE_BEGIN
 
 REFLECT_ENUM(E)
 	ENUM(F1)
@@ -50,6 +51,10 @@ REFLECT_CHILD_CLASS(F, Object)
 	FIELD_VECTOR(7, A, vecA)
 	FIELD_CLASS(8, A, a)
 REFLECT_CLASS_END()
+
+NAMESPACE_CORE_END
+
+using namespace fld;
 
 SUITE(Core)
 {

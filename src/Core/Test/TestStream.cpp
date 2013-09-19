@@ -9,8 +9,9 @@
 #include "Core/Stream.h"
 #include "Core/Memory.h"
 #include "Core/Pointers.h"
-
 #include <UnitTest++.h>
+
+using namespace fld;
 
 SUITE(Core)
 {

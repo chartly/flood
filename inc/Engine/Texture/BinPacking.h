@@ -9,6 +9,8 @@
 
 #include "Core/Math/Rectangle.h"
 
+NAMESPACE_ENGINE_BEGIN
+
 /** MaxRectsBinPack implements the MAXRECTS data structure and different bin packing algorithms that 
 	use this structure. */
 class MaxRectsBinPack
@@ -77,3 +79,5 @@ private:
 	/// Goes through the free rectangle list and removes any redundant entries.
 	void PruneFreeList();
 };
+
+NAMESPACE_ENGINE_END

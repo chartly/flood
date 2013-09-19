@@ -8,8 +8,9 @@
 #include "Core/API.h"
 #include "Core/Handle.h"
 #include "Core/References.h"
-
 #include <UnitTest++.h>
+
+using namespace fld;
 
 namespace
 {

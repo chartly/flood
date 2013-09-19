@@ -15,6 +15,13 @@
 #include "Resources/API.h"
 
 //---------------------------------------------------------------------//
+// API Namespaces
+//---------------------------------------------------------------------//
+
+#define NAMESPACE_GRAPHICS_BEGIN NAMESPACE_CORE_BEGIN
+#define NAMESPACE_GRAPHICS_END NAMESPACE_CORE_END
+
+//---------------------------------------------------------------------//
 // API Exports
 //---------------------------------------------------------------------//
 
@@ -28,18 +35,15 @@
 
 #define AllocateGraphics AllocateHeap
 
+NAMESPACE_GRAPHICS_BEGIN
+
 API_GRAPHICS Allocator* GetRenderAllocator();
 API_GRAPHICS Allocator* GetFrameAllocator();
 
 API_GRAPHICS void GraphicsInitialize();
 API_GRAPHICS void GraphicsDeinitialize();
 
-//---------------------------------------------------------------------//
-// API Namespaces
-//---------------------------------------------------------------------//
-
-#define NAMESPACE_GRAPHICS_BEGIN NAMESPACE_CORE_BEGIN
-#define NAMESPACE_GRAPHICS_END NAMESPACE_CORE_END
+NAMESPACE_GRAPHICS_END
 
 //---------------------------------------------------------------------//
 // Logging. Use and abuse it.

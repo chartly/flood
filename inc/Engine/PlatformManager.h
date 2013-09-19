@@ -10,7 +10,7 @@
 #include "Engine/API.h"
 #include "Engine/Subsystem.h"
 
-FLD_NAMESPACE_BEGIN
+NAMESPACE_ENGINE_BEGIN
 
 //-----------------------------------//
 
@@ -44,4 +44,4 @@ public:
 
 //-----------------------------------//
 
-FLD_NAMESPACE_END
+NAMESPACE_ENGINE_END

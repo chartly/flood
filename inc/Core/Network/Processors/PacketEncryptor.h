@@ -11,9 +11,9 @@
 #include "Core/Network/PacketProcessor.h"
 #include "Core/References.h"
 
-NAMESPACE_CORE_BEGIN
-
 typedef struct _aes_context aes_context;
+
+NAMESPACE_CORE_BEGIN
 
 //-----------------------------------//
 

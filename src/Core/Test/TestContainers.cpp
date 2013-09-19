@@ -10,10 +10,10 @@
 #include "Core/Array.h"
 #include "Core/References.h"
 #include "Core/String.h"
-
 #include <algorithm>
+#include <UnitTest++.h>
 
-#include "UnitTest++.h"
+using namespace fld;
 
 SUITE(CoreTests_Containers)
 {
@@ -30,7 +30,7 @@ SUITE(CoreTests_Containers)
             _a = nullptr;
         }
 
-        ::Allocator * _a;
+        Allocator * _a;
     };
 
     TEST_FIXTURE(ContainerFixture, ArraySizePushBack)

@@ -8,6 +8,8 @@
 #include "Engine/API.h"
 #include "Engine/Window/WindowManager.h"
 
+NAMESPACE_ENGINE_BEGIN
+
 //-----------------------------------//
 
 WindowManager::~WindowManager()
@@ -15,3 +17,5 @@ WindowManager::~WindowManager()
 }
 
 //-----------------------------------//
+
+NAMESPACE_ENGINE_END

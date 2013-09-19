@@ -11,6 +11,8 @@
 
 using namespace std;
 
+NAMESPACE_ENGINE_BEGIN
+
 MaxRectsBinPack::MaxRectsBinPack()
 :binWidth(0),
 binHeight(0)
@@ -505,3 +507,5 @@ void MaxRectsBinPack::PruneFreeList()
 			}
 		}
 }
+
+NAMESPACE_ENGINE_END

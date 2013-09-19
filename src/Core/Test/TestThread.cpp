@@ -11,6 +11,8 @@
 #include "Core/Memory.h"
 #include <UnitTest++.h>
 
+using namespace fld;
+
 namespace {
 
 int value = 20;

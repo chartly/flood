@@ -23,8 +23,9 @@
 #define FLD_NAMESPACE_BEGIN
 #define FLD_NAMESPACE_END
 
+#define NAMESPACE_CORE_DEFINED
 #ifdef NAMESPACE_CORE_DEFINED
-#define NAMESPACE_CORE flood
+#define NAMESPACE_CORE fld
 #else
 #define NAMESPACE_CORE
 #endif

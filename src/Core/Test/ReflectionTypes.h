@@ -13,6 +13,8 @@
 #include "Core/Math/Quaternion.h"
 #include "Core/Math/Color.h"
 
+NAMESPACE_CORE_BEGIN
+
 //-----------------------------------//
 
 REFLECT_DECLARE_ENUM(E)
@@ -216,3 +218,5 @@ struct I : public Object
 
 
 //-----------------------------------//
+
+NAMESPACE_CORE_END

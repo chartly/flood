@@ -12,6 +12,8 @@
 #include "Core/Memory.h"
 #include <UnitTest++.h>
 
+using namespace fld;
+
 SUITE(Core)
 {
 	TEST(Strings)
