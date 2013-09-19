@@ -104,7 +104,7 @@ bool Entity::addComponent( const ComponentPtr& component )
 		group->onEntityComponentAdded(component);
 	}
 
-	components.push_back(component);
+	components.pushBack(component);
 
 	return true;
 }
@@ -183,9 +183,9 @@ ComponentPtr Entity::getComponentFromFamily(Class* klass) const
 
 //-----------------------------------//
 
-std::vector<GeometryPtr> Entity::getGeometry() const
+Array<GeometryPtr> Entity::getGeometry() const
 {
-	std::vector<GeometryPtr> geoms;
+	Array<GeometryPtr> geoms;
 
 	ComponentMap::const_iterator it;
 	for( it = componentsMap.begin(); it != componentsMap.end(); it++ )
@@ -196,7 +196,7 @@ std::vector<GeometryPtr> Entity::getGeometry() const
 			continue;
 
 		const GeometryPtr& geo = RefCast<Geometry>(component);
-		geoms.push_back(geo);
+		geoms.pushBack(geo);
 	}
 
 	return geoms;
@@ -207,7 +207,7 @@ std::vector<GeometryPtr> Entity::getGeometry() const
 void Entity::update( float delta )
 {
 	// Update all geometry bounding boxes first.
-	const std::vector<GeometryPtr>& geoms = getGeometry();
+	const Array<GeometryPtr>& geoms = getGeometry();
 
 	for( size_t i = 0; i < geoms.size(); i++ )
 	{

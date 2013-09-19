@@ -78,7 +78,7 @@ Plugin* PluginManager::getPluginFromClass(const Class* klass)
 
 //-----------------------------------//
 
-void PluginManager::registerPlugins(const std::vector<Plugin*>& plugins)
+void PluginManager::registerPlugins(const Array<Plugin*>& plugins)
 {
 	for( size_t i = 0; i < plugins.size(); i++ )
 	{
@@ -92,7 +92,7 @@ void PluginManager::registerPlugins(const std::vector<Plugin*>& plugins)
 void PluginManager::registerPlugin( Plugin* plugin )
 {
 	if( !plugin ) return;
-	plugins.push_back(plugin);
+	plugins.pushBack(plugin);
 }
 
 //-----------------------------------//

@@ -8,10 +8,8 @@
 #pragma once
 
 #include "Engine/API.h"
-#include "Core/Object.h"
-#include "Core/References.h"
+#include "Graphics/RenderBatch.h"
 
-FWD_DECL_INTRUSIVE(RenderBatch)
 FWD_DECL_INTRUSIVE(Camera)
 FWD_DECL_INTRUSIVE(Entity)
 

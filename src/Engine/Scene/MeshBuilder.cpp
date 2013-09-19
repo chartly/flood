@@ -50,7 +50,7 @@ static void MeshBuildGeometry(Mesh* mesh, RenderablesVector& rends)
 	GeometryBuffer* gb = mesh->getGeometryBuffer().get();
 	
 	// Construct the renderables for each mesh group.
-	const std::vector<MeshGroup>& groups = mesh->groups;
+	const Array<MeshGroup>& groups = mesh->groups;
 
 	for( size_t i = 0; i < groups.size(); i++ )
 	{
@@ -74,7 +74,7 @@ static void MeshBuildGeometry(Mesh* mesh, RenderablesVector& rends)
 		if( mat->isBlendingEnabled() )
 		renderable->setRenderLayer(RenderLayer::Transparency);
 
-		rends.push_back(renderable);
+		rends.pushBack(renderable);
 	}
 }
 

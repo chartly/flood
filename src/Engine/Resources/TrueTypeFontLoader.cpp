@@ -31,7 +31,7 @@ REFLECT_CLASS_END()
 TrueTypeFontLoader::TrueTypeFontLoader()
 {
 	//Using OpenTypeFontLoader
-	//extensions.push_back("ttf");
+	//extensions.pushBack("ttf");
 }
 
 //-----------------------------------//

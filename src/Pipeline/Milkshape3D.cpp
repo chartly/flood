@@ -181,7 +181,7 @@ void Milkshape3D::buildAnimationMetadata()
 		data.start = 1;
 		data.end = totalFrames;
 
-		metadata.push_back(data);
+		metadata.pushBack(data);
 
 		return;
 	}
@@ -194,7 +194,7 @@ void Milkshape3D::buildAnimationMetadata()
 		if( c == 13 ) c = '\n';
 	}
 
-	std::vector<String> lines;
+	Array<String> lines;
 	StringSplit(mainComment, '\n', lines);
 
 	for( size_t i = 0; i < lines.size(); i++ )
@@ -214,7 +214,7 @@ void Milkshape3D::buildAnimationMetadata()
 
 		data.startTime = getAnimationStart(data);
 
-		metadata.push_back(data);
+		metadata.pushBack(data);
 	}
 }
 
@@ -231,7 +231,7 @@ void Milkshape3D::buildAnimations()
 		AnimationMetadata& data = metadata[i];
 		
 		Animation* animation = buildAnimation(data);
-		mesh->animations.push_back(animation);
+		mesh->animations.pushBack(animation);
 	}
 
 	// Builds the bind pose animation.
@@ -293,7 +293,7 @@ void Milkshape3D::buildKeyFrames( const ms3d_joint_t& joint,
 		key.position = frame.parameter;
 		key.rotation = (EulerAngles&) joint.rotationKeys[i].parameter;
 
-		frames.push_back(key);
+		frames.pushBack(key);
 	}
 }
 
@@ -403,7 +403,7 @@ void Milkshape3D::buildGeometry()
 				};
 
 				gb->add((uint8*)&meshVertex, sizeof(meshVertex));
-				meshGroup.indices.push_back( numVertex++ );
+				meshGroup.indices.pushBack( numVertex++ );
 			}
 		}
 	}

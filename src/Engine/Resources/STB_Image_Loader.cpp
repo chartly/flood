@@ -26,17 +26,17 @@ REFLECT_CLASS_END()
 
 STB_Image_Loader::STB_Image_Loader()
 {
-	extensions.push_back("png");
-	extensions.push_back("jpg");
-	extensions.push_back("bmp");
-	extensions.push_back("tga");
+	extensions.pushBack("png");
+	extensions.pushBack("jpg");
+	extensions.pushBack("bmp");
+	extensions.pushBack("tga");
 }
 
 //-----------------------------------//
 
 bool STB_Image_Loader::decode(ResourceLoadOptions& options)
 {
-	std::vector<uint8> data;
+	Array<uint8> data;
 	options.stream->read(data);
 
 	if( data.empty() ) return false;
@@ -71,7 +71,7 @@ bool STB_Image_Loader::decode(ResourceLoadOptions& options)
 		return false;
 	}
 	
-	std::vector<byte> buffer;
+	Array<byte> buffer;
 	uint32 size = width*height*comp; 
 	buffer.resize(size);
 	

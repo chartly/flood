@@ -7,6 +7,7 @@
 
 #include "Engine/API.h"
 #include "Engine/Input/Keyboard.h"
+#include "Core/Memory.h"
 
 NAMESPACE_ENGINE_BEGIN
 

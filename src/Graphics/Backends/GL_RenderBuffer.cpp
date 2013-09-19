@@ -91,7 +91,7 @@ bool GL_RenderBuffer::check()
 
 //-----------------------------------//
 
-void GL_RenderBuffer::read(int8 attachment, std::vector<uint8>& data)
+void GL_RenderBuffer::read(int8 attachment, Array<uint8>& data)
 {
 	const Vector2i& size = settings.getSize();
 
@@ -107,7 +107,7 @@ Image* GL_RenderBuffer::readImage(int8 attachment)
 {
 	auto image = AllocateHeap(Image, settings.width, settings.height, PixelFormat::B8G8R8A8);
 
-	std::vector<uint8> data;
+	Array<uint8> data;
 
 	read(attachment, data);
 
@@ -172,7 +172,7 @@ void GL_RenderBuffer::attachRenderTexture(const TexturePtr& tex)
 		GL_FRAMEBUFFER_EXT, attach, GL_TEXTURE_2D, tex->getId(), 0);
 	CheckLastErrorGL( "Could not attach texture into framebuffer object" );
 	
-	textureBuffers.push_back( tex );
+	textureBuffers.pushBack( tex );
 
 	unbind();
 }

@@ -37,7 +37,7 @@ public:
      *  @param count number of elements to size the array
      *  @param val default value for the elements in the array
      */
-    Array(size_t count, T val);
+    Array(size_t count, const T& val);
 
     /**
      *	Creates an array of n-elements, allocated from a specified allocator, and initialized
@@ -46,7 +46,7 @@ public:
      *	@param count number of elements to size the array
      *	@param val default value for the elements in the array
      */
-    Array(Allocator& a, size_t count, T val);
+    Array(Allocator& a, size_t count, const T& val);
 
     /**
      *	Destructor.
@@ -233,8 +233,8 @@ Array<T>::Array(Allocator& allocator)
 //-----------------------------------//
 
 template <typename T>
-Array<T>::Array(size_t count, T val)
-    : _allocator(GetDefaultHeapAllocator())
+Array<T>::Array(size_t count, const T& val)
+    : _allocator(AllocatorGetHeap())
     , _size(0)
     , _capacity(0)
     , _data(0)
@@ -247,7 +247,7 @@ Array<T>::Array(size_t count, T val)
 //-----------------------------------//
 
 template <typename T>
-Array<T>::Array(Allocator& a, size_t count, T val)
+Array<T>::Array(Allocator& a, size_t count, const T& val)
     : _allocator(&a)
     , _size(0)
     , _capacity(0)

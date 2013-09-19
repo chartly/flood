@@ -42,10 +42,10 @@ ImporterFBX::ImporterFBX()
 	: fbxIO(nullptr)
 	, scaleFactor(1.0f)
 {
-	extensions.push_back("fbx");
-	extensions.push_back("dxf");
-	extensions.push_back("dae");
-	extensions.push_back("obj");
+	extensions.pushBack("fbx");
+	extensions.pushBack("dxf");
+	extensions.pushBack("dae");
+	extensions.pushBack("obj");
 
 	LogInfo("Initializing FBX SDK version %s", FBXSDK_VERSION_STRING);
 
@@ -293,7 +293,7 @@ static bool CleanMesh(KFbxMesh*& mesh)
 
 //-----------------------------------//
 
-static void BuildMeshSkinning(KFbxMesh* fbxMesh, std::vector<int>& boneIndices)
+static void BuildMeshSkinning(KFbxMesh* fbxMesh, Array<int>& boneIndices)
 {
 	// Get the mesh skinning.
 	int numSkins = fbxMesh->GetDeformerCount(KFbxDeformer::eSKIN);
@@ -356,7 +356,7 @@ static void BuildMeshSkeletonRecursive(const KFbxNode* boneNode, int parentBoneI
 	bone->name = boneNode->GetName();
 	bone->index = bones.size();
 	bone->indexParent = parentBoneIndex;
-	bones.push_back(bone);
+	bones.pushBack(bone);
 
 	LogDebug("Found bone: '%s' parent: %d", bone->name.c_str(), bone->indexParent);
 
@@ -453,7 +453,7 @@ bool ImporterFBX::buildMesh(KFbxMesh* fbxMesh, Mesh* mesh)
 	bool hasMaterial = fbxMesh->GetElementMaterial() != 0;
 
 	// Get the mesh skinning.
-	std::vector<int> boneIndices;
+	Array<int> boneIndices;
 	BuildMeshSkinning(fbxMesh, boneIndices);
 	bool isSkinned = !boneIndices.empty();
 
@@ -507,7 +507,7 @@ bool ImporterFBX::buildMesh(KFbxMesh* fbxMesh, Mesh* mesh)
 			for( int iVertex = 0; iVertex < iPolygonSize; ++iVertex )
 			{
 				int iControlPoint = fbxMesh->GetPolygonVertex(iPolygon, iVertex);
-				//meshGroup.indices.push_back(iControlPoint);
+				//meshGroup.indices.pushBack(iControlPoint);
 
 				KFbxVector4 control = positionValues[iControlPoint];
 				control = nodeTransform.MultNormalize(control);
@@ -555,7 +555,7 @@ bool ImporterFBX::buildMesh(KFbxMesh* fbxMesh, Mesh* mesh)
 
 				gb->add((uint8*) &vertex, vertexSize);
 
-				meshGroup.indices.push_back(vertexCount++);
+				meshGroup.indices.pushBack(vertexCount++);
 			}
 		}
 
@@ -608,7 +608,7 @@ bool ImporterFBX::buildMesh(KFbxMesh* fbxMesh, Mesh* mesh)
 		if( meshGroup.material.texture.empty() )
 			LogWarn("No material texture found for FBX mesh");
 
-		mesh->groups.push_back(meshGroup);
+		mesh->groups.pushBack(meshGroup);
 	}
 
 	return true;

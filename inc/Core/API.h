@@ -78,3 +78,13 @@ API_CORE void CoreDeinitialize();
 struct Allocator;
 
 NAMESPACE_CORE_END
+
+//---------------------------------------------------------------------//
+// Containers
+//---------------------------------------------------------------------//
+
+/** Any translation unit using these containers should include "Core/Memory.h". 
+  * Also, to avoid redundant includes, only "Core/HashMap.h" is included here, as it
+  * includes "Core/Array.h".
+  */
+#include "Core/HashMap.h"

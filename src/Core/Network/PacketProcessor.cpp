@@ -28,9 +28,9 @@ PacketProcessors::~PacketProcessors()
 
 bool PacketProcessors::processInPacket(Peer* peer, Packet* packet, int channelId)
 {
-    for (auto it = processors.rbegin(); it != processors.rend(); it++) 
+    for (auto i = processors.size(); i > 0; --i) 
     {
-        if(!(*it)->processInPacket(peer, packet,channelId))
+        if(!(processors[i - 1]->processInPacket(peer, packet,channelId)))
             return false;
     }
     return true;
@@ -51,7 +51,7 @@ void PacketProcessors::addProcessor(PacketProcessor* packetProcessor)
     if(packetProcessor->parent)
         packetProcessor->parent->removeProcessor(packetProcessor);
 
-    processors.push_back(packetProcessor);
+    processors.pushBack(packetProcessor);
     packetProcessor->parent = this;
 }
 
@@ -63,7 +63,9 @@ void PacketProcessors::addProcessorNear(PacketProcessor* packetProcessor, Packet
     if(!insertBefore)
         it++;
 
-    processors.insert(it, packetProcessor);
+    auto procPtr = &packetProcessor;
+#pragma TODO("This is the worst usage case for the current Array<T>::insert implementation.")
+    processors.insert(it, procPtr, procPtr + 1);
     packetProcessor->parent = this;
 }
 
@@ -71,7 +73,7 @@ void PacketProcessors::removeProcessor(PacketProcessor* packetProcessor)
 {
     auto it = std::find(processors.begin(), processors.end(), packetProcessor);
     if( it != processors.end() )
-        processors.erase(it);
+        processors.remove(it);
 }
 
 NAMESPACE_CORE_END

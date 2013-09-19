@@ -24,7 +24,7 @@ Noise::Noise( int seed )
 
 //-----------------------------------//
 
-void Noise::generate(std::vector<float>& noise, uint width, uint height)
+void Noise::generate(Array<float>& noise, uint width, uint height)
 {
 	assert( noise.empty() );
 
@@ -52,7 +52,7 @@ void Noise::generate(std::vector<float>& noise, uint width, uint height)
 				amplitude *= persistence;
 			}
 
-			noise.push_back(total / maxAmplitude);
+			noise.pushBack(total / maxAmplitude);
 		}
 	}
 }

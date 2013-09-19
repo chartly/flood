@@ -210,11 +210,11 @@ System::Collections::Generic::List<Flood::RenderBatch^>^ Flood::DebugDrawer::Ren
 
 void Flood::DebugDrawer::Renderables::set(System::Collections::Generic::List<Flood::RenderBatch^>^ value)
 {
-    auto _tmpvalue = std::vector<::RenderBatch*>();
+    auto _tmpvalue = Array<::RenderBatch*>();
     for each(Flood::RenderBatch^ _element in value)
     {
         auto _marshalElement = (::RenderBatch*)_element->NativePtr;
-        _tmpvalue.push_back(_marshalElement);
+        _tmpvalue.pushBack(_marshalElement);
     }
     ((::DebugDrawer*)NativePtr)->renderables = _tmpvalue;
 }

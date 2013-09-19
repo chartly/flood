@@ -10,7 +10,6 @@
 #include "Core/API.h"
 #include "Core/Event.h"
 #include "Core/Pointers.h"
-#include <vector>
 
 #if defined(COMPILER_MSVC)
 extern "C"

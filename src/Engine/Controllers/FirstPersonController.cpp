@@ -6,13 +6,10 @@
 ************************************************************************/
 
 #include "Engine/API.h"
-#include "Core/Event.h"
 #include "Engine/Controllers/FirstPersonController.h"
-#include "Core/Math/Helpers.h"
 #include "Engine/Scene/Entity.h"
 #include "Engine/Scene/Transform.h"
 #include "Engine/Scene/Camera.h"
-#include "Graphics/RenderDevice.h"
 #include "Engine/Input/InputManager.h"
 #include "Engine/Input/Keyboard.h"
 #include "Engine/Input/Mouse.h"
@@ -128,7 +125,7 @@ void FirstPersonController::checkControls( float delta )
 
 	// Check keyboard movement.
 	Keyboard* keyboard = GetInputManager()->getKeyboard();
-	const std::vector< bool >& state = keyboard->getKeyState();
+	const Array< bool >& state = keyboard->getKeyState();
 
 	if( keyboard->isKeyPressed(Keys::W) )
 		moveVector +=  Vector3::UnitZ;

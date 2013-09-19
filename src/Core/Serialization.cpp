@@ -16,7 +16,6 @@
 #include "Core/Object.h"
 #include "Core/Log.h"
 #include "Core/Stream.h"
-
 #include "Core/Math/Vector.h"
 #include "Core/Math/Quaternion.h"
 #include "Core/Math/EulerAngles.h"
@@ -238,7 +237,7 @@ static bool ReflectionWalkPointer(ReflectionContext* context)
 static void ReflectionWalkArray(ReflectionContext* context)
 {
 	const Field* field = context->field;
-	std::vector<byte>& array = *(std::vector<byte>*) context->address;
+	Array<byte>& array = *(Array<byte>*) context->address;
 
 	uint16 elementSize = ReflectionArrayGetElementSize(context->field);
 	uint32 arraySize = array.size() / elementSize;
@@ -391,7 +390,7 @@ void ReflectionWalkComposite(ReflectionContext* context)
 		context->composite = current;
 	}
 
-	const std::vector<Field*>& fields = context->composite->fields;
+	const Array<Field*>& fields = context->composite->fields;
 
 	const Field* field = context->field; 
 
@@ -492,8 +491,8 @@ bool Serializer::saveObjectToFile(Serializer& serializer, const Path& file, Obje
 
 //-----------------------------------//
 
-typedef std::vector<RefPtr<ReferenceCounted>> ObjectRefPtrArray;
-typedef std::vector<Object*> ObjectRawPtrArray;
+typedef Array<RefPtr<ReferenceCounted>> ObjectRefPtrArray;
+typedef Array<Object*> ObjectRawPtrArray;
 
 void* ReflectionArrayResize( ReflectionContext* context, void* address, uint32 size )
 {

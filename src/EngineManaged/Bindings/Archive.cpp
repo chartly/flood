@@ -70,11 +70,11 @@ bool Flood::Archive::ExistsDir(System::String^ path)
 
 void Flood::Archive::EnumerateFiles(System::Collections::Generic::List<System::String^>^ paths)
 {
-    auto _tmppaths = std::vector<::Path>();
+    auto _tmppaths = Array<::Path>();
     for each(System::String^ _element in paths)
     {
         auto _marshalElement = clix::marshalString<clix::E_UTF8>(_element);
-        _tmppaths.push_back(_marshalElement);
+        _tmppaths.pushBack(_marshalElement);
     }
     auto arg0 = _tmppaths;
     ((::Archive*)NativePtr)->enumerateFiles(arg0);
@@ -82,11 +82,11 @@ void Flood::Archive::EnumerateFiles(System::Collections::Generic::List<System::S
 
 void Flood::Archive::EnumerateDirs(System::Collections::Generic::List<System::String^>^ paths)
 {
-    auto _tmppaths = std::vector<::Path>();
+    auto _tmppaths = Array<::Path>();
     for each(System::String^ _element in paths)
     {
         auto _marshalElement = clix::marshalString<clix::E_UTF8>(_element);
-        _tmppaths.push_back(_marshalElement);
+        _tmppaths.pushBack(_marshalElement);
     }
     auto arg0 = _tmppaths;
     ((::Archive*)NativePtr)->enumerateDirs(arg0);
@@ -219,11 +219,11 @@ bool Flood::ArchiveVirtual::ExistsDir(System::String^ path)
 
 void Flood::ArchiveVirtual::EnumerateFiles(System::Collections::Generic::List<System::String^>^ paths)
 {
-    auto _tmppaths = std::vector<::Path>();
+    auto _tmppaths = Array<::Path>();
     for each(System::String^ _element in paths)
     {
         auto _marshalElement = clix::marshalString<clix::E_UTF8>(_element);
-        _tmppaths.push_back(_marshalElement);
+        _tmppaths.pushBack(_marshalElement);
     }
     auto arg0 = _tmppaths;
     ((::ArchiveVirtual*)NativePtr)->enumerateFiles(arg0);
@@ -231,11 +231,11 @@ void Flood::ArchiveVirtual::EnumerateFiles(System::Collections::Generic::List<Sy
 
 void Flood::ArchiveVirtual::EnumerateDirs(System::Collections::Generic::List<System::String^>^ paths)
 {
-    auto _tmppaths = std::vector<::Path>();
+    auto _tmppaths = Array<::Path>();
     for each(System::String^ _element in paths)
     {
         auto _marshalElement = clix::marshalString<clix::E_UTF8>(_element);
-        _tmppaths.push_back(_marshalElement);
+        _tmppaths.pushBack(_marshalElement);
     }
     auto arg0 = _tmppaths;
     ((::ArchiveVirtual*)NativePtr)->enumerateDirs(arg0);
@@ -289,11 +289,11 @@ System::Collections::Generic::List<Flood::Archive^>^ Flood::ArchiveVirtual::Moun
 
 void Flood::ArchiveVirtual::Mounts::set(System::Collections::Generic::List<Flood::Archive^>^ value)
 {
-    auto _tmpvalue = std::vector<::Archive*>();
+    auto _tmpvalue = Array<::Archive*>();
     for each(Flood::Archive^ _element in value)
     {
         auto _marshalElement = (::Archive*)_element->NativePtr;
-        _tmpvalue.push_back(_marshalElement);
+        _tmpvalue.pushBack(_marshalElement);
     }
     ((::ArchiveVirtual*)NativePtr)->mounts = _tmpvalue;
 }
@@ -354,11 +354,11 @@ bool Flood::ArchiveDirectory::ExistsDir(System::String^ path)
 
 void Flood::ArchiveDirectory::EnumerateFiles(System::Collections::Generic::List<System::String^>^ paths)
 {
-    auto _tmppaths = std::vector<::Path>();
+    auto _tmppaths = Array<::Path>();
     for each(System::String^ _element in paths)
     {
         auto _marshalElement = clix::marshalString<clix::E_UTF8>(_element);
-        _tmppaths.push_back(_marshalElement);
+        _tmppaths.pushBack(_marshalElement);
     }
     auto arg0 = _tmppaths;
     ((::ArchiveDirectory*)NativePtr)->enumerateFiles(arg0);
@@ -366,11 +366,11 @@ void Flood::ArchiveDirectory::EnumerateFiles(System::Collections::Generic::List<
 
 void Flood::ArchiveDirectory::EnumerateDirs(System::Collections::Generic::List<System::String^>^ paths)
 {
-    auto _tmppaths = std::vector<::Path>();
+    auto _tmppaths = Array<::Path>();
     for each(System::String^ _element in paths)
     {
         auto _marshalElement = clix::marshalString<clix::E_UTF8>(_element);
-        _tmppaths.push_back(_marshalElement);
+        _tmppaths.pushBack(_marshalElement);
     }
     auto arg0 = _tmppaths;
     ((::ArchiveDirectory*)NativePtr)->enumerateDirs(arg0);
@@ -452,11 +452,11 @@ bool Flood::ArchiveZip::ExistsDir(System::String^ path)
 
 void Flood::ArchiveZip::EnumerateFiles(System::Collections::Generic::List<System::String^>^ paths)
 {
-    auto _tmppaths = std::vector<::Path>();
+    auto _tmppaths = Array<::Path>();
     for each(System::String^ _element in paths)
     {
         auto _marshalElement = clix::marshalString<clix::E_UTF8>(_element);
-        _tmppaths.push_back(_marshalElement);
+        _tmppaths.pushBack(_marshalElement);
     }
     auto arg0 = _tmppaths;
     ((::ArchiveZip*)NativePtr)->enumerateFiles(arg0);
@@ -464,11 +464,11 @@ void Flood::ArchiveZip::EnumerateFiles(System::Collections::Generic::List<System
 
 void Flood::ArchiveZip::EnumerateDirs(System::Collections::Generic::List<System::String^>^ paths)
 {
-    auto _tmppaths = std::vector<::Path>();
+    auto _tmppaths = Array<::Path>();
     for each(System::String^ _element in paths)
     {
         auto _marshalElement = clix::marshalString<clix::E_UTF8>(_element);
-        _tmppaths.push_back(_marshalElement);
+        _tmppaths.pushBack(_marshalElement);
     }
     auto arg0 = _tmppaths;
     ((::ArchiveZip*)NativePtr)->enumerateDirs(arg0);

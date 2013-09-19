@@ -141,7 +141,7 @@ void BindFixedVertexBufferDeclarations(VertexBuffer* vb)
 	assert( vb->built );
 
 	const GeometryBuffer* gb = vb->getGeometryBuffer();
-	const std::vector<VertexElement>& vertexDecls = gb->declarations.decls;
+	const Array<VertexElement>& vertexDecls = gb->declarations.decls;
 
 	int offset = 0;
 
@@ -182,7 +182,7 @@ void BindFixedVertexBufferDeclarations(VertexBuffer* vb)
 void UnbindFixedVertexBufferDeclarations(VertexBuffer* vb)
 {
 	const GeometryBuffer* gb = vb->getGeometryBuffer();
-	const std::vector<VertexElement>& vertexDecls = gb->declarations.decls;
+	const Array<VertexElement>& vertexDecls = gb->declarations.decls;
 
 	for( size_t i = 0; i < vertexDecls.size(); i++ )
 	{
@@ -215,7 +215,7 @@ void UnbindFixedVertexBufferDeclarations(VertexBuffer* vb)
 void BindGenericVertexBufferDeclarations(VertexBuffer* vb)
 {
 	const GeometryBuffer* gb = vb->getGeometryBuffer();
-	const std::vector<VertexElement>& decls = gb->declarations.decls;
+	const Array<VertexElement>& decls = gb->declarations.decls;
 
 	for( size_t i = 0; i < decls.size(); i++ )
 	{
@@ -244,7 +244,7 @@ void BindGenericVertexBufferDeclarations(VertexBuffer* vb)
 void UnbindGenericVertexBufferDeclarations(VertexBuffer* vb)
 {
 	const GeometryBuffer* gb = vb->getGeometryBuffer();
-	const std::vector<VertexElement>& decls = gb->declarations.decls;
+	const Array<VertexElement>& decls = gb->declarations.decls;
 
 	for( size_t i = 0; i < decls.size(); i++ )
 	{
