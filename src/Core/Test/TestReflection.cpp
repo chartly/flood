@@ -117,7 +117,7 @@ SUITE(Core)
 
 		for( auto it = typedb.types.begin(); it != typedb.types.end(); it++ )
 		{
-			Type* type = it->second;
+			Type* type = (Type*)it->key;
 			if( !ReflectionIsComposite(type) ) continue;
 
 			Class* klass = (Class*) type;

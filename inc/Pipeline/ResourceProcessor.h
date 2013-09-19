@@ -16,7 +16,7 @@ NAMESPACE_PIPELINE_BEGIN
 //-----------------------------------//
 
 class ResourceProcessor;
-typedef std::map<Class*, ResourceProcessor*> ResourceProcessorMap;
+typedef HashMap<ResourceProcessor*> ResourceProcessorMap; // keyed by Class*
 
 /**
  * Resource processors handle the pre-processing of resource data.

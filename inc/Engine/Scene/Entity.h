@@ -22,8 +22,7 @@ NAMESPACE_ENGINE_BEGIN
 
 API_SCENE Entity* EntityCreate( Allocator* );
 
-typedef std::map<Class*, ComponentPtr> ComponentMap;
-typedef std::pair<Class*, ComponentPtr> ComponentMapPair;
+typedef HashMap<ComponentPtr> ComponentMap; // Class*
 
 /**
  * An entity represents a game object, a container of game components.

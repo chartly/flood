@@ -8,7 +8,6 @@
 #pragma once
 
 #include "Core/References.h"
-#include <map>
 
 NAMESPACE_CORE_BEGIN
 
@@ -23,7 +22,7 @@ typedef HandleId  (*HandleCreateFn)(ReferenceCounted*);
 typedef void      (*HandleDestroyFn)(HandleId id);
 typedef ReferenceCounted* (*HandleResolveFn)(HandleId id);
 
-typedef std::map<HandleId, ReferenceCounted*> HandleMap;
+typedef HashMap<ReferenceCounted*> HandleMap; // keyed by HandleId
 
 struct API_CORE HandleManager
 {

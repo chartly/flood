@@ -57,7 +57,7 @@ private:
 		    bool operator()(const ImageHandle& h1,const ImageHandle& h2) const { return h1.id < h2.id; }
     };
 
-    std::map<ImageHandle, SubTexture, CompareHandle> imageSubTextures;
+    HashMap<SubTexture> imageSubTextures; // keyed by ImageHandle
     ImageHandle atlasImageHandle;
 };
 

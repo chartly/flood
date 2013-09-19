@@ -84,7 +84,7 @@ struct API_CORE ReflectionHandleContext
 	ReflectionDeserializeHandleFn deserialize;
 };
 
-typedef std::map<Class*, ReflectionHandleContext> ReflectionHandleContextMap;
+typedef HashMap<ReflectionHandleContext> ReflectionHandleContextMap; // keyed by Class *
 
 API_CORE void ReflectionSetHandleContext(
 	ReflectionHandleContextMap*, ReflectionHandleContext context);

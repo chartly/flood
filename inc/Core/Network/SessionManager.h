@@ -9,7 +9,6 @@
 
 #include "Core/Event.h"
 #include "Core/Network/Session.h"
-#include <map>
 
 NAMESPACE_CORE_BEGIN
 
@@ -38,7 +37,7 @@ public:
 	Event1<const SessionPtr&> onSessionRemoved;
 
 protected:
-	 std::map<SessionHash, SessionPtr> sessions;
+	 HashMap<SessionPtr> sessions; // keyed by SessionHash
 };
 
 //-----------------------------------//

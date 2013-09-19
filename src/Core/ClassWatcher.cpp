@@ -34,7 +34,7 @@ void ClassWatchReset(ClassWatch* watch)
 
 bool ClassWatchUpdateField(ClassWatch* watch, const Field* field)
 {
-	FieldWatch& fw = watch->fields[field];
+	auto fw = watch->fields.get((uint64)field, FieldWatch());
 
 	byte* min = (byte*) ClassGetFieldAddress(fw.object, field);
 	byte* max = min + field->size;
@@ -50,6 +50,8 @@ bool ClassWatchUpdateField(ClassWatch* watch, const Field* field)
 		changed = true;
 	}
 
+	watch->fields.set((uint64)field, fw);
+
 	return changed;
 }
 
@@ -57,7 +59,7 @@ bool ClassWatchUpdateField(ClassWatch* watch, const Field* field)
 
 void ClassWatchAddField(ClassWatch* watch, const FieldWatch& fw )
 {
-	watch->fields[fw.field] = fw;
+	watch->fields.set((uint64)fw.field, fw);
 	ClassWatchUpdateField(watch, fw.field);
 }
 
@@ -87,11 +89,11 @@ void ClassWatchAddFields(ClassWatch* watch, Object* object)
 void ClassWatchUpdate(ClassWatch* watch, FieldWatchVector& changed)
 {
 	FieldWatchMap& watches = watch->fields;
-	FieldWatchMap::iterator it = watches.begin();
+	auto it = watches.begin();
 
 	for(; it != watches.end(); ++it)
 	{
-		FieldWatch& fw = it->second;
+		auto fw = it->value;
 		bool updated = ClassWatchUpdateField(watch, fw.field);
 		if( updated ) changed.pushBack(&fw);
 	}

@@ -77,13 +77,13 @@ static void RegisterClass(Class* klass)
 	// Register the class id in the map.
 	ClassIdMap& ids = ClassGetIdMap();
 
-	if( ids.find(klass->id) != ids.end() )
+	if( ids.has(klass->id) )
 	{
 		LogError("Class with the same id already exists: '%s'", klass->name);
 		return;
 	}
 
-	ids[klass->id] = klass;
+	ids.set(klass->id, klass);
 }
 
 //-----------------------------------//
@@ -93,14 +93,15 @@ bool ReflectionDatabaseRegisterType(ReflectionDatabase* db, Type* type)
 	if( !db || !type ) return false;
 
 	const char* name = type->name;
+	auto key = MurmurHash64(name, strlen(name), 0);
 
-	if( db->types.find(name) != db->types.end() )
+	if( db->types.has(key) )
 	{
 		LogAssert("Type '%s' already exists in the database", name);
 		return false;
 	}
 
-	db->types[name] = type;
+	db->types.set(key, type);
 
 	if( !ReflectionIsComposite(type) )
 		return true;
@@ -124,11 +125,10 @@ bool ReflectionRegisterType(Type* type)
 Type* ReflectionFindType(const char* name)
 {
 	ReflectionDatabase& db = ReflectionGetDatabase();
-	
-	TypeMap::iterator it = db.types.find(name);
-	if( it == db.types.end() ) return nullptr;
+	auto key = MurmurHash64(name, strlen(name), 0);
+	auto type = db.types.get(key, nullptr);
 
-	return it->second;
+	return type;
 }
 
 //-----------------------------------//
@@ -140,12 +140,16 @@ bool ReflectionIsEqual(const Type* t1, const Type* t2)
 
 //-----------------------------------//
 
-void EnumAddValue(Enum* enumeration, const char* name, int32 value)
+void EnumAddValue(Enum* enumeration, const char* name, int32 val)
 {
 	if( !enumeration ) return;
 
-	EnumValuesMap& values = enumeration->values;
-	values[name] = value;
+	auto& values = enumeration->values;
+    auto& names = enumeration->names;
+    
+    auto key = MurmurHash64(name, strlen(name), 0);
+	values.set(key, val);
+    names.set(key, name);
 }
 
 //-----------------------------------//
@@ -153,27 +157,25 @@ void EnumAddValue(Enum* enumeration, const char* name, int32 value)
 int32 EnumGetValue(Enum* enumeration, const char* name)
 {
 	if( !enumeration ) return -1;
-	EnumValuesMap& values = enumeration->values;
-	
-	EnumValuesMap::iterator it = values.find(name);
-	if( it == values.end() ) return -1;
-	
-	return it->second;
+	auto& values = enumeration->values;
+	auto key = MurmurHash64(name, strlen(name), 0);
+	assert(enumeration->names.has(key));
+
+	return values.get(key, -1);
 }
 
 //-----------------------------------//
 
-const char* EnumGetValueName(Enum* enumeration, int32 value)
+const char* EnumGetValueName(Enum* enumeration, int32 val)
 {
 	if( !enumeration ) return nullptr;
-	EnumValuesMap& values = enumeration->values;
+	auto& values = enumeration->values;
+    auto& names = enumeration->names;
 	
-	EnumValuesMap::iterator it = values.begin();
-	
-	for(; it != values.end(); ++it)
+	for(auto it = values.begin(); it != values.end(); ++it)
 	{
-		const char* name = it->first;
-		if( value == it->second ) return name;
+		const char* name = names.get(it->key, nullptr);
+		if( name && val == it->value ) return name;
 	}
 
 	return nullptr;
@@ -199,7 +201,7 @@ void ClassAddField(Class* klass, Field* field)
 	}
 
 	ClassFieldIdMap& fieldIds = klass->fieldIds;
-	fieldIds[field->id] = field;
+	fieldIds.set(field->id, field);
 }
 
 //-----------------------------------//
@@ -214,13 +216,8 @@ ClassIdMap& ClassGetIdMap()
 
 Class* ClassGetById(ClassId id)
 {
-	ClassIdMap& classIds = ClassGetIdMap();
-	ClassIdMap::iterator it = classIds.find(id);
-
-	if( it == classIds.end() )
-		return nullptr;
-
-	return it->second;
+	auto& classIds = ClassGetIdMap();
+    return classIds.get(id, nullptr);
 }
 
 //-----------------------------------//
@@ -259,17 +256,13 @@ Field* ClassGetField(const Class* klass, const char* name)
 
 Field* ClassGetFieldById(Class* klass, FieldId id)
 {
-	ClassFieldIdMap& fieldIds = klass->fieldIds;
+	auto& fieldIds = klass->fieldIds;
+	auto field = fieldIds.get(id, nullptr);
 
-	ClassFieldIdMap::iterator it = fieldIds.find(id);
-
-	if( it != fieldIds.end() )
-		return it->second;
-
-	if( klass->parent )
+    if( field && klass->parent )
 		return ClassGetFieldById(klass->parent, id);
-	else
-		return nullptr;
+
+	return field;
 }
 
 //-----------------------------------//

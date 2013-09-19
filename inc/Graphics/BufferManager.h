@@ -23,8 +23,7 @@ struct BufferEntry
 	IndexBufferPtr ib;
 };
 
-typedef std::map<const GeometryBuffer*, BufferEntry> BuffersMap;
-typedef std::pair<const String&, BufferPtr> BuffersPair;
+typedef HashMap<BufferEntry> BuffersMap; // keyed by const GeometryBuffer*
 
 class RenderBackend;
 class GeometryBuffer;

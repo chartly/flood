@@ -514,15 +514,7 @@ static Object* DeserializeComposite( ReflectionContext* context, Object* newObje
 	ClassId id = (ClassId) val;
 	
 	// Find the class id.
-	ClassIdMap::iterator it = ids.find(id);
-
-	if( it == ids.end() )
-	{
-		LogDebug("Deserialize: Invalid class id");
-		return nullptr;
-	}
-
-	Class* newClass = it->second;
+	auto newClass = ids.get(id, nullptr);
 	
 	if( !newClass )
 	{

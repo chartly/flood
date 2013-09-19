@@ -121,8 +121,7 @@ void TextureAtlas::resizeAtlas(uint newSize)
 
     Image* atlasImage = atlasImageHandle.Resolve();
 
-    std::map<ImageHandle, SubTexture>::iterator iter;
-    for (iter = imageSubTextures.begin(); iter != imageSubTextures.end(); ++iter) {
+    for (auto iter = imageSubTextures.begin(); iter != imageSubTextures.end(); ++iter) {
         Vector2i rectSize;
         int width = (iter->second.rightBottomUV.x - iter->second.leftTopUV.x)*width;
         int height = (iter->second.rightBottomUV.y - iter->second.leftTopUV.y)*height;
@@ -137,8 +136,8 @@ void TextureAtlas::resizeAtlas(uint newSize)
 
     assert(newRects.size() == imageSubTextures.size());
 
-    int i;
-    for (i = 0, iter = imageSubTextures.begin(); iter != imageSubTextures.end(); ++iter, ++i) 
+    size_t i = 0;
+    for (auto iter = imageSubTextures.begin(); iter != imageSubTextures.end(); ++iter, ++i) 
     {
         ImageHandle newImageHandle = iter->first;
         Rectangle newRect = newRects[i];

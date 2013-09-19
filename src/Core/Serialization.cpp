@@ -59,7 +59,7 @@ void ReflectionSetHandleContext( ReflectionHandleContextMap* handleContextMap,
 	assert(handleContextMap && "Expected a valid context map");
 	if (!handleContextMap ) return;
 
-	(*handleContextMap)[context.type] = context;
+	handleContextMap->set((uint64)context.type, context);
 }
 
 //-----------------------------------//
@@ -69,12 +69,11 @@ bool ReflectionFindHandleContext( ReflectionHandleContextMap* handleContextMap,
 {
 	assert(handleContextMap && "Expected a valid context map");
 	if (!handleContextMap ) return false;
-
-	auto it = handleContextMap->find(klass);
 	
-	if( it != handleContextMap->end() )
+    auto it = handleContextMap->get((uint64)klass, ReflectionHandleContext());
+	if( handleContextMap->has((uint64)klass) )
 	{
-		ctx = it->second;
+		ctx = it;
 		return true;
 	}
 	else if( ClassHasParent(klass) )

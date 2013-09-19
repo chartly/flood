@@ -56,7 +56,7 @@ API_AUDIO bool AudioCheckError();
  * Audio device to play sound data using OpenAL as backend.
  */
 
-typedef std::map<Sound*, AudioBufferPtr> SoundBufferMap;
+typedef HashMap<AudioBufferPtr> SoundBufferMap; // keyed by Sound*
 struct ResourceEvent;
 
 class API_AUDIO AudioDevice

@@ -8,6 +8,7 @@
 #pragma once
 
 #include "Core/Concurrency.h"
+#include "Core/ConcurrentQueue.h"
 
 NAMESPACE_CORE_BEGIN
 

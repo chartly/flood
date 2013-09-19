@@ -140,7 +140,7 @@ protected:
 	TextureWrapMode wrap;
 };
 
-typedef std::map<uint8, TextureUnit> TextureUnitMap;
+typedef HashMap<TextureUnit> TextureUnitMap; // keyed by uint8
 
 //-----------------------------------//
 

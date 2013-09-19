@@ -29,11 +29,13 @@ void SessionManager::addSession(const SessionPtr& session)
 {
 	if( !session ) return;
 
-	SessionHash* hash = session->getHash();
-	assert(hash && sessions.find(*hash) == sessions.end());
+	auto& hash = *session->getHash();
+    uint64 key = 0;
+    memcpy(&key, &hash[0], hash.size());
+	
+    assert(sessions.has(key));
 
-	sessions[*hash] = session;
-
+	sessions.set(key, session);
 	onSessionAdded(session);
 }
 
@@ -43,16 +45,11 @@ void SessionManager::removeSession(const SessionPtr& session)
 {
 	if( !session ) return;
 
-	SessionHash* hash = session->getHash();
-	assert(hash);
+    auto& hash = *session->getHash();
+    uint64 key = 0;
+    memcpy(&key, &hash[0], hash.size());
 
-	auto it = sessions.find(*hash);
-	
-	if( it == sessions.end() )
-		return;
-
-	sessions.erase(it);
-
+	sessions.remove(key);
 	onSessionRemoved(session);
 }
 
@@ -60,12 +57,11 @@ void SessionManager::removeSession(const SessionPtr& session)
 
 Session* SessionManager::getSession(const SessionHash& hash) const
 {
-	auto it = sessions.find(hash);
-
-	if( it == sessions.end() )
-		return nullptr;
-
-	return it->second.get();
+    uint64 key = 0;
+    memcpy(&key, &hash[0], hash.size());
+    
+    auto sesh = sessions.get(key, nullptr);
+    return sesh.get();
 }
 
 NAMESPACE_CORE_END

@@ -49,7 +49,7 @@ struct API_GRAPHICS UniformBufferElement
 
 //-----------------------------------//
 
-typedef std::map<String, UniformBufferElement*> UniformBufferElements;
+typedef HashMap<UniformBufferElement*> UniformBufferElements; // keyed by String
 
 /**
  * Represents a uniform buffer.

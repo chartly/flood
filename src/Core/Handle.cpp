@@ -48,7 +48,7 @@ HandleId HandleCreate(HandleManager* man, ReferenceCounted* ref)
 	HandleMap& handles = man->handles;
 	
 	HandleId id = man->nextHandle.increment();
-	handles[id] = ref;
+	handles.set(id, ref);
 	
 	return id;
 }
@@ -58,14 +58,7 @@ HandleId HandleCreate(HandleManager* man, ReferenceCounted* ref)
 void HandleDestroy(HandleManager* man, HandleId id)
 {
 	if( !man ) return;
-	
-	HandleMap& handles = man->handles;
-	HandleMap::iterator it = handles.find(id);
-
-	if( it == handles.end() )
-		return;
-
-	handles.erase(it);
+	man->handles.remove(id);
 }
 
 //-----------------------------------//
@@ -78,13 +71,7 @@ void HandleGarbageCollect(HandleManager* man)
 
 ReferenceCounted* HandleFind(HandleManager* man, HandleId id)
 {
-	HandleMap& handles = man->handles;
-	HandleMap::iterator it = handles.find(id);
-	
-	if( it == handles.end() )
-		return nullptr;
-
-	return handles[id];
+	return man->handles.get(id, HandleInvalid);
 }
 
 //-----------------------------------//

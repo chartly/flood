@@ -168,7 +168,7 @@ protected:
 
 	RenderBatchPtr debugRenderable;
 
-	typedef std::map<Mesh*, RenderablesVector> MeshRenderablesMap;
+	typedef HashMap<RenderablesVector> MeshRenderablesMap; // keyed by Mesh*
 	static MeshRenderablesMap meshRenderables;
 };
 

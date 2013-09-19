@@ -191,11 +191,11 @@ FileWatcherWin32::FileWatcherWin32()
 
 FileWatcherWin32::~FileWatcherWin32()
 {
-	FileWatchMap::iterator iter = mWatches.begin();
-	FileWatchMap::iterator end = mWatches.end();
+	auto iter = mWatches.begin();
+	auto end = mWatches.end();
 	
 	for(; iter != end; ++iter)
-		DestroyWatch(iter->second);
+		DestroyWatch(iter->value);
 
 	mWatches.clear();
 }
@@ -223,7 +223,7 @@ FileWatchId FileWatcherWin32::addWatch(const String& directory, void* userdata)
 	strcpy_s(watch->mDirName, len, directory.c_str());
 	watch->mCustomData = userdata;
 
-	mWatches.insert(std::make_pair(watchid, watch));
+	mWatches.set(watchid, watch);
 
 	return watchid;
 }
@@ -232,13 +232,13 @@ FileWatchId FileWatcherWin32::addWatch(const String& directory, void* userdata)
 
 void FileWatcherWin32::removeWatch(const String& directory)
 {
-	FileWatchMap::iterator iter = mWatches.begin();
-	FileWatchMap::iterator end = mWatches.end();
+	auto iter = mWatches.begin();
+	auto end = mWatches.end();
 	for(; iter != end; ++iter)
 	{
-		if(directory == iter->second->mDirName)
+		if(directory == iter->value->mDirName)
 		{
-			removeWatch(iter->first);
+			removeWatch(iter->key);
 			return;
 		}
 	}
@@ -248,14 +248,8 @@ void FileWatcherWin32::removeWatch(const String& directory)
 
 void FileWatcherWin32::removeWatch(FileWatchId watchid)
 {
-	FileWatchMap::iterator iter = mWatches.find(watchid);
-
-	if(iter == mWatches.end())
-		return;
-
-	FileWatchStruct* watch = iter->second;
-	mWatches.erase(iter);
-
+	auto watch = mWatches.get(watchid, nullptr);
+	mWatches.remove(watchid);
 	DestroyWatch(watch);
 }
 

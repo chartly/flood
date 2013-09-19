@@ -32,8 +32,7 @@ struct API_RESOURCE ResourceMetadata
 };
 
 typedef Array<ResourceMetadata> ResourcesCache;
-typedef std::map<uint32, ResourceMetadata> ResourcesCacheMap;
-typedef std::pair<uint32, ResourceMetadata> ResourcesCacheMapPair;
+typedef HashMap<ResourceMetadata> ResourcesCacheMap; // keyed by uint32
 
 //-----------------------------------//
 

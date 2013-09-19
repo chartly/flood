@@ -7,8 +7,6 @@
 
 #pragma once
 
-#include <map>
-
 NAMESPACE_CORE_BEGIN
 
 //-----------------------------------//
@@ -31,7 +29,7 @@ struct FieldWatch
 	uint32 hash;
 };
 
-typedef std::map<const Field*, FieldWatch> FieldWatchMap;
+typedef HashMap<FieldWatch> FieldWatchMap; // keyed by const Field*
 typedef Array<FieldWatch*> FieldWatchVector;
 
 struct ClassWatch
