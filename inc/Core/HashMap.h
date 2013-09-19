@@ -144,6 +144,14 @@ const float HashMap<T>::MAX_LOAD_FACTOR = 0.7f;
 //-----------------------------------//
 
 template <typename T>
+HashMap<T>::HashMap()
+    : _hash()
+    , _data()
+{}
+
+//-----------------------------------//
+
+template <typename T>
 HashMap<T>::HashMap(Allocator &a)
     : _hash(a)
     , _data(a)
