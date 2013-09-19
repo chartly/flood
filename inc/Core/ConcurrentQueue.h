@@ -8,8 +8,6 @@
 #pragma once
 
 #include "Core/Memory.h"
-#include <deque>
-#include <algorithm>
 
 NAMESPACE_CORE_BEGIN
 
@@ -32,7 +30,10 @@ public:
 	void push_front(const T& value)
 	{
 		mutex.lock();
-		queue.push_front(value);
+        queue.resize(queue.size() + 1);
+        for(size_t i = queue.size(); i > 0; --i)
+            queue[i] = queue[i - 1];
+        queue[0] = value;
 		mutex.unlock();
 		
 		condition.wakeOne();
@@ -43,7 +44,7 @@ public:
 	void push_back(const T& value)
 	{
 		mutex.lock();
-		queue.push_back(value);
+		queue.pushBack(value);
 		mutex.unlock();
 		
 		condition.wakeOne();
@@ -73,7 +74,9 @@ public:
 		}
 
 		popped_value = queue.front();
-		queue.pop_front();
+		for(size_t i = 0; i < queue.size(); ++i)
+            queue[i] = queue[i + 1];
+        queue.popBack();
 		
 		mutex.unlock();
 
@@ -90,7 +93,9 @@ public:
 			condition.wait(mutex);
 	
 		popped_value = queue.front();
-		queue.pop_front();
+        for(size_t i = 0; i < queue.size(); ++i)
+            queue[i] = queue[i + 1];
+        queue.popBack();
 
 		mutex.unlock();
 	}
@@ -101,8 +106,7 @@ public:
 	{
 		mutex.lock();
 
-		typename std::deque<T>::const_iterator it;
-		it = std::find(queue.begin(), queue.end(), value);
+		auto it = std::find(queue.begin(), queue.end(), value);
 		bool found = it != queue.end();
 
 		mutex.unlock();
@@ -114,7 +118,7 @@ public:
 
 protected:
 
-	std::deque<T> queue;
+	Array<T> queue;
 
 	mutable Mutex mutex;
 	Condition condition;
