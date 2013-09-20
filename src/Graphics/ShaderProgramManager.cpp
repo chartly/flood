@@ -68,16 +68,13 @@ ShaderProgram* ProgramManager::getProgram( const ShaderMaterial* shader, bool pr
 {
 	if( !shader ) return nullptr;
 
-	ShaderProgramsMap::iterator it = programs.find(shader);
+	auto program = programs.get((uint64)shader, nullptr).get();
 
-	if( it != programs.end() )
+	if(!program)
 	{
-		ShaderProgram* program = it->second.get();
-		return program;
+		program = createProgram(shader);
+		registerProgram(shader, program);
 	}
-
-	ShaderProgram* program = createProgram(shader);
-	registerProgram(shader, program);
 
 	return program;
 }
@@ -86,13 +83,13 @@ ShaderProgram* ProgramManager::getProgram( const ShaderMaterial* shader, bool pr
 
 bool ProgramManager::registerProgram( const ShaderMaterial* shader, ShaderProgram* program )
 {
-	if( programs.find(shader) != programs.end() )
+	if( programs.has((uint64)shader) )
 	{
 		LogWarn( "Shader '%s' already registered", shader->getPath().c_str() );
 		return false;
 	}
 
-	programs[shader] = program;
+	programs.set((uint64)shader, program);
 	return true;
 }
 
@@ -123,15 +120,13 @@ void ProgramManager::onReload( const ResourceEvent& event )
 	ShaderMaterial* oldShader = (ShaderMaterial*) event.oldResource;
 
 	#pragma TODO("Handle reloading of unregistered resources")
-	
-	ShaderProgramsMap::iterator it = programs.find(oldShader);
-	assert( it != programs.end() );
-	
-	ShaderProgramPtr program = it->second; // We need to hold the ref.
-	programs.erase(it);
+	auto program = programs.get((uint64)oldShader, nullptr); // We need to hold the ref.
+	assert( programs.has((uint64)oldShader) );
+
+	programs.remove((uint64)oldShader);
 
 	ShaderMaterial* shader = (ShaderMaterial*) event.resource;
-	programs[shader] = program;
+	programs.set((uint64)shader, program);
 
 	LogDebug( "Reloading shader '%s'", shader->getPath().c_str() );
 

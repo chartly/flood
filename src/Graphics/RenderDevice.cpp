@@ -173,11 +173,10 @@ void RenderDevice::bindTextureUnits(const RenderState& state, bool bindUniforms)
 	TextureUnitMap& units = state.material->textureUnits;
 	UniformBuffer* ub = state.renderable->getUniformBuffer().get();
 
-	TextureUnitMap::const_iterator it;
-	for( it = units.begin(); it != units.end(); it++ )
+	for( auto it = units.begin(); it != units.end(); it++ )
 	{
-		const TextureUnit& unit = it->second;
-		const ImageHandle& handle = unit.image;
+		auto& unit = it->value;
+		auto& handle = unit.image;
 
 		Texture* texture = activeContext->textureManager->getTexture(handle).get();
 		if( !texture ) continue;
@@ -212,11 +211,10 @@ void RenderDevice::unbindTextureUnits(Material* material)
 	TextureUnitMap& units = material->textureUnits;
 	TextureManager* textureManager = activeContext->textureManager;
 
-	TextureUnitMap::const_iterator it;
-	for( it = units.begin(); it != units.end(); it++ )
+	for( auto it = units.begin(); it != units.end(); it++ )
 	{
-		const TextureUnit& unit = it->second;
-		const ImageHandle& handle = unit.image;
+		auto& unit = it->value;
+		auto& handle = unit.image;
 
 		Texture* texture = textureManager->getTexture(handle).get();
 		if( !texture ) continue;

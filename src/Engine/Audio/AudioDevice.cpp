@@ -149,12 +149,13 @@ AudioBufferPtr AudioDevice::createBuffer()
 
 AudioBufferPtr AudioDevice::prepareBuffer(Sound* sound)
 {
-	// Check if buffer with same resource already exists
-	if( soundBuffers.find(sound) != soundBuffers.end() ) 
-		return soundBuffers[sound];
+	auto buffer = soundBuffers.get((uint64)sound, nullptr);
 
-	AudioBufferPtr buffer = createBuffer();
-	soundBuffers[sound] = buffer;
+	if(!buffer)
+	{
+		buffer = createBuffer();
+		soundBuffers.set((uint64)sound, buffer);
+	}
 
 	return buffer;
 }
@@ -175,13 +176,12 @@ void AudioDevice::onResourceLoaded(const ResourceEvent& event)
 	Sound* sound = (Sound*) resource;
 	assert( sound->isLoaded() );
 
-	auto it = soundBuffers.find(sound);
+	auto soundBuffer = soundBuffers.get((uint64)sound, nullptr);
 	
-	if( it == soundBuffers.end() )
+	if(!soundBuffer)
 		return;
 
-	AudioBuffer* soundBuffer = it->second.get();
-	AudioBufferSound(soundBuffer, sound);
+	AudioBufferSound(soundBuffer.get(), sound);
 }
 
 //-----------------------------------//

@@ -40,22 +40,19 @@ ResourceDatabase::~ResourceDatabase()
 
 void ResourceDatabase::fixUp()
 {
-	for( size_t i = 0; i < resources.size(); i++ )
-	{
-		const ResourceMetadata& metadata = resources[i];
-		resourcesCache[metadata.hash] = metadata;
-	}
+	for( auto metadata : resources )
+		resourcesCache.set(metadata.hash, metadata);
 }
 
 //-----------------------------------//
 
 void ResourceDatabase::addMetadata(const ResourceMetadata& metadata)
 {
-	if(resourcesCache.find(metadata.hash) != resourcesCache.end())
+	if(!resourcesCache.has(metadata.hash))
 		return;
 
 	resources.pushBack(metadata);
-	resourcesCache[metadata.hash] = metadata;
+	resourcesCache.set(metadata.hash, metadata);
 
 	onResourceAdded(metadata);
 }

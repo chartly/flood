@@ -168,21 +168,17 @@ bool MeshBuild(Mesh* mesh, RenderablesVector& rends);
 void Model::build()
 {
 	if( modelBuilt ) return;
+	
+	auto rends = meshRenderables.get((uint64)mesh, RenderablesVector());
 
-	MeshRenderablesMap::iterator it = meshRenderables.find(mesh);
-	
-	if( it == meshRenderables.end() )
+	if( meshRenderables.has((uint64)mesh) )
 	{
-		RenderablesVector& rends = meshRenderables[mesh];
-	
 		if( !MeshBuild(mesh, rends) )
 		{
 			LogError("Error building mesh '%s'", mesh->getPath().c_str());
 			return;
 		}
 	}
-
-	RenderablesVector& rends = meshRenderables[mesh];
 
 	for( size_t i = 0; i < rends.size(); ++i )
 	{
@@ -265,10 +261,9 @@ void Model::updateAnimationBones(AnimationState& state)
 	Array<Matrix4x3>& bones = state.bonesMatrix;
 	const KeyFramesMap& keyFrames = animation->getKeyFrames();
 
-	KeyFramesMap::const_iterator it;
-	for( it = keyFrames.begin(); it != keyFrames.end(); it++ )
+	for( auto it = keyFrames.begin(); it != keyFrames.end(); it++ )
 	{
-		const BonePtr& bone = it->first;
+		auto bone = BonePtr((Bone*)it->key);
 		
 		const Matrix4x3& matKey = animation->getKeyFrameMatrix(bone, animationTime);	
 		Matrix4x3 matBone = matKey * bone->relativeMatrix;

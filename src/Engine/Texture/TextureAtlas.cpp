@@ -72,7 +72,7 @@ static void RotateImage(Image* srcImage, Image* dstImage, Vector2i dstOffset)
 
 bool TextureAtlas::addImage(const ImageHandle& newImageHandle) 
 {
-    if(imageSubTextures.find( newImageHandle ) != imageSubTextures.end())
+    if(imageSubTextures.has(newImageHandle.id))
         return true;
 
     Image* newImage = newImageHandle.Resolve();
@@ -99,10 +99,10 @@ bool TextureAtlas::addImage(const ImageHandle& newImageHandle)
 
 bool TextureAtlas::getImageSubTexture(const ImageHandle& imageHandle, SubTexture& subTexture)
 {
-    if(imageSubTextures.find( imageHandle ) == imageSubTextures.end())
+    if(imageSubTextures.has(imageHandle.id))
         return false;
 
-    subTexture = imageSubTextures[imageHandle];
+    subTexture = imageSubTextures.get(imageHandle.id, SubTexture());
     return true;
 }
 
@@ -123,8 +123,8 @@ void TextureAtlas::resizeAtlas(uint newSize)
 
     for (auto iter = imageSubTextures.begin(); iter != imageSubTextures.end(); ++iter) {
         Vector2i rectSize;
-        int width = (iter->second.rightBottomUV.x - iter->second.leftTopUV.x)*width;
-        int height = (iter->second.rightBottomUV.y - iter->second.leftTopUV.y)*height;
+        int width = (iter->value.rightBottomUV.x - iter->value.leftTopUV.x)*width;
+        int height = (iter->value.rightBottomUV.y - iter->value.leftTopUV.y)*height;
         
         rectSize.x = width+1;
         rectSize.y = height+1;
@@ -139,7 +139,7 @@ void TextureAtlas::resizeAtlas(uint newSize)
     size_t i = 0;
     for (auto iter = imageSubTextures.begin(); iter != imageSubTextures.end(); ++iter, ++i) 
     {
-        ImageHandle newImageHandle = iter->first;
+        ImageHandle newImageHandle = iter->key;
         Rectangle newRect = newRects[i];
 
         newRect.width--;
@@ -188,7 +188,7 @@ void TextureAtlas::addImage(ImageHandle newImageHandle, Rectangle newRect)
         subTexture.leftTopUV = Vector2(left,bottom);
     }
 
-    imageSubTextures[newImageHandle] = subTexture;
+    imageSubTextures.set(newImageHandle.id, subTexture);
 }
 
 //-----------------------------------//

@@ -61,12 +61,10 @@ Entity::~Entity()
 	TransformPtr transform = getTransform();
 	
 	components.clear();
-
-	ComponentMap::iterator it = componentsMap.begin();
 	
-	for(; it != componentsMap.end(); it++ )
+	for(auto it = componentsMap.begin(); it != componentsMap.end(); it++ )
 	{
-		ComponentPtr& component = it->second;
+		auto component = it->value;
 		component.reset();
 	}
 }
@@ -86,13 +84,13 @@ bool Entity::addComponent( const ComponentPtr& component )
 
 	Class* type = component->getType();
 
-	if( componentsMap.find(type) != componentsMap.end() )
+	if( componentsMap.has((uint64)type) )
 	{
 		LogWarn( "Component '%s' already exists in '%s'", type->name, name.c_str() );
 		return false;
 	}
 
-	componentsMap[type] = component;
+	componentsMap.set((uint64)type, component);
 	component->setEntity(this);
 
 	onComponentAdded(component);
@@ -116,13 +114,11 @@ bool Entity::removeComponent( const ComponentPtr& component )
 	if( !component ) return false;
 	
 	Class* type = component->getType();
-
-	ComponentMap::iterator it = componentsMap.find(type);
 	
-	if( it == componentsMap.end() )
+	if(!componentsMap.has((uint64)type))
 		return false;
 
-	componentsMap.erase(it);
+	componentsMap.remove((uint64)type);
 
 	onComponentRemoved(component);
 	sendEvents();
@@ -155,23 +151,16 @@ ComponentPtr Entity::getComponent(const char* name) const
 
 ComponentPtr Entity::getComponent(Class* klass) const
 {
-	ComponentMap::const_iterator it = componentsMap.find(klass);
-		
-	if( it == componentsMap.end() )
-		return nullptr;
-
-	return it->second;
+	return componentsMap.get((uint64)klass, nullptr);
 }
 
 //-----------------------------------//
 
 ComponentPtr Entity::getComponentFromFamily(Class* klass) const
 {
-	ComponentMap::const_iterator it;
-	
-	for( it = componentsMap.begin(); it != componentsMap.end(); it++ )
+	for( auto it = componentsMap.begin(); it != componentsMap.end(); it++ )
 	{
-		const ComponentPtr& component = it->second;
+		auto component = it->value;
 		Class* componentClass = component->getType();
 
 		if( ClassInherits(componentClass, klass) )
@@ -187,10 +176,9 @@ Array<GeometryPtr> Entity::getGeometry() const
 {
 	Array<GeometryPtr> geoms;
 
-	ComponentMap::const_iterator it;
-	for( it = componentsMap.begin(); it != componentsMap.end(); it++ )
+	for( auto it = componentsMap.begin(); it != componentsMap.end(); it++ )
 	{
-		const ComponentPtr& component = it->second;
+		const ComponentPtr& component = it->value;
 
 		if( !ClassInherits(component->getType(), ReflectionGetType(Geometry)) )
 			continue;
@@ -220,10 +208,9 @@ void Entity::update( float delta )
 	if( transform ) transform->update( delta );
 
 	// Update the other components.
-	ComponentMap::const_iterator it;
-	for( it = componentsMap.begin(); it != componentsMap.end(); it++ )
+	for( auto it = componentsMap.begin(); it != componentsMap.end(); it++ )
 	{
-		const ComponentPtr& component = it->second;
+		const ComponentPtr& component = it->value;
 
 		if( component == transform ) 
 			continue;
@@ -244,7 +231,7 @@ void Entity::fixUp()
 		component->setEntity(this);
 		
 		Class* type = component->getType();
-		componentsMap[type] = component;
+		componentsMap.set((uint64)type, component);
 	}
 
 	if( !getTransform() ) addTransform();

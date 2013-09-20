@@ -16,6 +16,7 @@
 #include "Core/Archive.h"
 #include "Core/Utilities.h"
 #include "Core/Serialization.h"
+#include "Core/Math/Hash.h"
 
 NAMESPACE_RESOURCES_BEGIN
 
@@ -168,7 +169,7 @@ void ResourceManager::destroyHandles()
 {
 	for( auto it = resources.begin(); it != resources.end(); ++it )
 	{
-		ResourceHandle& handle = it->second;
+		auto& handle = it->value;
 		Resource* res = handle.Resolve();
 		
 		LogDebug("Resource %s (refs: %d)", res->getPath().c_str(),
@@ -187,11 +188,9 @@ void ResourceManager::destroyHandles()
 ResourceHandle ResourceManager::getResource(const String& path)
 {
 	Path name = PathGetFile(path);
+	auto key = MurmurHash64(name.c_str(), name.size(), 0);
 
-	if( resources.find(name) == resources.end() )
-		return ResourceHandle(HandleInvalid);
-
-	return resources[name];
+	return resources.get(key, HandleInvalid);
 }
 
 //-----------------------------------//
@@ -243,7 +242,8 @@ ResourceHandle ResourceManager::loadResource(ResourceLoadOptions& options)
 
 	// Register the decoded resource in the map.
 	Path base = PathGetFile(options.name);
-	resources[base] = handle;
+	auto key = MurmurHash64(base.c_str(), base.size(), 0);
+	resources.set(key, handle);
 
 	decodeResource(options);
 
@@ -256,11 +256,10 @@ bool ResourceManager::findResource(ResourceLoadOptions& options)
 {
 	Path& path = options.name;
 	
-	ResourceLoaderMap::const_iterator it;
-	for(it = resourceLoaders.begin(); it != resourceLoaders.end(); it++)
+	for(auto it = resourceLoaders.begin(); it != resourceLoaders.end(); it++)
 	{
-		const String& ext = it->first;
-		const ResourceLoader* loader = it->second.get();
+		auto ext = PathGetFileExtension(options.name);
+		auto loader = it->value.get();
 
 		if( loader->getResourceGroup() != options.group )
 			continue;
@@ -411,13 +410,9 @@ void ResourceManager::sendPendingEvents()
 	while( resourceEvents.try_pop_front(event) )
 	{
 		Resource* resource = event.resource;
-		Path base = PathGetFile(resource->path);
-
-		// Find the handle to the resource.
-		ResourceMap::iterator it = resources.find(base);
-		if( it == resources.end() ) continue;
-
-		ResourceHandle handle = it->second;
+		auto base = PathGetFile(resource->path);
+		auto key = MurmurHash64(base.c_str(), base.size(), 0);
+		ResourceHandle handle = resources.get(key, HandleInvalid);
 		assert( handle != HandleInvalid );
 
 		event.handle = handle;
@@ -430,26 +425,18 @@ void ResourceManager::sendPendingEvents()
 void ResourceManager::removeUnusedResources()
 {
 	#pragma TODO("Finish the unused resource collecetor")
-
 	return;
 
-	Array<String> resourcesToRemove;
-
-	// Search for unused resources.
-	ResourceMap::const_iterator it;
-	for( it = resources.begin(); it != resources.end(); it++ )
+	Array<uint64> resourcesToRemove;
+	for(auto e : resources)
 	{
-		const ResourceHandle& resource = it->second;
-
+		auto resource = e.value;
 		if( resource.Resolve()->references.read() == 1 )
-			resourcesToRemove.pushBack(it->first);
+			resourcesToRemove.pushBack(e.key);
 	}
 
-	for( size_t i = 0; i < resourcesToRemove.size(); i++ )
-	{
-		const String& resource = resourcesToRemove[i];
-		removeResource(resource);
-	}
+	for(auto key : resourcesToRemove)
+		removeResource(key);
 }
 
 //-----------------------------------//
@@ -462,23 +449,29 @@ void ResourceManager::removeResource(Resource* resource)
 	removeResource(path);
 }
 
-//-----------------------------------//
+
 
 void ResourceManager::removeResource(const String& path)
 {
-	ResourceMap::iterator it = resources.find(path);
-	
-	if( it == resources.end() )
-		return;
-	
-	// Send callback notifications.
-	ResourceEvent event;
-	event.handle = it->second;
-
-	onResourceRemoved( event );
+	auto key = MurmurHash64(path.c_str(), path.size(), 0);
+	removeResource(key);
 
 	LogInfo("Unloaded resource: %s", path.c_str());
-	resources.erase(it);
+}
+
+//-----------------------------------//
+
+void ResourceManager::removeResource(uint64 key)
+{
+	auto handle = resources.get(key, HandleInvalid);
+	if(handle == HandleInvalid)
+		return;
+
+	ResourceEvent event;
+	event.handle = handle;
+	onResourceRemoved( event );
+
+	resources.remove(key);
 }
 
 //-----------------------------------//
@@ -489,49 +482,40 @@ void ResourceManager::registerLoader(ResourceLoader* loader)
 
 	Class* klass = loader->getType();
 	LogInfo( "Registering resource loader '%s'", klass->name );
-
-	const Array<String>& extensions = loader->getExtensions();
 	
-	for( size_t i = 0; i < extensions.size(); i++ )
+	for( auto ext : loader->getExtensions() )
 	{
-		const String& extension = extensions[i];
-
-		if(resourceLoaders.find(extension) != resourceLoaders.end())
+		auto key = MurmurHash64(ext.c_str(), ext.size(), 0);
+		if(resourceLoaders.has(key))
 		{
-			LogDebug("Extension '%s' already has a resource loader",
-				extension.c_str());
+			LogDebug("Extension '%s' already has a resource loader", ext.c_str());
 			continue;
 		}
 
-		resourceLoaders[extension] = loader;
+		resourceLoaders.set(key, loader);
 	}
 
-	// Send callback notifications.
 	onResourceLoaderRegistered( *loader );
 }
 
 //-----------------------------------//
 
-ResourceLoader* ResourceManager::findLoader(const String& ext)
+ResourceLoader* ResourceManager::findLoader(const String& extension)
 {
-	String extension = StringToLowerCase(ext);
+	auto ext = StringToLowerCase(extension);
+	auto key = MurmurHash64(ext.c_str(), ext.size(), 0);
 
-	// Check if we have a resource loader for this extension.
-	if( resourceLoaders.find(extension) == resourceLoaders.end() )
-		return nullptr;
-
-	const ResourceLoaderPtr& loader = resourceLoaders[extension];
-	return loader.get();
+	return resourceLoaders.get(key, nullptr).get();
 }
 
 //-----------------------------------//
 
 ResourceLoader* ResourceManager::findLoaderByClass(const Class* klass)
 {
-	for(auto it = resourceLoaders.begin(); it != resourceLoaders.end(); it++)
+	for(auto e : resourceLoaders)
 	{
-		const ResourceLoaderPtr& loader = it->second;
-		Class* resourceClass = loader->getResourceClass();
+		auto& loader = e.value;
+		auto resourceClass = loader->getResourceClass();
 		
 		if(ClassInherits(resourceClass, klass))
 			return loader.get();
@@ -585,9 +569,10 @@ void ResourceManager::setArchive(Archive* newArchive)
 void ResourceManager::handleWatchResource(Archive*, const FileWatchEvent& evt)
 {
 	// Check if the filename maps to a known resource.
-	const Path& file = PathGetFile(evt.filename);
+	auto file = PathGetFile(evt.filename);
+	auto key = MurmurHash64(file.c_str(), file.size(), 0);
 
-	if( resources.find(file) == resources.end() )
+	if( !resources.has(key) )
 		return; // Resource is not known.
 
 	// Reload the resource if it was modified.
@@ -609,9 +594,8 @@ void ResourceManager::handleWatchResource(Archive*, const FileWatchEvent& evt)
 	Resource* resource = prepareResource(options);
 	decodeResource(options);
 
-	const ResourceHandle& handle = resources[file];
+	auto handle = resources.get(key, HandleInvalid);
 	Resource* oldResource = handle.Resolve();
-
 	HandleId handleId = handle.getId();
 
 	ResourceEvent event;
@@ -619,9 +603,9 @@ void ResourceManager::handleWatchResource(Archive*, const FileWatchEvent& evt)
 	event.oldResource = oldResource;
 	event.handle = handle;
 
-	// Switch the resource but mantain the same handle.
+	// Switch the resource but maintain the same handle.
 	resource->addReference();
-	handleManager->handles[handleId] = resource;
+	handleManager->handles.set(handleId, resource);
 
 	onResourceReloaded(event);
 

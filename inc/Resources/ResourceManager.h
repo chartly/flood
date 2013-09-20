@@ -96,6 +96,7 @@ public:
 
 	// Removes a resource from the manager.
 	void removeResource(const String& name);
+	void removeResource(uint64 key);
 
 	// Removes unused resources.
 	void removeUnusedResources();

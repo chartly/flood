@@ -62,7 +62,7 @@ void GLSL_ShaderProgram::addShader( GLSL_Shader* shader)
 {
 	shaders.pushBack( shader );
 	
-	bool isAttached = attached[shader];
+	bool isAttached = attached.get((uint64)shader, false);
 	
 	if( !isAttached )
 	{
@@ -71,7 +71,7 @@ void GLSL_ShaderProgram::addShader( GLSL_Shader* shader)
 		if( CheckLastErrorGL("Could not attach shader object") )
 			return;
 
-		attached[shader] = true;
+		attached.set((uint64)shader, true);
 	}
 }
 
@@ -82,7 +82,7 @@ void GLSL_ShaderProgram::detachShaders()
 	for( size_t i = 0; i < shaders.size(); i++ )
 	{
 		GLSL_Shader* shader = shaders[i].get();
-		bool isAttached = attached[shader];
+		bool isAttached = attached.get((uint64)shader, false);
 		
 		if( !isAttached ) continue;
 
@@ -282,14 +282,12 @@ void GLSL_ShaderProgram::setAttribute( const String& name, VertexAttribute attr 
 
 void GLSL_ShaderProgram::setUniforms( UniformBuffer* ub )
 {
-	UniformBufferElements::iterator it;
-	
-	for( it = ub->elements.begin(); it != ub->elements.end(); it++ )
+	for( auto it = ub->elements.begin(); it != ub->elements.end(); it++ )
 	{
-		UniformBufferElement* element = it->second;
+		UniformBufferElement* element = it->value;
 		if( !element || !element->name ) continue;
 
-		GLint location = glGetUniformLocation( id, /*element->name*/it->first.c_str() );
+		GLint location = glGetUniformLocation( id, element->name );
 		if( location == -1 ) continue;
 
 		GLint count = element->count;

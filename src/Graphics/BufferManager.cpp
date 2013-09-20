@@ -39,26 +39,25 @@ BufferEntry* BufferManager::getBuffer(const GeometryBuffer* gb)
 {
 	if( !gb ) return nullptr;
 
-	auto it = buffers.find(gb);
+	auto entry = buffers.get((uint64)gb, BufferEntry());
 
-	if( it != buffers.end() )
+	if(!buffers.has((uint64)gb))
 	{
-		// Buffers already allocated.
-		return &it->second;
-	}
+		entry.vb = backend->createVertexBuffer();
+		entry.vb->setBufferAccess( gb->getBufferAccess() );
+		entry.vb->setBufferUsage( gb->getBufferUsage() );
+		entry.vb->setGeometryBuffer( gb );
 
-	BufferEntry& entry = buffers[gb];
-	entry.vb = backend->createVertexBuffer();
-	entry.vb->setBufferAccess( gb->getBufferAccess() );
-	entry.vb->setBufferUsage( gb->getBufferUsage() );
-	entry.vb->setGeometryBuffer( gb );
+		if( gb->isIndexed() )
+		{
+			entry.ib = backend->createIndexBuffer();
+			entry.ib->setBufferAccess( gb->getBufferAccess() );
+			entry.ib->setBufferUsage( gb->getBufferUsage() );
+			entry.ib->setGeometryBuffer( gb );
+		}
 
-	if( gb->isIndexed() )
-	{
-		entry.ib = backend->createIndexBuffer();
-		entry.ib->setBufferAccess( gb->getBufferAccess() );
-		entry.ib->setBufferUsage( gb->getBufferUsage() );
-		entry.ib->setGeometryBuffer( gb );
+		buffers.set((uint64)gb, entry);
+		entry = buffers.get((uint64)gb, entry);
 	}
 
 	return &entry;

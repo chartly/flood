@@ -22,13 +22,10 @@ Animation::Animation()
 
 void Animation::setKeyFrames(const BonePtr& bone, const KeyFramesVector& frames)
 {
-	keyFrames[bone] = frames;
+	keyFrames.set((uint64)bone.get(), frames);
 
-	for( size_t i = 0; i < frames.size(); i++ )
-	{	
-		const KeyFrame& frame = frames[i];
-		keyFramesVector.pushBack(frame);
-	}
+    for(auto f : frames)
+        keyFramesVector.pushBack(f);
 }
 
 //-----------------------------------//
@@ -71,7 +68,7 @@ Matrix4x3 Animation::getKeyFrameMatrix(const BonePtr& bone, float time)
 	if( !bone || keyFrames.empty() )
 		return Matrix4x3::Identity;
 		 
-	const KeyFramesVector& boneKeyFrames = keyFrames[bone];
+	auto boneKeyFrames = keyFrames.get((uint64)bone.get(), KeyFramesVector());
 
 	if( boneKeyFrames.empty() )
 		return Matrix4x3::Identity;

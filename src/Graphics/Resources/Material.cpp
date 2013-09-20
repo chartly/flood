@@ -164,28 +164,35 @@ void Material::setTexture( uint8 unit, const String& name )
 	texUnit.image = handle;
 	texUnit.unit = unit;
 
-	textureUnits[unit] = texUnit;
+	textureUnits.set(unit, texUnit);
 }
 
 //-----------------------------------//
 
 void Material::setTexture( uint8 unit, const ImageHandle& handle )
 {
-	textureUnits[unit].image = handle;
+	auto tu = textureUnits.get(unit, TextureUnit());
+	tu.image = handle;
+
+	textureUnits.set(unit, tu);
 }
 
 //-----------------------------------//
 
 ImageHandle Material::getTexture( uint8 unit )
 {
-	return textureUnits[unit].image;
+	return textureUnits.get(unit, TextureUnit()).image;
 }
 
 //-----------------------------------//
 
 TextureUnit& Material::getTextureUnit( uint8 unit )
 {
-	return textureUnits[unit];
+	auto tu = textureUnits.get(unit, TextureUnit());
+	if(!textureUnits.has(unit))
+		textureUnits.set(unit, tu);
+	tu = textureUnits.get(unit, tu);
+	return tu;
 }
 
 //-----------------------------------//
