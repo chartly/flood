@@ -12,6 +12,8 @@
 #include "WxWindow.h"
 #include <wx/menu.h>
 
+NAMESPACE_EDITOR_BEGIN
+
 //-----------------------------------//
 
 WxWindowManager::WxWindowManager(WxPlatform* platform)
@@ -67,3 +69,5 @@ Window* WxWindowManager::openDirectoryDialog(const String& wildcard,
 }
 
 //-----------------------------------//
+
+NAMESPACE_EDITOR_END

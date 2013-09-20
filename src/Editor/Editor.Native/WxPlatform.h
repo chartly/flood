@@ -14,7 +14,7 @@
 #include "Engine/Input/Keyboard.h"
 #include "Engine/Input/Mouse.h"
 
-FLD_NAMESPACE_BEGIN
+NAMESPACE_EDITOR_BEGIN
 
 //-----------------------------------//
 
@@ -85,11 +85,11 @@ public:
 
 //-----------------------------------//
 
-FLD_NAMESPACE_END
+NAMESPACE_EDITOR_END
 
 /**
  * This is exported as a C interface so that the managed editor code can
  * easily create an instance of of the platform without having to create
  * an heavyweight bindings project.
  */
-extern "C" API_EDITOR WxPlatform* CreateWxPlatformManager();
+extern "C" API_EDITOR FLD_NAMESPACE::WxPlatform* CreateWxPlatformManager();

@@ -7,7 +7,7 @@
 
 #include "WxPlatform.h"
 
-FLD_NAMESPACE_BEGIN
+NAMESPACE_EDITOR_BEGIN
 
 //-----------------------------------//
 
@@ -61,9 +61,10 @@ InputManager* WxPlatform::getInputManager()
 
 //-----------------------------------//
 
-FLD_NAMESPACE_END
+NAMESPACE_EDITOR_END
 
-WxPlatform* CreateWxPlatformManager()
+FLD_NAMESPACE::WxPlatform* CreateWxPlatformManager()
 {
+    using namespace FLD_NAMESPACE;
     return AllocateHeap(WxPlatform);
 }

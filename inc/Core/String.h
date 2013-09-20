@@ -96,7 +96,7 @@ API_CORE Path PathCombine(Path base, Path extra);
 	
 // Converts a number to a string.
 template< typename T >
-NAMESPACE_CORE::String StringFromNumber(const T& t)
+FLD_NAMESPACE::String StringFromNumber(const T& t)
 {
 	std::ostringstream oss;
 	
@@ -108,7 +108,7 @@ NAMESPACE_CORE::String StringFromNumber(const T& t)
 
 // Converts a string to a number.
 template< typename T >
-T StringToNumber(const NAMESPACE_CORE::String& s)
+T StringToNumber(const FLD_NAMESPACE::String& s)
 {
 	std::stringstream ss(s);
 	

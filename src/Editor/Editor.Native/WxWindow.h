@@ -10,10 +10,10 @@
 #include "WxPlatform.h"
 #include "Engine/Window/Window.h"
 
+NAMESPACE_EDITOR_BEGIN
+
 class WxGLContext;
 class WxGLCanvas;
-
-NAMESPACE_EDITOR_BEGIN
 
 //-----------------------------------//
 

@@ -20,18 +20,10 @@
 // Namespaces
 //---------------------------------------------------------------------//
 
-#define FLD_NAMESPACE_BEGIN
-#define FLD_NAMESPACE_END
+#define FLD_NAMESPACE fld
 
-#define NAMESPACE_CORE_DEFINED
-#ifdef NAMESPACE_CORE_DEFINED
-#define NAMESPACE_CORE fld
-#else
-#define NAMESPACE_CORE
-#endif
-
-#ifdef NAMESPACE_CORE_DEFINED
-#define NAMESPACE_CORE_BEGIN namespace NAMESPACE_CORE {
+#ifdef FLD_NAMESPACE
+#define NAMESPACE_CORE_BEGIN namespace FLD_NAMESPACE {
 #define NAMESPACE_CORE_END }
 #else
 #define NAMESPACE_CORE_BEGIN
