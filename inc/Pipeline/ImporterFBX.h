@@ -10,7 +10,7 @@
 #ifdef ENABLE_IMPORTER_FBX
 
 #include "Pipeline/ResourceImporter.h"
-#include "Resources/Mesh.h"
+#include "Engine/Resources/Mesh.h"
 
 #define FBXSDK_SHARED
 

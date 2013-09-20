@@ -21,6 +21,8 @@
 FL_INSTANTIATE_TEMPLATES()
 #endif
 
+NAMESPACE_PIPELINE_BEGIN
+
 //-----------------------------------//
 
 static void ReferenceProcessors()
@@ -145,3 +147,5 @@ int main(int argc, char* argv[])
 //-----------------------------------//
 
 #endif
+
+NAMESPACE_PIPELINE_END
