@@ -20,3 +20,6 @@
 [submodule "deps/FreeImage"]
 	path = deps/FreeImage
 	url = https://github.com/FloodProject/FreeImage.git
+[submodule "src/CS350"]
+	path = src/CS350
+	url = C:/Users/Corbin/Desktop/Dev/DIT/CS350

@@ -13,34 +13,22 @@ echo.
 
 :choice
 set /P C="Choice: "
-if "%C%"=="4" goto gmake
-if "%C%"=="3" goto codelite
 if "%C%"=="2" goto vs2012deps
 if "%C%"=="1" goto vs2012
 if "%C%"=="0" goto clean
 
 :clean
-"../tools/premake4" --file=premake/premake4.lua clean
+"../tools/premake4" --file=premake/premake4-cs350.lua clean
 "../tools/premake4" --file=premake/premake4-deps.lua clean
 goto quit
 
 :vs2012
-"../tools/premake4" --file=premake/premake4.lua vs2012
+"../tools/premake4" --file=premake/premake4-cs350.lua vs2012
 "../tools/premake4" --file=premake/premake4-deps.lua vs2012
 goto quit
 
 :vs2012deps
 "../tools/premake4" --file=premake/premake4-deps.lua vs2012
-goto quit
-
-:codelite
-"../tools/premake4" --file=premake/premake4.lua codelite
-"../tools/premake4" --file=premake/premake4-deps.lua codelite
-goto quit
-
-:gmake
-"../tools/premake4" --file=premake/premake4.lua gmake
-"../tools/premake4" --file=premake/premake4-deps.lua gmake
 goto quit
 
 :quit
