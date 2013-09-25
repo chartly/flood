@@ -7,8 +7,6 @@ echo.
 echo [0] Clean
 echo [1] Visual C++ 2012
 echo [2] Visual C++ 2012 (deps only)
-echo [3] CodeLite
-echo [4] GNU Make
 echo.
 
 :choice
