@@ -51,7 +51,7 @@ solution "Flood"
 
 	group "DIT"
 
-		dofile( src .. "CS350/CS350.lua")
+		dofile( srcdir .. "/CS350/CS350.lua")
         
 	group "Tests"
 
