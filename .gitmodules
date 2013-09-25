@@ -22,4 +22,4 @@
 	url = https://github.com/FloodProject/FreeImage.git
 [submodule "src/CS350"]
 	path = src/CS350
-	url = C:/Users/Corbin/Desktop/Dev/DIT/CS350
+	url = https://github.com/chartly/CS350.git
