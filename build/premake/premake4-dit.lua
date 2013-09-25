@@ -37,9 +37,6 @@ solution "Flood"
 		defines { "DEBUG" }
 		
 	configuration {}
-	
-	print("Searching for packages...")
-	IncludePremake(path.join(srcdir, "**"), "package.lua")
 
 	group "Native"
 	
