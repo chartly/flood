@@ -51,20 +51,8 @@ public:
 	// Updates the main subsystems.
 	void update();
 
-	// Sets up the global engine logger.
-	void setupLogger();
-
-	// Gets the device.
-	GETTER(TaskPool, TaskPool*, taskPool)
-
 	// Gets/sets the platform manager.
 	ACCESSOR(PlatformManager, PlatformManager*, platformManager)
-
-	// Gets/sets the input manager.
-	ACCESSOR(InputManager, InputManager*, inputManager)
-
-	// Gets/sets the window manager.
-	ACCESSOR(WindowManager, WindowManager*, windowManager)
 
 	// Gets the render device.
 	GETTER(RenderDevice, RenderDevice*, renderDevice)
@@ -81,30 +69,10 @@ public:
 	// Gets/sets the physics manager.
 	ACCESSOR(PhysicsManager, PhysicsManager*, physicsManager)
 
-	// Gets the main engine logger.
-	GETTER(Logger, Log*, log)
-
-	void stepFrame();
-
 protected:
-
-	// Manages background tasks.
-	TaskPool* taskPool;
-
-	// Default logger.
-	Log* log;
-
-	// Log stream.
-	Stream* stream;
 
 	// Platform manager.
 	PlatformManager* platformManager;
-
-	// Window manager.
-	WindowManager* windowManager;
-
-	// Input manager.
-	InputManager* inputManager;
 
 	// Rendering device.
 	RenderDevice* renderDevice;
@@ -123,7 +91,7 @@ protected:
 };
 
 // Gets the engine instance.
-API_ENGINE Engine* GetEngine();
+API_ENGINE Engine* fldEngine();
 
 //-----------------------------------//
 

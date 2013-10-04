@@ -21,6 +21,7 @@
 #include "Engine/Scene/Transform.h"
 
 #include "Engine/Engine.h"
+#include "Engine/PlatformManager.h"
 #include "Engine/Input/InputManager.h"
 #include "Engine/Input/Keyboard.h"
 
@@ -57,7 +58,7 @@ CharacterController::CharacterController()
 
 CharacterController::~CharacterController()
 {
-	PhysicsManager* physics = GetEngine()->getPhysicsManager();
+	PhysicsManager* physics = fldEngine()->getPhysicsManager();
 	
 	btDiscreteDynamicsWorld* world = physics->getWorld();
 	
@@ -78,7 +79,7 @@ void CharacterController::_update( float delta )
 	if( !createController() )
 		return;
 
-	Engine* engine = GetEngine();
+	Engine* engine = fldEngine();
 	PhysicsManager* physics = engine->getPhysicsManager();
 	btDiscreteDynamicsWorld* world = physics->getWorld();
 
@@ -88,7 +89,7 @@ void CharacterController::_update( float delta )
 		updateCharacterTransform();
 	}
 
-	InputManager* input = engine->getInputManager();
+	InputManager* input = engine->getPlatformManager()->getInputManager();
 	Keyboard* keyboard = input->getKeyboard();
 	
 	btVector3 walkDirection;
@@ -160,7 +161,7 @@ bool CharacterController::createController()
 	updateBulletTransform();
 	//updateProperties();
 
-	Engine* engine = GetEngine();
+	Engine* engine = fldEngine();
 	PhysicsManager* physics = engine->getPhysicsManager();
 	btDiscreteDynamicsWorld* world = physics->getWorld();
 

@@ -136,7 +136,7 @@ bool Body::createBody()
 
 void Body::addWorld()
 {
-	Engine* engine = GetEngine();
+	Engine* engine = fldEngine();
 	
 	PhysicsManager* physics = engine->getPhysicsManager();
 	if( !physics ) return;
@@ -148,7 +148,7 @@ void Body::addWorld()
 
 void Body::removeWorld()
 {
-	Engine* engine = GetEngine();
+	Engine* engine = fldEngine();
 
 	PhysicsManager* physics = engine->getPhysicsManager();
 	if( !physics ) return;

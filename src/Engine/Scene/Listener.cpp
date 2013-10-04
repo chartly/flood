@@ -31,7 +31,7 @@ Listener::Listener()
 	: volume(0.75f)
 	, audioContext(nullptr)
 {
-	AudioDevice* audioDevice = GetEngine()->getAudioDevice();
+	AudioDevice* audioDevice = fldEngine()->getAudioDevice();
 	audioContext = audioDevice->getMainContext();
 }
 

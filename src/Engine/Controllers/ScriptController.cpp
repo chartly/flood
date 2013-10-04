@@ -60,7 +60,7 @@ void ScriptController::_update( float delta )
 
 void ScriptController::createState()
 {
-	Engine* engine = GetEngine();	
+	Engine* engine = fldEngine();	
 	
 	ScriptManager* scripts = engine->getScriptManager();
 	state = scripts->createScriptInstance(script.Resolve());
@@ -73,7 +73,7 @@ void ScriptController::onKeyPress( const KeyEvent& event )
 	if( !enabled || !state )
 		return;
 
-	Engine* engine = GetEngine();
+	Engine* engine = fldEngine();
 }
 
 //-----------------------------------//
@@ -83,7 +83,7 @@ void ScriptController::onKeyRelease( const KeyEvent& event )
 	if( !enabled || !state )
 		return;
 
-	Engine* engine = GetEngine();
+	Engine* engine = fldEngine();
 }
 
 //-----------------------------------//

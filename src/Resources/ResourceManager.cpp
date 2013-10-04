@@ -396,7 +396,8 @@ void ResourceManager::update()
 	sendPendingEvents();
 
 	// Update the archive watches.
-	archive->monitor();
+    if(archive)
+	    archive->monitor();
 
 	removeUnusedResources();
 }

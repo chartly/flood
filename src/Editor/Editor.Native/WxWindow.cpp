@@ -173,13 +173,6 @@ void WxWindow::processIdle(wxIdleEvent& event)
 
 //-----------------------------------//
 
-bool WxWindow::pumpEvents()
-{
-	return true;
-}
-
-//-----------------------------------//
-
 void WxWindow::setTitle(const String& title)
 {
 	// Our canvas has no title to set, the best we can do is to

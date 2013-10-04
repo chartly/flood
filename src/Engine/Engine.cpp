@@ -32,128 +32,100 @@ NAMESPACE_ENGINE_BEGIN
 //-----------------------------------//
 
 static Engine* gs_engineInstance;
-Engine* GetEngine() { return gs_engineInstance; }
+Engine* fldEngine() { return gs_engineInstance; }
 
 Engine::Engine(PlatformManager* platformManager)
-	: log(nullptr)
-	, stream(nullptr)
-	, taskPool(nullptr)
-	, platformManager(platformManager)
-	, resourceManager(nullptr)
-	, renderDevice(nullptr)
-	, inputManager(nullptr)
-	, audioDevice(nullptr)
-	, physicsManager(nullptr)
-	, scriptManager(nullptr)
-	, windowManager(nullptr)
+    : platformManager(platformManager)
+    , resourceManager(nullptr)
+    , renderDevice(nullptr)
+    , audioDevice(nullptr)
+    , physicsManager(nullptr)
+    , scriptManager(nullptr)
 {
-	assert(gs_engineInstance == nullptr);
-	gs_engineInstance = this;
+    assert(gs_engineInstance == nullptr);
+    gs_engineInstance = this;
 
-	assert(platformManager && "Expected a valid platform manager");
+    assert(platformManager && "Expected a valid platform manager");
 }
 
 //-----------------------------------//
 
 Engine::~Engine()
 {
-	Deallocate(physicsManager);
-	Deallocate(scriptManager);
-	Deallocate(renderDevice);
-	Deallocate(windowManager);
+    Deallocate(physicsManager);
+    Deallocate(scriptManager);
+    Deallocate(renderDevice);
 
 #ifdef ENABLE_AUDIO_OPENAL
-	Deallocate(audioDevice);
+    Deallocate(audioDevice);
 #endif
 
-	Deallocate(resourceManager);
+    Deallocate(resourceManager);
 
-	InputDeinitialize();
-	GraphicsDeinitialize();
-	ResourcesDeinitialize();
+    InputDeinitialize();
+    GraphicsDeinitialize();
+    ResourcesDeinitialize();
 
 #ifdef ENABLE_NETWORK_ENET
-	NetworkDeinitialize();
+    NetworkDeinitialize();
 #endif
 
-	Deallocate(taskPool);
-	Deallocate(stream);
-	LogDestroy(log);
+    Core::shutdown();
 }
 
 //-----------------------------------//
 
 void Engine::init()
 {
-	CoreInitialize();
+    Core::init();
 
-	// Sets up the main logger.
-	setupLogger();
-
-	// Creates the task system.
-	taskPool = AllocateThis(TaskPool, 2 );
-
-	// Initialize the platform-specific subsystems.
-	platformManager->init();
-	windowManager = platformManager->getWindowManager();
-	inputManager = platformManager->getInputManager();
+    // Initialize the platform-specific subsystems.
+    platformManager->init();
 
 #ifdef ENABLE_NETWORK_ENET
-	NetworkInitialize();
+    NetworkInitialize();
 #endif
 
-	ResourcesInitialize();
-	InputInitialize();
-	GraphicsInitialize();
+    ResourcesInitialize();
+    GraphicsInitialize();
+    InputInitialize();
 
-	// Creates the resource manager.
-	resourceManager = AllocateThis(ResourceManager);
-	resourceManager->setTaskPool( taskPool );
-	
-	// Registers default resource loaders.
-	resourceManager->setupResourceLoaders( ResourceLoaderGetType() );
+    // Creates the resource manager.
+    resourceManager = AllocateThis(ResourceManager);
+    resourceManager->setTaskPool( fldCore()->taskPool );
+    
+    // Registers default resource loaders.
+    resourceManager->setupResourceLoaders( ResourceLoaderGetType() );
 
-	// Creates the rendering device.
-	renderDevice = AllocateThis(RenderDevice);
+    // Creates the rendering device.
+    renderDevice = AllocateThis(RenderDevice);
 
 #ifdef ENABLE_AUDIO_OPENAL
-	// Creates the audio device.
-	audioDevice = AudioCreateDevice("");
+    // Creates the audio device.
+    audioDevice = AudioCreateDevice("");
 
-	if( audioDevice )
-		audioDevice->createMainContext();
+    if( audioDevice )
+        audioDevice->createMainContext();
 #endif
 
 #ifdef ENABLE_SCRIPTING_LUA
-	// Creates the scripting manager.
-	scriptManager = AllocateThis(ScriptManager);
+    // Creates the scripting manager.
+    scriptManager = AllocateThis(ScriptManager);
 #endif
-}
-
-//-----------------------------------//
-
-void Engine::setupLogger()
-{
-	stream = AllocateHeap(FileStream, "Log.html", StreamOpenMode::Write);
-	log = LogCreate( AllocatorGetHeap() );
 }
 
 //-----------------------------------//
 
 void Engine::update()
 {
-	resourceManager->update();
+    resourceManager->update();
+    platformManager->update();
 
 #ifdef ENABLE_SCRIPTING_LUA
-	scriptManager->update();
+    scriptManager->update();
 #endif
-}
 
-//-----------------------------------//
-
-void Engine::stepFrame()
-{
-	AllocatorReset( GetFrameAllocator() );
+    AllocatorReset(fldCore()->stack);
 }
 
 //-----------------------------------//

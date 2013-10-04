@@ -47,7 +47,7 @@ bool ArchiveDirectory::close()
 	if (watchId != 0)
 	{
 		// Remove the archive from the watch list.
-		GetFileWatcher()->removeWatch(watchId);
+		fldCore()->fileWatcher->removeWatch(watchId);
 	}
 
 	return true;
@@ -125,15 +125,15 @@ static void HandleFileWatch(const FileWatchEvent& event)
 
 bool ArchiveDirectory::monitor()
 {
-	GetFileWatcher()->onFileWatchEvent.Connect(&HandleFileWatch);
+	fldCore()->fileWatcher->onFileWatchEvent.Connect(&HandleFileWatch);
 
 	if(watchId == 0)
 	{
 		// Add the archive to the watch list.
-		watchId = GetFileWatcher()->addWatch(path, this);
+		watchId = fldCore()->fileWatcher->addWatch(path, this);
 	}
 
-	GetFileWatcher()->update();
+	fldCore()->fileWatcher->update();
 
 	return true;
 }

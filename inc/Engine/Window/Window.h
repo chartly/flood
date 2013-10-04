@@ -76,9 +76,6 @@ public:
 	/// Shows/hides the window.
 	virtual void show( bool visible = true ) {}
 
-	/// Handles the event loop of the window.
-	virtual bool pumpEvents() { return true; }
-
 	/// Sets the title of the window.
 	virtual void setTitle (const String& title) {}
 
@@ -99,9 +96,6 @@ public:
 
 	/// Gets if the window has focus.
 	virtual bool hasFocus() { return false; }
-
-	/// Gets the input manager.
-	virtual InputManager* getInput() { return nullptr; }
 
 	/// Gets the window settings.
 	GETTER(Settings, const Settings&, settings)

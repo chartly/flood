@@ -45,9 +45,6 @@ public:
 	// Shows/hides the window.
 	void show( bool hide = false ) OVERRIDE;
 
-	// Handle the window message events.
-	bool pumpEvents() OVERRIDE;
-
 	// Makes this the current OpenGL context.
 	void makeCurrent() OVERRIDE;
 

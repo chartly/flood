@@ -1,4 +1,4 @@
-project "glfw"
+project "glfw3"
 
 	SetupNativeDependencyProject()
 		
@@ -10,6 +10,7 @@ project "glfw"
   includedirs { "include" }
   files
   {
+    "premake4.lua",
     "include/*.h",
     "src/internal.h",
     "src/clipboard.c",
@@ -25,7 +26,8 @@ project "glfw"
 
   defines
   {
-    "_GLFW_USE_OPENGL"
+    "_GLFW_USE_OPENGL",
+    "GLFW_EXPOSE_NATIVE_WIN32"
   }
   
   configuration "windows"
