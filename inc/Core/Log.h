@@ -19,40 +19,36 @@ NAMESPACE_CORE_BEGIN
 
 enum class LogLevel
 {
-	Info,
-	Warn,
-	Error,
-	Debug,
-	Assert
+    Info,
+    Warn,
+    Error,
+    Debug,
+    Assert
 };
 
 struct API_CORE LogEntry
 {
-	float time;
-	String message;
-	LogLevel level;
+    float time;
+    String message;
+    LogLevel level;
 };
 
 typedef void (*LogFunction)(LogEntry*);
 
-class Timer;
-struct Allocator;
-
-struct API_CORE Log
+class API_CORE Log
 {
-	Log();
-	~Log();
+public:
+    Log();
+    ~Log();
 
-	Timer timer;
-	Mutex mutex;
-	Event1<LogEntry*> handlers;
+    void addHandler(LogFunction handler);
+    void removeHandler(LogFunction handler);
+    void write(LogEntry* entry);
+
+    Timer timer;
+    Mutex mutex;
+    Event1<LogEntry*> handlers;
 };
-
-API_CORE Log* LogCreate(Allocator*);
-API_CORE void LogDestroy(Log*);
-API_CORE void LogAddHandler(Log*, LogFunction);
-API_CORE void LogRemoveHandler(Log*, LogFunction);
-API_CORE void LogWrite(Log*, LogEntry* entry);
 
 API_CORE Log* LogGetDefault();
 API_CORE void LogSetDefault(Log*);

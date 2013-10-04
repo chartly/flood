@@ -50,7 +50,7 @@ void Core::init()
 
     // init the main logger.
     s_Core->logStream = Allocate(s_Core->heap, FileStream, "Log.html", StreamOpenMode::Write);
-    s_Core->log = LogCreate(s_Core->heap);
+    s_Core->log = Allocate(s_Core->heap, Log);
 
     LogInfo("Core is initializing...");
     LogInfo("Log created...");
@@ -73,7 +73,7 @@ void Core::shutdown()
 
     Deallocate(s_Core->fileWatcher);
     Deallocate(s_Core->taskPool);
-    LogDestroy(s_Core->log);
+    Deallocate(s_Core->log);
     Deallocate(s_Core->logStream);
     s_Core->stack = nullptr;
     s_Core->heap = nullptr;

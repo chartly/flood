@@ -48,10 +48,7 @@ static void LogConsoleHandler(LogEntry* entry)
 
 Log::Log()
 {
-	Allocator* alloc = AllocatorGetThis();
-
-
-	LogAddHandler(this, LogConsoleHandler);
+	addHandler(LogConsoleHandler);
 
 	if( !gs_Log ) LogSetDefault(this);
 }
@@ -66,41 +63,25 @@ Log::~Log()
 
 //-----------------------------------//
 
-Log* LogCreate(Allocator* alloc)
+void Log::addHandler(LogFunction fn)
 {
-	Log* log = Allocate(alloc, Log);
-	return log;
+	handlers.Connect(fn);
 }
 
 //-----------------------------------//
 
-void LogDestroy(Log* log)
+void Log::removeHandler(LogFunction fn)
 {
-	if( !log ) return;
-	Deallocate(log);
+	handlers.Disconnect(fn);
 }
 
 //-----------------------------------//
 
-void LogAddHandler(Log* log, LogFunction fn)
+void Log::write(LogEntry* entry)
 {
-	log->handlers.Connect(fn);
-}
-
-//-----------------------------------//
-
-void LogRemoveHandler(Log* log, LogFunction fn)
-{
-	log->handlers.Disconnect(fn);
-}
-
-//-----------------------------------//
-
-void LogWrite(Log* log, LogEntry* entry)
-{
-	log->mutex.lock();
-	log->handlers(entry);
-	log->mutex.unlock();
+	mutex.lock();
+	handlers(entry);
+	mutex.unlock();
 }
 
 //-----------------------------------//
@@ -115,7 +96,7 @@ static void LogProcess(Log* log, const char* msg, va_list args, LogLevel level)
 	entry.level = level;
 
 	if(log)
-		LogWrite(log, &entry);
+		log->write(&entry);
 	else
 		puts(entry.message.c_str());
 
