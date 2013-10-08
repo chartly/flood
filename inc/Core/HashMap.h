@@ -42,6 +42,12 @@ public:
     HashMap(Allocator &a);
 
     /**
+     *	Move constructor.
+     *	@param rhs rvalue reference to HashMap being moved from
+     */
+    HashMap(HashMap&& rhs);
+
+    /**
      *	A const pointer to the first Entry inside the hash map. The traversal
      *	of Entries is unordered. Intended for compatibility with STL-compatible
      *	constructs and algorithms.
@@ -155,6 +161,14 @@ template <typename T>
 HashMap<T>::HashMap(Allocator &a)
     : _hash(a)
     , _data(a)
+{}
+
+//-----------------------------------//
+
+template <typename T>
+HashMap<T>::HashMap(HashMap&& rhs)
+    : _hash( std::move(rhs._hash) )
+    , _data( std::move(rhs._data) )
 {}
 
 //-----------------------------------//
