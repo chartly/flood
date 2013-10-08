@@ -44,7 +44,6 @@ solution "Flood"
 		dofile( srcdir .. "/Resources/Resources.lua")
 		dofile( srcdir .. "/Graphics/Graphics.lua")
 		dofile( srcdir .. "/Engine/Engine.lua")
-		dofile( srcdir .. "/Pipeline/Pipeline.lua")
 
 	group "DIT"
 
