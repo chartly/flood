@@ -12,7 +12,7 @@ NAMESPACE_CORE_BEGIN
 //-----------------------------------// 
 
 struct Allocator;
-struct Log;
+class Log;
 class Stream;
 class TaskPool;
 class FileWatcher;
