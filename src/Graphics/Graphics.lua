@@ -44,8 +44,7 @@ project "Graphics"
 	Graphics.links =
 	{
 		"opengl32",
-		"FreeImage",
-		"glew"
+		"FreeImage"
 	}
 
 	links { Core.name, Resources.name, Graphics.links }
