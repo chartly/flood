@@ -1,12 +1,21 @@
-project "GLEW"
+project "glew"
 
 	SetupNativeDependencyProject()
 		
 	local version = "1.9.0"
-	local repo = "git://glew.git.sourceforge.net/gitroot/glew/glew"
-	local license = "MIT"
+	local repo = "https://github.com/martell/glew"
 	
   kind "StaticLib"
-  files { "src/*.c" }
-  includedirs { "include" }
-  defines { "GLEW_BUILD", "GLEW_STATIC" }
+  
+  files 
+  {
+  	"glew/include/glew/glew.h",
+  	"glew/src/*.c"
+  }
+
+  includedirs { "glew/include" }
+  
+  defines { "GLEW_BUILD", "GLEW_MX" }
+
+  configuration "windows"
+  	files { "glew/include/glew/wglew.h" }
