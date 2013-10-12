@@ -8,8 +8,11 @@
 #include "Graphics/API.h"
 #include "Graphics/Resources/Image.h"
 #include "Graphics/Resources/Buffer.h"
+#include "Graphics/RenderDevice.h"
 #include "GL_RenderBuffer.h"
 #include "GL.h"
+
+#ifdef ENABLE_RENDERER_OPENGL
 
 NAMESPACE_GRAPHICS_BEGIN
 
@@ -79,7 +82,7 @@ bool GL_RenderBuffer::check()
 
 	if( status != GL_FRAMEBUFFER_COMPLETE_EXT )
 	{
-		LogWarn("GL_RenderBuffer error: %s", glErrorString(status) );
+		LogWarn("GL_RenderBuffer error: %s", "not implemented" );
 		return false;
 	}
 
@@ -258,3 +261,5 @@ void GL_RenderBuffer::update()
 //-----------------------------------//
 
 NAMESPACE_GRAPHICS_END
+
+#endif

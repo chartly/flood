@@ -7,6 +7,8 @@
 
 #pragma once
 
+#ifdef ENABLE_RENDERER_OPENGL
+
 #include "Graphics/RenderBuffer.h"
 #include "Core/EnumHelpers.h"
 
@@ -72,3 +74,5 @@ protected:
 //-----------------------------------//
 
 NAMESPACE_GRAPHICS_END
+
+#endif

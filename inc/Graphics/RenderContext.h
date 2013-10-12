@@ -10,6 +10,8 @@
 #include "Graphics/API.h"
 #include "Core/References.h"
 
+struct GLEWContextStruct;
+
 NAMESPACE_GRAPHICS_BEGIN
 
 //-----------------------------------//
@@ -90,6 +92,8 @@ public:
 
 	// Render backend.
 	RenderBackend* backend;
+
+    GLEWContextStruct* glewContext;
 };
 
 TYPEDEF_INTRUSIVE_POINTER_FROM_TYPE( RenderContext );

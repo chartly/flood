@@ -13,6 +13,7 @@
 #include "GLSL_ShaderProgram.h"
 #include "GL.h"
 #include "Graphics/UniformBuffer.h"
+#include "Graphics/RenderDevice.h"
 #include "Core/Utilities.h"
 #include "Core/References.h"
 

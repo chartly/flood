@@ -7,6 +7,8 @@
 
 #pragma once
 
+#ifdef ENABLE_RENDERER_OPENGL
+
 #include "Graphics/Shader.h"
 #include "GL.h"
 
@@ -46,3 +48,5 @@ TYPEDEF_INTRUSIVE_POINTER_FROM_TYPE( GLSL_Shader );
 //-----------------------------------//
 
 NAMESPACE_GRAPHICS_END
+
+#endif

@@ -7,8 +7,6 @@
 
 #pragma once
 
-#ifdef ENABLE_RENDERER_OPENGL
-
 NAMESPACE_GRAPHICS_BEGIN
 
 //-----------------------------------//
@@ -42,5 +40,3 @@ public:
 //-----------------------------------//
 
 NAMESPACE_GRAPHICS_END
-
-#endif

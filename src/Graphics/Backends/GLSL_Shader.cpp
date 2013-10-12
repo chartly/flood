@@ -6,6 +6,7 @@
 ************************************************************************/
 
 #include "Graphics/API.h"
+#include "Graphics/RenderDevice.h"
 #include "GLSL_Shader.h"
 #include "GL.h"
 

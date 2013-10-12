@@ -9,8 +9,10 @@
 
 #ifdef ENABLE_RENDERER_OPENGL
 
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <glew/glew.h>
+#ifdef PLATFORM_WINDOWS
+    #include <glew/wglew.h>
+#endif
 
 #include "Graphics/RenderBatch.h"
 #include "Graphics/ShaderProgram.h"
@@ -24,7 +26,7 @@ NAMESPACE_GRAPHICS_BEGIN
 bool CheckLastErrorGL( const char* msg );
 
 // Gets a string given an OpenGL error code.
-const char* glErrorString(GLenum errorCode);
+//const char* glErrorString(GLenum errorCode);
 
 class VertexBuffer;
 void BindFixedVertexBufferDeclarations(VertexBuffer*);
@@ -51,8 +53,10 @@ GLenum ConvertShaderTypeGL( ShaderType );
 class RenderBackend;
 RenderBackend* RenderCreateBackendGLES2();
 
+NAMESPACE_GRAPHICS_END
+
 //-----------------------------------//
 
-NAMESPACE_GRAPHICS_END
+#define glewGetContext() (GetRenderDevice()->getActiveContext()->glewContext)
 
 #endif

@@ -7,8 +7,6 @@
 
 #pragma once
 
-//#ifdef ENABLE_RENDER
-
 #include "Graphics/API.h"
 #include "Graphics/RenderBackend.h"
 #include "Graphics/RenderCapabilities.h"
@@ -18,6 +16,7 @@
 #include "Graphics/RenderBatch.h"
 #include "Graphics/RenderQueue.h"
 #include "Graphics/RenderView.h"
+#include "Graphics/RenderDevice.h"
 #include "GL.h"
 #include "GLSL_Shader.h"
 #include "GLSL_ShaderProgram.h"
@@ -111,7 +110,7 @@ bool RenderBackendGLES2::init()
 	glEnable( GL_DEPTH_TEST );
 	glEnable( GL_CULL_FACE );
 
-    return true;
+	return true;
 }
 
 //-----------------------------------//
@@ -666,5 +665,3 @@ void RenderBackendGLES2::compileShader(ShaderProgram* shader)
 //-----------------------------------//
 
 NAMESPACE_GRAPHICS_END
-
-//#endif

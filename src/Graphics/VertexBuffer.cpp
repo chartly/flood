@@ -6,9 +6,6 @@
 ************************************************************************/
 
 #include "Graphics/API.h"
-
-#ifdef ENABLE_RENDERER_OPENGL
-
 #include "Graphics/VertexBuffer.h"
 
 NAMESPACE_GRAPHICS_BEGIN
@@ -42,5 +39,3 @@ bool VertexBuffer::isBuilt() const
 //-----------------------------------//
 
 NAMESPACE_GRAPHICS_END
-
-#endif

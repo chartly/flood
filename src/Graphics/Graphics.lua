@@ -17,7 +17,7 @@ project "Graphics"
 	
 	SetupNativeProjects()
 
-	defines { Core.defines, Resources.defines, Graphics.defines }
+	defines { Core.defines, Resources.defines, Graphics.defines, "GLEW_MX" }
 
 	files
 	{
@@ -35,24 +35,21 @@ project "Graphics"
 	includedirs
 	{
 		incdir,
-		path.join(depsdir,"FreeImage", "Source"),
+		path.join(depsdir, "glew/glew/include/"),
+		path.join(depsdir, "FreeImage", "Source"),
 	}
 
-	Graphics.libdirs =
-	{
-	}
+	Graphics.libdirs = {}
 
 	Graphics.links =
 	{
 		"opengl32",
-		"FreeImage"
+		"FreeImage",
+		"glew"
 	}
 
 	links { Core.name, Resources.name, Graphics.links }
 	
-	Graphics.deps =
-	{
-		"GLEW",
-	}
+	Graphics.deps = { "glew" }
 	
 	deps(Graphics.deps)

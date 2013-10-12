@@ -9,6 +9,7 @@
 #include "Graphics/VertexBuffer.h"
 #include "Graphics/RenderBatch.h"
 #include "Graphics/RenderCapabilities.h"
+#include "Graphics/RenderDevice.h"
 
 #ifdef ENABLE_RENDERER_OPENGL
 
@@ -70,6 +71,7 @@ static const struct TokenString errors[] =
 
 #endif
 
+#if 0
 const char* glErrorString(GLenum errorCode)
 {
 #ifdef BUILD_DEBUG
@@ -82,6 +84,7 @@ const char* glErrorString(GLenum errorCode)
 
 	return nullptr;
 }
+#endif
 
 //-----------------------------------//
 
