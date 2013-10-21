@@ -14,6 +14,8 @@
 #include "Resources/Resource.h"
 #include "Resources/ResourceLoader.h"
 
+FWD_DECL_INTRUSIVE(ResourceLoader)
+
 NAMESPACE_RESOURCES_BEGIN
 
 //-----------------------------------//
@@ -25,8 +27,6 @@ struct FileWatchEvent;
 
 class ResourceTask;
 class ResourceManager;
-
-FWD_DECL_INTRUSIVE(ResourceLoader)
 
 //-----------------------------------//
 
@@ -49,9 +49,6 @@ struct API_RESOURCE ResourceEvent
 
 API_RESOURCE void ResourcesInitialize();
 API_RESOURCE void ResourcesDeinitialize();
-
-// Gets the resource manager instance.
-API_RESOURCE ResourceManager* GetResourceManager();
 
 typedef HashMap<ResourceHandle> ResourceMap; // keyed by string
 typedef HashMap<ResourceLoaderPtr> ResourceLoaderMap; // keyed by string
@@ -168,7 +165,7 @@ public:
 		return HandleCast<T>(res);
 	}
 
-	// These events are sent when their correspending actions happen.
+	// These events are sent when their corresponding actions happen.
 	Event1< const ResourceEvent& > onResourcePrepared;
 	Event1< const ResourceEvent& > onResourceLoaded;
 	Event1< const ResourceEvent& > onResourceRemoved;
