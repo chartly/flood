@@ -52,8 +52,6 @@ struct API_CORE TaskEvent
 	TaskState state;
 };
 
-#include "Core/ConcurrentQueue.h"
-
 class API_CORE TaskPool
 {
 public:
