@@ -27,7 +27,7 @@ void ResourceTaskRun(Task* task)
 	Resource* resource = options->resource;
 	const Path& path = resource->getPath();
 	
-	ResourceManager* res = GetResourceManager();
+	auto res = fldCore()->resourceManager;
 	ResourceLoader* loader = res->findLoader( PathGetFileExtension(path) );
 
 	bool decoded = loader->decode(*options);

@@ -63,9 +63,6 @@ public:
 	// Gets the scripts manager.
 	GETTER(ScriptManager, ScriptManager*, scriptManager)
 
-	// Gets the resources manager.
-	GETTER(ResourceManager, ResourceManager*, resourceManager)
-
 	// Gets/sets the physics manager.
 	ACCESSOR(PhysicsManager, PhysicsManager*, physicsManager)
 
@@ -79,9 +76,6 @@ protected:
 
 	// Audio device.
 	AudioDevice* audioDevice;
-
-	// Resource manager.
-	ResourceManager* resourceManager;
 
 	// Physics manager.
 	PhysicsManager* physicsManager;

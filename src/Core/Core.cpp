@@ -31,6 +31,7 @@ Core::Core()
     , logStream(nullptr)
     , taskPool(nullptr)
     , fileWatcher(nullptr)
+    , resourceManager(nullptr)
 {}
 
 void Core::init()

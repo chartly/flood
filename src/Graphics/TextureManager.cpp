@@ -16,7 +16,7 @@ NAMESPACE_GRAPHICS_BEGIN
 
 TextureManager::TextureManager()
 {
-	ResourceManager* res = GetResourceManager();
+	auto res = fldCore()->resourceManager;
 	res->onResourceLoaded.Connect( this, &TextureManager::onLoaded );
 	res->onResourceRemoved.Connect( this, &TextureManager::onUnloaded );
 	res->onResourceReloaded.Connect( this, &TextureManager::onReloaded );
@@ -26,7 +26,7 @@ TextureManager::TextureManager()
 
 TextureManager::~TextureManager()
 {
-	ResourceManager* res = GetResourceManager();
+	auto res = fldCore()->resourceManager;
 	res->onResourceLoaded.Disconnect( this, &TextureManager::onLoaded );
 	res->onResourceRemoved.Disconnect( this, &TextureManager::onUnloaded );
 	res->onResourceReloaded.Disconnect( this, &TextureManager::onReloaded );
@@ -52,7 +52,7 @@ static const uint8 TEX_SIZE = 64;
 
 TexturePtr TextureManager::getTexture( const String& name )
 {
-	ResourceManager* res = GetResourceManager();
+	auto res = fldCore()->resourceManager;
 	ImageHandle handle = res->loadResource<Image>(name);
 	return getTexture(handle);
 }

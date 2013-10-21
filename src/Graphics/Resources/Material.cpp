@@ -155,7 +155,7 @@ void TextureUnit::setWrapMode(TextureWrapMode newWrap)
 
 void Material::setTexture( uint8 unit, const String& name )
 {
-	ResourceManager* res = GetResourceManager();
+	auto res = fldCore()->resourceManager;
 	
 	ImageHandle handle = res->loadResource<Image>(name);
 	if( !handle ) return;
@@ -208,7 +208,7 @@ void Material::setShader(const String& name)
 	options.isHighPriority = true;
 	options.asynchronousLoad = false;
 	
-	shader = HandleCast<ShaderMaterial>( GetResourceManager()->loadResource(options) );
+	shader = HandleCast<ShaderMaterial>( fldCore()->resourceManager->loadResource(options) );
 }
 
 //-----------------------------------//

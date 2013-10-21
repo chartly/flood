@@ -16,6 +16,7 @@ class Log;
 class Stream;
 class TaskPool;
 class FileWatcher;
+class ResourceManager;
 
 //-----------------------------------//
 
@@ -39,6 +40,7 @@ public:
     Stream* logStream;
     TaskPool* taskPool;
     FileWatcher* fileWatcher;
+    ResourceManager* resourceManager;
 
 private:
     Core();

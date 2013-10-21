@@ -56,7 +56,7 @@ static Task* CreateIndexTask(ResourceIndexer* index, const Path& resPath)
 	task->callback.Bind(index, &ResourceIndexer::indexResources);
 	task->userdata = path;
 
-	TaskPool* taskPool = GetResourceManager()->getTaskPool();
+	TaskPool* taskPool = fldCore()->resourceManager->getTaskPool();
 	taskPool->add(task, 0);
 
 	return task;
@@ -82,7 +82,7 @@ static bool GetResourceGroupFromPath(const Path& path, ResourceGroup& group)
 {
 	String ext = PathGetFileExtension(path);
 	
-	ResourceManager* res = GetResourceManager();
+	auto res = fldCore()->resourceManager;
 	
 	ResourceLoader* loader = res->findLoader(ext);
 	if( !loader ) return false;

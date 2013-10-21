@@ -22,8 +22,8 @@ NAMESPACE_GRAPHICS_BEGIN
 ProgramManager::ProgramManager(RenderBackend* backend)
 	: backend(backend)
 {
-	GetResourceManager()->onResourceLoaded.Connect( this, &ProgramManager::onLoad );
-	GetResourceManager()->onResourceReloaded.Connect( this, &ProgramManager::onReload );
+	fldCore()->resourceManager->onResourceLoaded.Connect( this, &ProgramManager::onLoad );
+	fldCore()->resourceManager->onResourceReloaded.Connect( this, &ProgramManager::onReload );
 }
 
 //-----------------------------------//
@@ -42,8 +42,8 @@ ProgramManager::~ProgramManager()
 	}
 #endif
 
-	GetResourceManager()->onResourceLoaded.Disconnect( this, &ProgramManager::onLoad );
-	GetResourceManager()->onResourceReloaded.Disconnect( this, &ProgramManager::onReload );
+	fldCore()->resourceManager->onResourceLoaded.Disconnect( this, &ProgramManager::onLoad );
+	fldCore()->resourceManager->onResourceReloaded.Disconnect( this, &ProgramManager::onReload );
 }
 
 //-----------------------------------//

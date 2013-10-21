@@ -16,7 +16,7 @@ NAMESPACE_ENGINE_BEGIN
 
 ScriptManager::ScriptManager()
 {
-	ResourceManager* res = GetResourceManager();
+	auto res = fldCore()->resourceManager;
 	res->onResourceReloaded.Connect( this, &ScriptManager::onReload );
 }
 
@@ -24,7 +24,7 @@ ScriptManager::ScriptManager()
 
 ScriptManager::~ScriptManager()
 {
-	ResourceManager* res = GetResourceManager();
+	auto res = fldCore()->resourceManager;
 	res->onResourceReloaded.Disconnect( this, &ScriptManager::onReload );
 }
 

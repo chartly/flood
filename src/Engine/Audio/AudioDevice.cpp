@@ -30,7 +30,7 @@ AudioDevice::AudioDevice(ALCdevice* device)
 {
 	if(!gs_audioDevice) gs_audioDevice = this;
 
-	ResourceManager* res = GetResourceManager();
+	auto res = fldCore()->resourceManager;
 	res->onResourceLoaded.Connect(this, &AudioDevice::onResourceLoaded);
 }
 

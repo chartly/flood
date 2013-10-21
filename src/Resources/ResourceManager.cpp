@@ -22,9 +22,6 @@ NAMESPACE_RESOURCES_BEGIN
 
 //-----------------------------------//
 
-static ResourceManager* gs_ResourcesManager = nullptr;
-ResourceManager* GetResourceManager() { return gs_ResourcesManager; }
-
 static Allocator* gs_ResourcesAllocator = nullptr;
 Allocator* GetResourcesAllocator() { return gs_ResourcesAllocator; }
 
@@ -90,7 +87,7 @@ void ResourceHandleDestroy(HandleId id)
 	Resource* resource = (Resource*) ResourceHandleFind(id);
 
 	if( gs_RemoveResource )
-		gs_ResourcesManager->removeResource(resource);
+		fldCore()->resourceManager->removeResource(resource);
 	
 	LogDebug("ResourceHandleDestroy: %lu", id);
 	HandleDestroy(gs_ResourceHandleManager, id);
@@ -98,8 +95,8 @@ void ResourceHandleDestroy(HandleId id)
 
 static HandleId ResourceHandleFind(const char* s)
 {
-	if( !gs_ResourcesManager ) return HandleInvalid;
-	return gs_ResourcesManager->loadResource(s).getId();
+	if( !fldCore()->resourceManager ) return HandleInvalid;
+	return fldCore()->resourceManager->loadResource(s).getId();
 }
 
 static void ResourceHandleSerialize(
@@ -133,11 +130,8 @@ ResourceManager::ResourceManager()
 {
 	handleManager = HandleCreateManager( GetResourcesAllocator() );
 
-	if( !gs_ResourcesManager )
-		gs_ResourcesManager = this;
-
-	if( !gs_ResourceHandleManager )
-		gs_ResourceHandleManager = handleManager;
+	assert(gs_ResourceHandleManager == nullptr);
+    gs_ResourceHandleManager = handleManager;
 
 	ReflectionHandleContext context;
 	context.type = ReflectionGetType(Resource);

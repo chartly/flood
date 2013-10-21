@@ -36,7 +36,6 @@ Engine* fldEngine() { return gs_engineInstance; }
 
 Engine::Engine(PlatformManager* platformManager)
     : platformManager(platformManager)
-    , resourceManager(nullptr)
     , renderDevice(nullptr)
     , audioDevice(nullptr)
     , physicsManager(nullptr)
@@ -60,7 +59,7 @@ Engine::~Engine()
     Deallocate(audioDevice);
 #endif
 
-    Deallocate(resourceManager);
+    Deallocate(fldCore()->resourceManager);
 
     InputDeinitialize();
     GraphicsDeinitialize();
@@ -91,11 +90,12 @@ void Engine::init()
     InputInitialize();
 
     // Creates the resource manager.
-    resourceManager = AllocateThis(ResourceManager);
-    resourceManager->setTaskPool( fldCore()->taskPool );
+    fldCore()->resourceManager = AllocateThis(ResourceManager);
+    auto res = fldCore()->resourceManager;
+    res->setTaskPool( fldCore()->taskPool );
     
     // Registers default resource loaders.
-    resourceManager->setupResourceLoaders( ResourceLoaderGetType() );
+    res->setupResourceLoaders( ResourceLoaderGetType() );
 
     // Creates the rendering device.
     renderDevice = AllocateThis(RenderDevice);
@@ -118,7 +118,7 @@ void Engine::init()
 
 void Engine::update()
 {
-    resourceManager->update();
+    fldCore()->resourceManager->update();
     platformManager->update();
 
 #ifdef ENABLE_SCRIPTING_LUA
