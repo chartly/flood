@@ -26,6 +26,8 @@ struct API_RESOURCE ResourceLoadOption
 
 //-----------------------------------//
 
+class ResourceLoader;
+
 struct API_RESOURCE ResourceLoadOptions
 {
 	ResourceLoadOptions();
@@ -36,6 +38,7 @@ struct API_RESOURCE ResourceLoadOptions
 	String name;
 	Stream* stream;
 
+	ResourceLoader* loader;
 	Resource* resource;
 	ResourceGroup group;
 
@@ -48,8 +51,6 @@ struct API_RESOURCE ResourceLoadOptions
 };
 
 //-----------------------------------//
-
-class ResourceLoader;
 
 struct API_RESOURCE ResourceStream
 {

@@ -50,22 +50,22 @@ ReferenceCounted* ResourceHandleFind(HandleId id)
 
 static const char* GetResourceGroupString(ResourceGroup group)
 {
-    switch(group)
-    {
-    case ResourceGroup::General: return "General";
-    case ResourceGroup::Images: return "Images";
-    case ResourceGroup::Meshes: return "Meshes";
-    case ResourceGroup::Fonts: return "Fonts";
-    case ResourceGroup::Shaders: return "Shaders";
-    case ResourceGroup::Audio: return "Audio";
-    case ResourceGroup::Scripts: return "Scripts";
-    case ResourceGroup::Scenes: return "Scenes";
-    case ResourceGroup::Materials: return "Materials";
-    case ResourceGroup::Particles: return "Particles";
-    }
+	switch(group)
+	{
+	case ResourceGroup::General: return "General";
+	case ResourceGroup::Images: return "Images";
+	case ResourceGroup::Meshes: return "Meshes";
+	case ResourceGroup::Fonts: return "Fonts";
+	case ResourceGroup::Shaders: return "Shaders";
+	case ResourceGroup::Audio: return "Audio";
+	case ResourceGroup::Scripts: return "Scripts";
+	case ResourceGroup::Scenes: return "Scenes";
+	case ResourceGroup::Materials: return "Materials";
+	case ResourceGroup::Particles: return "Particles";
+	}
 
-    assert(0 && "Unreachable");
-    return nullptr;
+	assert(0 && "Unreachable");
+	return nullptr;
 }
 
 ResourceHandle ResourceHandleCreate(Resource* res)
@@ -73,9 +73,9 @@ ResourceHandle ResourceHandleCreate(Resource* res)
 	if( !gs_ResourceHandleManager ) return HandleInvalid;
 	
 	HandleId handle = HandleCreate(gs_ResourceHandleManager, res);
-    LogDebug("ResourceHandleCreate: %s %lu %s",
-        GetResourceGroupString(res->getResourceGroup()), handle,
-        res->getPath().c_str());
+	LogDebug("ResourceHandleCreate: %s %lu %s",
+		GetResourceGroupString(res->getResourceGroup()), handle,
+		res->getPath().c_str());
 	
 	return handle;
 }
@@ -131,7 +131,7 @@ ResourceManager::ResourceManager()
 	handleManager = HandleCreateManager( GetResourcesAllocator() );
 
 	assert(gs_ResourceHandleManager == nullptr);
-    gs_ResourceHandleManager = handleManager;
+	gs_ResourceHandleManager = handleManager;
 
 	ReflectionHandleContext context;
 	context.type = ReflectionGetType(Resource);
@@ -247,23 +247,20 @@ ResourceHandle ResourceManager::loadResource(ResourceLoadOptions& options)
 //-----------------------------------//
 
 bool ResourceManager::findResource(ResourceLoadOptions& options)
-{
-	Path& path = options.name;
-	
+{	
 	for(auto it = resourceLoaders.begin(); it != resourceLoaders.end(); it++)
 	{
-		auto ext = PathGetFileExtension(options.name);
 		auto loader = it->value.get();
-
-		if( loader->getResourceGroup() != options.group )
-			continue;
-
-		Path newPath = StringFormat("%s.%s", path.c_str(), ext.c_str());
-
-		if (archive->existsFile(newPath))
+		for(auto ext : loader->extensions)
 		{
-			path = PathNormalize(newPath);
-			return true;
+			auto newPath = StringFormat("%s.%s", options.name.c_str(), ext.c_str());
+
+			if (archive->existsFile(newPath))
+			{
+				options.name = PathNormalize(newPath);
+				options.loader = loader;
+				return true;
+			}
 		}
 	}
 
@@ -274,10 +271,10 @@ bool ResourceManager::findResource(ResourceLoadOptions& options)
 
 bool ResourceManager::validateResource( const Path& path )
 {
-	if( path.empty() ) return false;
+	if( path.empty() ) 
+		return false;
 	
-	const Path& extension = PathGetFileExtension(path);
-	
+	auto extension = PathGetFileExtension(path);
 	if( extension.empty() )
 	{
 		LogWarn( "Resource '%s' has an invalid extension", path.c_str() );
@@ -297,34 +294,28 @@ bool ResourceManager::validateResource( const Path& path )
 
 Resource* ResourceManager::prepareResource( ResourceLoadOptions& options )
 {
-	const Path& path = options.name;
-
-	Stream* stream = archive->openFile(path, GetResourcesAllocator());
-	
+	auto stream = archive->openFile(options.name, GetResourcesAllocator());
 	if( !stream )
 	{
-		LogWarn("Resource was not found: '%s'", path.c_str());
+		LogWarn("Resource was not found: '%s'", options.name.c_str());
 		return nullptr;
 	}
 
-	const Path& file = PathGetFile(path);
-
-	// Get the available resource loader and prepare the resource.
-	ResourceLoader* loader = findLoader( PathGetFileExtension(file) );
-
+	auto file = PathGetFile(options.name);
+	auto loader = options.loader != nullptr ? options.loader : findLoader( PathGetFileExtension(file) );
 	if( !loader )
 	{
 		LogWarn("No resource loader found for resource '%s'", file.c_str());
 		return nullptr;
 	}
 
+	options.loader = loader;
 	options.stream = stream;
 
-	Resource* resource = loader->prepare(options);
-	
+	auto resource = loader->prepare(options);
 	if( !resource )
 	{
-		LogError("Error preparing resource: '%s'", path.c_str());
+		LogError("Error preparing resource: '%s'", options.name.c_str());
 		return nullptr;
 	}
 
@@ -342,10 +333,8 @@ void ResourceTaskRun(Task* task);
 
 void ResourceManager::decodeResource( ResourceLoadOptions& options )
 {
-	Task* task = Allocate(GetResourcesAllocator(), Task);
-	
-	ResourceLoadOptions* taskOptions = Allocate(GetResourcesAllocator(),
-		ResourceLoadOptions);
+	auto task = Allocate(GetResourcesAllocator(), Task);
+	auto taskOptions = Allocate(GetResourcesAllocator(), ResourceLoadOptions);
 
 	*taskOptions = options;
 
@@ -388,11 +377,6 @@ void ResourceManager::loadQueuedResources()
 void ResourceManager::update()
 {
 	sendPendingEvents();
-
-	// Update the archive watches.
-    if(archive)
-	    archive->monitor();
-
 	removeUnusedResources();
 }
 
@@ -548,14 +532,14 @@ void ResourceManager::setArchive(Archive* newArchive)
 	if(archive)
 	{
 		// Disconnect from the watch events.
-		archive->watch.Disconnect(this, &ResourceManager::handleWatchResource);
+		archive->onWatchEvent.Disconnect(this, &ResourceManager::handleWatchResource);
 		archive = nullptr;
 	}
 
 	if(newArchive)
 	{
 		archive = newArchive;
-		archive->watch.Connect(this, &ResourceManager::handleWatchResource);
+		archive->onWatchEvent.Connect(this, &ResourceManager::handleWatchResource);
 	}
 }
 

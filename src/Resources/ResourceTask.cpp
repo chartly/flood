@@ -21,17 +21,13 @@ NAMESPACE_RESOURCES_BEGIN
 
 void ResourceTaskRun(Task* task)
 {
-	ResourceLoadOptions* options = (ResourceLoadOptions*) task->userdata;
-
-	Stream* stream = options->stream;
-	Resource* resource = options->resource;
-	const Path& path = resource->getPath();
-	
 	auto res = fldCore()->resourceManager;
-	ResourceLoader* loader = res->findLoader( PathGetFileExtension(path) );
+	auto options = (ResourceLoadOptions*) task->userdata;
+	auto stream = options->stream;
+	auto resource = options->resource;
+	auto path = resource->getPath();
 
-	bool decoded = loader->decode(*options);
-
+	bool decoded = options->loader->decode(*options);
 	if( !decoded )
 	{
 		resource->setStatus( ResourceStatus::Error );
