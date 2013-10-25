@@ -63,15 +63,17 @@ protected:
 
 public:
 
+    virtual ~Stream() {}
+
 	/**
 	 * Opens the stream.
-	 * \return indication wether opening succeeded  
+	 * \return indication whether opening succeeded  
 	 */
 	virtual bool open();
 	
 	/**
 	 * Closes the stream.
-	 * \return indication wether closing was succceeded 
+	 * \return indication whether closing was succeeded 
 	 */
 	virtual bool close();
 	
@@ -184,13 +186,13 @@ public:
 
 	/** 
 	 * Opens the stream.
-	 * \return indication wether opening succeeded
+	 * \return indication whether opening succeeded
 	 */
 	virtual bool open() override;
 	
 	/** 
 	 * Closes the stream.
-	 * \return indication wether closing was succceeded 
+	 * \return indication whether closing was succeeded 
 	 */
 	virtual bool close() override;
 	
@@ -272,13 +274,13 @@ public:
 
 	/** 
 	 * Opens the stream.
-	 * \return indication wether opening succeeded  
+	 * \return indication whether opening succeeded  
 	 */
 	virtual bool open() override;
 	
 	/** 
 	 * Closes the stream.
-	 * \return indication wether closing was succceeded 
+	 * \return indication whether closing was succeeded 
 	 */
 	virtual bool close() override;
 
@@ -356,13 +358,13 @@ public:
 	
 	/** 
 	 * Opens the stream.
-	 * \return indication wether opening succeeded  
+	 * \return indication whether opening succeeded  
 	 */
 	virtual bool open() override;
 	
 	/** 
 	 * Closes the stream.
-	 * \return indication wether closing was succceeded 
+	 * \return indication whether closing was succeeded 
 	 */
 	virtual bool close() override;
 	
@@ -417,13 +419,13 @@ public:
 
 	/** 
 	 * Opens the stream.
-	 * \return indication wether opening succeeded 
+	 * \return indication whether opening succeeded 
 	 */
 	virtual bool open() override;
 
 	/** 
 	 * Closes the stream.
-	 * \return indication wether closing was succceeded 
+	 * \return indication whether closing was succeeded 
 	 */
 	virtual bool close() override;
 

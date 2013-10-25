@@ -26,7 +26,7 @@ NAMESPACE_CORE_BEGIN
 FileStream::FileStream(const Path& path, StreamOpenMode mode)
 	: Stream(path, mode)
 	, fileHandle(nullptr)
-    , isValid(false)
+	, isValid(false)
 {
 	open();
 }
