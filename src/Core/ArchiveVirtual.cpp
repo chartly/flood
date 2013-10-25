@@ -18,7 +18,7 @@ NAMESPACE_CORE_BEGIN
 //-----------------------------------//
 
 ArchiveVirtual::ArchiveVirtual() 
-	: Archive("")
+	: Archive("./")
 {
 }
 
@@ -31,15 +31,13 @@ ArchiveVirtual::~ArchiveVirtual()
 
 //-----------------------------------//
 
-static void HandleWatch(Archive*, const FileWatchEvent& event);
-
 bool ArchiveVirtual::mount(Archive * mount, const Path& mountPath)
 {
 	mounts.pushBack(mount);
 
 	// Setup archive watch callbacks.
 	mount->userdata = this;
-	mount->watch.Connect(HandleWatch);
+	mount->onWatchEvent.Connect(this, &ArchiveVirtual::onWatchEvent);
 
 	return true;
 }
@@ -51,7 +49,7 @@ void ArchiveVirtual::mountDirectories(const Path& dirPath, Allocator* alloc)
 	Archive* dir = Allocate(alloc, ArchiveDirectory, dirPath);
 	if (!dir) return;
 
-	mount(dir, "");
+	mount(dir, "./");
 	
 	Array<Path> dirs;
 	dir->enumerateDirs(dirs);
@@ -60,7 +58,7 @@ void ArchiveVirtual::mountDirectories(const Path& dirPath, Allocator* alloc)
 	{
 		auto& path = PathCombine(dirPath, dir);
 		Archive* ndir = Allocate(alloc, ArchiveDirectory, path);
-		mount(ndir, "");
+		mount(ndir, "./");
 	}
 }
 
@@ -157,18 +155,12 @@ bool ArchiveVirtual::existsDir(const Path& path)
 
 //-----------------------------------//
 
-static void HandleWatch(Archive* archive, const FileWatchEvent& event)
+void ArchiveVirtual::onWatchEvent(Archive* archive, const FileWatchEvent& event)
 {
-	Archive* varchive = (ArchiveVirtual*) archive->userdata;
-	varchive->watch(archive, event);
-}
+	auto varchive = (ArchiveVirtual*) archive->userdata;
+	assert(varchive == this);
 
-bool ArchiveVirtual::monitor()
-{
-	for(auto& i : mounts)
-		i->monitor();
-
-	return true;
+	varchive->onWatchEvent(this, event);
 }
 
 //-----------------------------------//

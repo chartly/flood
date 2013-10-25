@@ -234,13 +234,6 @@ bool ArchiveZip::existsDir(const Path& path)
 
 //-----------------------------------//
 
-bool ArchiveZip::monitor()
-{
-	return false;
-}
-
-//-----------------------------------//
-
 NAMESPACE_CORE_END
 
 #endif

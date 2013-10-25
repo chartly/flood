@@ -82,11 +82,6 @@ public:
 	virtual void enumerateDirs(Array<Path>& paths) = 0;
 
 	/**
-	 * Sets up and updates the watching functionality for the archive.
-	 */
-	virtual bool monitor() = 0;
-
-	/**
 	 * Combines the path of a file to get the full path to an archive file.
 	 * @param filePath path of the file to be combined
 	 */
@@ -95,7 +90,7 @@ public:
 	const Path path; //!< archive file path
 	
 	void*  userdata;
-	ArchiveWatchEvent watch; //!< watch event
+	ArchiveWatchEvent onWatchEvent; //!< watch event
 	ArchiveWatchId watchId; //!< watch id
 	bool isValid;
 };
@@ -156,11 +151,6 @@ public:
 	virtual void enumerateDirs(Array<Path>& paths) override;
 
 	/**
-	 * Sets up and updates the watching functionality for the archive.
-	 */
-	virtual bool monitor() override;
-
-	/**
 	 * Mounts an archive in the virtual archive.
 	 * @param mount archive to mount
 	 * @param mountPath path of archive to mount
@@ -170,12 +160,12 @@ public:
 	/**
 	 * Mounts a directory and its direct hierarchy.
 	 * @param dirPath path of directory to mount
-	 * @param alloc alocator to use for mounting
+	 * @param alloc allocator to use for mounting
 	 */
 	void mountDirectories(const Path& dirPath, Allocator* alloc);
 
 private:
-
+	void onWatchEvent(Archive* a, const FileWatchEvent& e);
 	void enumerate(Array<Path>& paths, bool dir);
 
 public:
@@ -184,6 +174,8 @@ public:
 };
 
 //-----------------------------------//
+
+struct FileWatchEvent;
 
 class API_CORE ArchiveDirectory : public Archive
 {
@@ -242,10 +234,8 @@ public:
 	 */
 	virtual void enumerateDirs(Array<Path>& paths) override;
 
-	/**
-	 * Sets up and updates the watching functionality for the archive.
-	 */
-	virtual bool monitor() override;
+private:
+	void onFileWatchEvent(const FileWatchEvent& e);
 };
 
 //-----------------------------------//
@@ -306,11 +296,6 @@ public:
 	 * @param paths vector to store results
 	 */
 	virtual void enumerateDirs(Array<Path>& paths) override;
-
-	/**
-	 * Sets up and updates the watching functionality for the archive.
-	 */
-	virtual bool monitor() override;
 
 private:
 

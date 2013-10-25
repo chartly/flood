@@ -36,6 +36,9 @@ ArchiveDirectory::~ArchiveDirectory()
 
 bool ArchiveDirectory::open(const Path& path)
 {
+	watchId = fldCore()->fileWatcher->addWatch(path, this);
+	fldCore()->fileWatcher->onFileWatchEvent.Connect(this, &ArchiveDirectory::onFileWatchEvent);
+
 	isValid = true;
 	return isValid;
 }
@@ -49,6 +52,8 @@ bool ArchiveDirectory::close()
 		// Remove the archive from the watch list.
 		fldCore()->fileWatcher->removeWatch(watchId);
 	}
+
+	fldCore()->fileWatcher->onFileWatchEvent.Disconnect(this, &ArchiveDirectory::onFileWatchEvent);
 
 	return true;
 }
@@ -113,33 +118,17 @@ bool ArchiveDirectory::existsDir(const Path& path)
 
 //-----------------------------------//
 
-static void HandleFileWatch(const FileWatchEvent& event)
+void ArchiveDirectory::onFileWatchEvent(const FileWatchEvent& event)
 {
-	Archive* archive = (Archive*) event.userdata;
-	assert( archive != nullptr );
+	auto archive = (Archive*) event.userdata;
+	if( archive != this )
+		return;
 
-	archive->watch(archive, event);
+	archive->onWatchEvent(this, event);
 }
 
 //-----------------------------------//
-
-bool ArchiveDirectory::monitor()
-{
-	fldCore()->fileWatcher->onFileWatchEvent.Connect(&HandleFileWatch);
-
-	if(watchId == 0)
-	{
-		// Add the archive to the watch list.
-		watchId = fldCore()->fileWatcher->addWatch(path, this);
-	}
-
-	fldCore()->fileWatcher->update();
-
-	return true;
-}
 
 #endif
-
-//-----------------------------------//
 
 NAMESPACE_CORE_END
