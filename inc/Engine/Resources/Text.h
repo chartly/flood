@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "Resources/Resource.h"
+#include "Resources/ResourceLoader.h"
 
 NAMESPACE_ENGINE_BEGIN
 
@@ -25,18 +25,28 @@ class API_ENGINE Text : public Resource
 	REFLECT_DECLARE_OBJECT(Text)
 
 public:
-
-	// Gets the text.
-	ACCESSOR(Text, const String&, text)
-
-	virtual void parse() {}
-
 	GETTER(ResourceGroup, ResourceGroup, ResourceGroup::General)
 
-protected:
+	String data;
+};
 
-	// Text content.
-	String text;
+//-----------------------------------//
+
+API_ENGINE REFLECT_DECLARE_CLASS(TextLoader)
+	
+class API_ENGINE TextLoader : public ResourceLoader
+{
+    REFLECT_DECLARE_OBJECT(ResourceLoader)
+
+public:
+    TextLoader();
+
+    RESOURCE_LOADER_CLASS(Text)
+    GETTER(Name, const String, "text")
+    GETTER(ResourceGroup, ResourceGroup, ResourceGroup::General)
+
+    virtual Resource* prepare(ResourceLoadOptions& opts) override;
+    virtual bool decode(ResourceLoadOptions& opts) override;
 };
 
 TYPEDEF_RESOURCE_HANDLE_FROM_TYPE( Text );
