@@ -40,7 +40,7 @@ public:
 	virtual bool decode(ResourceLoadOptions&) OVERRIDE;
 
 	// Gets the name of this codec.
-	GETTER(Name, const String, "GLSL")
+	GETTER(Name, const String, "shader")
 
 	// Overrides this to return the right resource group.
 	GETTER(ResourceGroup, ResourceGroup, ResourceGroup::Shaders)

@@ -38,9 +38,7 @@ REFLECT_CLASS_END()
 //-----------------------------------//
 
 ShaderLoader::ShaderLoader()
-{
-	extensions.pushBack( "glsl" );
-}
+{}
 
 //-----------------------------------//
 
