@@ -555,12 +555,22 @@ void ResourceManager::handleWatchResource(Archive*, const FileWatchEvent& evt)
 		return; // Resource is not known.
 
 	// Reload the resource if it was modified.
-	if( evt.action != FileWatchEventKind::Modified )
+	
+	if( evt.action == FileWatchEventKind::Deleted )
 	{
-		#pragma TODO("Add rename support in live updating")
+#pragma TODO("Add deletion support in live updating")
 
-		LogDebug( "Resource was renamed - handle this" );
+		String msg;
+		mini::format(msg, "> Resource \"%0\" was deleted. -- not implemented.", file.c_str());
+		LogDebug(msg.c_str());
+
 		return;
+	}
+	if( evt.action == FileWatchEventKind::Renamed )
+	{
+		String msg;
+		mini::format(msg, "Resource \"%0\" is being swapped out with a new version.", file.c_str());
+		LogDebug(msg.c_str());
 	}
 
 	// Register the decoded resource in the map.
@@ -570,12 +580,12 @@ void ResourceManager::handleWatchResource(Archive*, const FileWatchEvent& evt)
 	options.sendLoadEvent = false;
 	options.name = evt.filename;
 	
-	Resource* resource = prepareResource(options);
+	auto resource = prepareResource(options);
 	decodeResource(options);
 
 	auto handle = resources.get(key, HandleInvalid);
-	Resource* oldResource = handle.Resolve();
-	HandleId handleId = handle.getId();
+	auto oldResource = handle.Resolve();
+	auto handleId = handle.getId();
 
 	ResourceEvent event;
 	event.resource = resource;
