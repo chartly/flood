@@ -42,7 +42,8 @@ project "Core"
 	includedirs
 	{
 		incdir,
-		path.join(depsdir,"Dirent")
+		path.join(depsdir,"Dirent"),
+		path.join(depsdir, "miniformat/"),
 	}
 	
 	Core.links = {}

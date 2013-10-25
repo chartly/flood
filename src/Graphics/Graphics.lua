@@ -37,6 +37,7 @@ project "Graphics"
 		incdir,
 		path.join(depsdir, "glew/glew/include/"),
 		path.join(depsdir, "FreeImage", "Source"),
+		path.join(depsdir, "miniformat/"),
 	}
 
 	Graphics.libdirs = {}

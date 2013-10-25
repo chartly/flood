@@ -13,6 +13,8 @@
 #include "Core/Timer.h"
 #include "Core/Concurrency.h"
 
+#include <miniformat/miniformat.h>
+
 NAMESPACE_CORE_BEGIN
 
 //-----------------------------------//

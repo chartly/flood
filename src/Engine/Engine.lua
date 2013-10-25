@@ -19,9 +19,9 @@ project "Engine"
 
 	table.insert(Engine.defines, 
 	{
-	 	Core.defines,
-	 	Resources.defines,
-	 	Graphics.defines,
+		Core.defines,
+		Resources.defines,
+		Graphics.defines,
 	})
 
 	defines { Engine.defines }
@@ -50,6 +50,7 @@ project "Engine"
 		incdir,
 		path.join(depsdir,"SeanBarrett"),
 		path.join(depsdir,"Jansson/include"),
+		path.join(depsdir, "miniformat/"),
 	}
 	
 	Engine.deps =
@@ -59,9 +60,9 @@ project "Engine"
 		"OggVorbis",
 		"stb_image",
 		Graphics.deps,
-        "stb_truetype",
-        "FreeType",
-        --"LodePNG",
+		"stb_truetype",
+		"FreeType",
+		--"LodePNG",
 	}
 
 	Engine.links =

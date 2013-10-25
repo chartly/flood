@@ -37,6 +37,7 @@ project "Resources"
 	includedirs
 	{
 		incdir,
+		path.join(depsdir, "miniformat/"),
 	}
 
 	Resources.libdirs =
