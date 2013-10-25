@@ -10,6 +10,7 @@
 #include "Engine/Subsystem.h"
 
 #include "Core/Memory.h"
+#include "Core/FileWatcher.h"
 #include "Core/Network/Network.h"
 #include "Resources/ResourceManager.h"
 #include "Resources/ResourceLoader.h"
@@ -118,6 +119,7 @@ void Engine::init()
 
 void Engine::update()
 {
+    fldCore()->fileWatcher->update();
     fldCore()->resourceManager->update();
     platformManager->update();
 

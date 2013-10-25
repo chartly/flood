@@ -115,10 +115,24 @@ void CALLBACK WatchCallback(DWORD dwErrorCode, DWORD dwNumberOfBytesTransfered,
 /// Refreshes the directory monitoring.
 bool RefreshWatch(FileWatchStruct* pWatch, bool _clear)
 {
-	return ReadDirectoryChangesW(
-		pWatch->mDirHandle, pWatch->mBuffer, sizeof(pWatch->mBuffer), FALSE,
-		pWatch->mNotifyFilter, nullptr, &pWatch->mOverlapped,
-		_clear ? 0 : WatchCallback) != 0;
+	auto res = ReadDirectoryChangesW(
+		pWatch->mDirHandle
+		, pWatch->mBuffer
+		, sizeof(pWatch->mBuffer)
+		, FALSE
+		, pWatch->mNotifyFilter
+		, nullptr
+		, &pWatch->mOverlapped
+		, _clear ? 0 : WatchCallback);
+
+	if(res == 0)
+	{
+		String msg;
+		mini::format(msg, "* ReadDirectoryChangesW failed. Win32 error code: %0", (uint32)GetLastError());
+		LogError(msg.c_str());
+	}
+
+	return res != 0;
 }
 
 //-----------------------------------//
@@ -150,14 +164,16 @@ void DestroyWatch(FileWatchStruct* pWatch)
 /// Starts monitoring a directory.
 FileWatchStruct* CreateWatch(LPCTSTR szDirectory, DWORD mNotifyFilter)
 {
-	FileWatchStruct* pWatch;
-	size_t ptrsize = sizeof(*pWatch);
-	pWatch = static_cast<FileWatchStruct*>(HeapAlloc(GetProcessHeap(),
-		HEAP_ZERO_MEMORY, ptrsize));
+	auto pWatch = (FileWatchStruct*)(HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(FileWatchStruct)));
 
-	pWatch->mDirHandle = CreateFile(szDirectory, FILE_LIST_DIRECTORY,
-		FILE_SHARE_READ, nullptr, OPEN_EXISTING,
-		FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, nullptr);
+	pWatch->mDirHandle = CreateFile(
+		szDirectory
+		, FILE_LIST_DIRECTORY
+		, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE
+		, nullptr
+		, OPEN_EXISTING
+		, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED
+		, nullptr);
 
 	if (pWatch->mDirHandle != INVALID_HANDLE_VALUE)
 	{
@@ -173,6 +189,12 @@ FileWatchStruct* CreateWatch(LPCTSTR szDirectory, DWORD mNotifyFilter)
 			CloseHandle(pWatch->mOverlapped.hEvent);
 			CloseHandle(pWatch->mDirHandle);
 		}
+	}
+	else
+	{
+		String msg;
+		mini::format(msg, "* CreateFile failed. Win32 error code: %0", (uint32)GetLastError());
+		LogError(msg.c_str());
 	}
 
 	HeapFree(GetProcessHeap(), 0, pWatch);
@@ -205,12 +227,13 @@ FileWatcherWin32::~FileWatcherWin32()
 FileWatchId FileWatcherWin32::addWatch(const String& directory, void* userdata)
 {
 	std::wstring wdir( directory.begin(), directory.end() );
-	FileWatchStruct* watch = CreateWatch( wdir.c_str(), FILE_NOTIFY_CHANGE_LAST_WRITE
-		| FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_FILE_NAME);
+	auto watch = CreateWatch(
+		wdir.c_str()
+		, FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_FILE_NAME);
 	
 	if(!watch)
 	{
-		//LogWarn( "Could not watch directory %s", directory.c_str() );
+		LogWarn( "> Could not watch directory %s", directory.c_str() );
 		return 0;
 	}
 
@@ -289,7 +312,7 @@ void FileWatcherWin32::handleAction(FileWatchStruct* watch,
 
 	// Convert wide string to regular string.
 	// TODO: handle Unicode properly.
-	const String& file = StringFromWideString(filename);
+	auto file = StringFromWideString(filename);
 
 	FileWatchEvent event( fwAction, watch->mWatchid, watch->mDirName, file);
 	event.userdata = watch->mCustomData;
