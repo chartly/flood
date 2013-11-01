@@ -46,7 +46,7 @@ bool ArchiveVirtual::mount(Archive * mount, const Path& mountPath)
 
 void ArchiveVirtual::mountDirectories(const Path& dirPath, Allocator* alloc)
 {
-	Archive* dir = Allocate(alloc, ArchiveDirectory, dirPath);
+	auto dir = (Archive*)Allocate(alloc, ArchiveDirectory, dirPath);
 	if (!dir) return;
 
 	mount(dir, "./");
@@ -57,7 +57,7 @@ void ArchiveVirtual::mountDirectories(const Path& dirPath, Allocator* alloc)
 	for(auto& dir : dirs)
 	{
 		auto& path = PathCombine(dirPath, dir);
-		Archive* ndir = Allocate(alloc, ArchiveDirectory, path);
+		auto ndir = (Archive*)Allocate(alloc, ArchiveDirectory, path);
 		mount(ndir, "./");
 	}
 }
