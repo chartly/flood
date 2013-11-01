@@ -584,16 +584,14 @@ void ResourceManager::handleWatchResource(Archive*, const FileWatchEvent& evt)
 	decodeResource(options);
 
 	auto handle = resources.get(key, HandleInvalid);
-	auto oldResource = handle.Resolve();
 	auto handleId = handle.getId();
+	auto oldResource = handle.Resolve();
 
 	ResourceEvent event;
 	event.resource = resource;
 	event.oldResource = oldResource;
 	event.handle = handle;
 
-	// Switch the resource but maintain the same handle.
-	resource->addReference();
 	handleManager->handles.set(handleId, resource);
 
 	onResourceReloaded(event);
