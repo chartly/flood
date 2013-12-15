@@ -1896,9 +1896,9 @@ void Surface::toneMap(ToneMapper tm, float * parameters)
     }
     else if (tm == ToneMapper_Halo) {
         for (uint i = 0; i < count; i++) {
-            r[i] = 1 - exp2f(-r[i]);
-            g[i] = 1 - exp2f(-g[i]);
-            b[i] = 1 - exp2f(-b[i]);
+            r[i] = 1 - nv::exp2f(-r[i]);
+            g[i] = 1 - nv::exp2f(-g[i]);
+            b[i] = 1 - nv::exp2f(-b[i]);
         }
     }
     else if (tm == ToneMapper_Lightmap) {
@@ -1925,11 +1925,11 @@ void Surface::toLogScale(int channel, float base) {
     FloatImage * img = m->image;
     float * c = img->channel(channel);
 
-    float scale = 1.0f / log2f(base);
+    float scale = 1.0f / nv::log2f(base);
 
     const uint count = img->pixelCount();
     for (uint i = 0; i < count; i++) {
-        c[i] = log2f(c[i]) * scale;
+        c[i] = nv::log2f(c[i]) * scale;
     }
 }
 
@@ -1941,11 +1941,11 @@ void Surface::fromLogScale(int channel, float base) {
     FloatImage * img = m->image;
     float * c = img->channel(channel);
 
-    float scale = log2f(base);
+    float scale = nv::log2f(base);
 
     const uint count = img->pixelCount();
     for (uint i = 0; i < count; i++) {
-        c[i] = exp2f(c[i] * scale);
+        c[i] = nv::exp2f(c[i] * scale);
     }
 }
 
