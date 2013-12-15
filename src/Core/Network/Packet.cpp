@@ -12,6 +12,7 @@
 #include "Core/SerializationHelpers.h"
 #include "Core/Utilities.h"
 #include <cmath>
+#include <algorithm>
 
 #if defined(PLATFORM_WINDOWS) && !defined(WIN32)
 #define WIN32

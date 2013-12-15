@@ -261,7 +261,7 @@ void FileWatcherWin32::removeWatch(const String& directory)
 	{
 		if(directory == iter->value->mDirName)
 		{
-			removeWatch(iter->key);
+			removeWatch((FileWatchId)iter->key);
 			return;
 		}
 	}

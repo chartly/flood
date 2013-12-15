@@ -10,6 +10,8 @@
 #include "Engine/Resources/Bone.h"
 #include "Core/Math/Helpers.h"
 
+#include <algorithm>
+
 NAMESPACE_ENGINE_BEGIN
 
 //-----------------------------------//

@@ -8,6 +8,8 @@
 #include "Engine/API.h"
 #include "Graphics/FrameStatistics.h"
 
+#include <algorithm>
+
 NAMESPACE_ENGINE_BEGIN
 
 //-----------------------------------//

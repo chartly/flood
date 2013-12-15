@@ -9,6 +9,8 @@
 #include "Engine/API.h"
 #include "Engine/Texture/BinPacking.h"
 
+#include <algorithm>
+
 using namespace std;
 
 NAMESPACE_ENGINE_BEGIN

@@ -10,6 +10,8 @@
 #include "Engine/API.h"
 #include "Engine/Texture/TextureAtlas.h"
 
+#include <algorithm>
+
 NAMESPACE_ENGINE_BEGIN
 
 //-----------------------------------//

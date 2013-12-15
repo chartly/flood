@@ -10,6 +10,8 @@
 #include "Core/Math/Helpers.h"
 #include "Core/Log.h"
 
+#include <algorithm>
+
 NAMESPACE_CORE_BEGIN
 
 //-----------------------------------//

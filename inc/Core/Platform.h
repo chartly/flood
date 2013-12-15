@@ -31,7 +31,10 @@
 	#define COMPILER_CLANG
 	#define COMPILER_SUPPORTS_CXX11
 #elif defined(_MSC_VER)
-	#if _MSC_VER == 1700
+	#if _MSC_VER == 1800
+		#define COMPILER_MSVC_2013 _MSC_VER
+		#define COMPILER_MSVC COMPILER_MSVC_2013
+	#elif _MSC_VER == 1700
 		#define COMPILER_MSVC_2012 _MSC_VER
 		#define COMPILER_MSVC	COMPILER_MSVC_2012
 	#elif _MSC_VER == 1600
@@ -176,8 +179,8 @@ typedef uint32 uint;
 /// allows compilers to omit some unnecessary code.
 #ifdef BUILD_DEBUG
 #define fld_unreachable(msg) \
-    assert("Unreachable code: " # msg); \
-    FLD_BUILTIN_UNREACHABLE
+	assert("Unreachable code: " # msg); \
+	FLD_BUILTIN_UNREACHABLE
 #else
 #define fld_unreachable(msg) FLD_BUILTIN_UNREACHABLE
 #endif
