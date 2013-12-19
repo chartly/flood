@@ -164,6 +164,7 @@ public:
      *	@param item item
      */
     void pushBack(T const & item);
+    void pushBack(T&& item);
 
     /**
      *	Removes the last item from the array.
@@ -526,6 +527,14 @@ void Array<T>::pushBack(T const & item)
     if (_size + 1 > _capacity)
         grow();
     _data[_size++] = item;
+}
+
+template <typename T>
+void Array<T>::pushBack(T&& item)
+{
+    if (_size + 1 > _capacity)
+        grow();
+    _data[_size++] = std::move(item);
 }
 
 //-----------------------------------//
