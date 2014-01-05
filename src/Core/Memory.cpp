@@ -220,9 +220,9 @@ static void* HeapAllocate(Allocator* alloc, int32 size, int32 align)
 		instance = malloc(total_size);
 	else
 		instance = _aligned_malloc(total_size, align);
+#else
+    instance = malloc(total_size);
 #endif
-
-	instance = malloc(total_size);
 
 	AllocationMetadata* metadata = (AllocationMetadata*) instance;
 	metadata->size = size;
@@ -239,14 +239,15 @@ static void* HeapAllocate(Allocator* alloc, int32 size, int32 align)
 
 static void HeapDellocate(Allocator* alloc, const void* p)
 {
+    void* base = (char*) p - sizeof(AllocationMetadata);
+
 #ifdef ALLOCATOR_TRACKING
-	void* base = (char*) p - sizeof(AllocationMetadata);
 	AllocatorTrackGroup((AllocationMetadata*) base, false);
 #endif
 
 #if ALIGNED_MALLOC
 	_aligned_free(base);
-#elif ALLOCATOR_TRACKING
+#else
 	free(base);
 #endif
 }
