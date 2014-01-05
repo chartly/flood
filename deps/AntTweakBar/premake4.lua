@@ -1,4 +1,4 @@
-project "AntTweakBar"
+project "anttweakbar"
 
 	SetupNativeDependencyProject()
 		
