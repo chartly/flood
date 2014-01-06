@@ -151,12 +151,12 @@ bool CharacterController::createController()
 	if( !actualShape )
 		return false;
 
-	ghostObject = new btPairCachingGhostObject();
+    ghostObject = Allocate(AllocatorGetHeap(), btPairCachingGhostObject, {});
 	ghostObject->setCollisionShape( actualShape );
 	ghostObject->setCollisionFlags( btCollisionObject::CF_CHARACTER_OBJECT );
 	ghostObject->setActivationState( DISABLE_DEACTIVATION );
 
-	controller = new btKinematicController(ghostObject, actualShape, stepHeight);
+	controller = Allocate(AllocatorGetHeap(), btKinematicController, ghostObject, actualShape, stepHeight);
 
 	updateBulletTransform();
 	//updateProperties();

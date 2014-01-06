@@ -59,7 +59,7 @@ void ThirdPersonController::_update( float delta )
 #endif
 
 #if 0
-	Vector3 thirdPersonReference = new Vector3(0, 200, -200);
+	Vector3 thirdPersonReference = Allocate(AllocatorGetHeap(), Vector3, 0, 200, -200);
 	Matrix rotationMatrix = Matrix.CreateRotationY(avatarYaw);
 
 	// Create a vector pointing the direction the camera is facing.

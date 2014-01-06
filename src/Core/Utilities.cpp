@@ -113,12 +113,12 @@ String StringFromWideString(const std::wstring &wstr)
 {
 	// Convert a Unicode string to an ASCII string
 	String strTo;
-	char *szTo = new char[wstr.length() + 1];
+	char *szTo = (char*)AllocatorAllocate(AllocatorGetHeap(), wstr.length() + 1, 4);
 	szTo[wstr.size()] = '\0';
 	WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, szTo,
 		(int)wstr.length(), nullptr, nullptr);
 	strTo = szTo;
-	delete[] szTo;
+	Deallocate(szTo);
 	return strTo;
 }
 
@@ -132,12 +132,12 @@ std::wstring StringToWideString(const String &str)
 {
 	// Convert an ASCII string to a Unicode String
 	std::wstring wstrTo;
-	wchar_t *wszTo = new wchar_t[str.length() + 1];
+	wchar_t *wszTo = (wchar_t*)AllocatorAllocate(AllocatorGetHeap(), str.length() + 1, 4);
 	wszTo[str.size()] = L'\0';
 	MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, wszTo,
 		(int)str.length());
 	wstrTo = wszTo;
-	delete[] wszTo;
+	Deallocate(wszTo);
 	return wstrTo;
 }
 

@@ -320,14 +320,14 @@ void RenderDevice::updateLightDepth( LightState& state )
 		shadowDepthTexture = shadowTextures[light];
 	}
 
-	CameraPtr lightCamera( new Camera(*camera) );
-	TransformPtr lightTransform( new Transform(*state.transform.get()) );
+	CameraPtr lightCamera = Allocate(AllocatorGetHeap(), Camera, *camera );
+	TransformPtr lightTransform = Allocate(AllocatorGetHeap(), Transform, *state.transform.get());
 	
-	EntityPtr lightCameraEntity( new Entity("ShadowCamera") );
+	EntityPtr lightCameraEntity = Allocate(AllocatorGetHeap(), Entity, "ShadowCamera");
 	lightCameraEntity->addTransform(); /*Component( lightTransform );*/
 	lightCameraEntity->addComponent( lightCamera );
 
-	RenderView* lightView = new View(lightCamera, shadowDepthBuffer);
+	RenderView* lightView = Allocate(AllocatorGetHeap(), View, lightCamera, shadowDepthBuffer);
 
 	if( !shadowDepthBuffer->check() )
 		return;

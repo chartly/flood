@@ -89,7 +89,7 @@ void PhysicsManager::createWorld()
 #if 0
 	// Enable collision callbacks for ghost objects.
 	btOverlappingPairCache* cache = world->getPairCache();
-	cache->setInternalGhostPairCallback( new btGhostPairCallback() );
+    cache->setInternalGhostPairCallback( Allocate(AllocatorGetHeap(), btGhostPairCallback, {}) );
 #endif
 
 #ifdef ENABLE_PHYSICS_DEBUG

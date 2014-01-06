@@ -938,8 +938,8 @@ RaycastMesh * createRaycastMesh(uint32 vcount,		// The number of vertices in the
 								float	minAxisSize	// once a particular axis is less than this size, stop sub-dividing.
 								)
 {
-	MyRaycastMesh *m = new MyRaycastMesh(vcount,vertices,tcount,indices,maxDepth,minLeafSize,minAxisSize);
-	return static_cast< RaycastMesh * >(m);
+	auto m = Allocate(AllocatorGetHeap(), MyRaycastMesh, vcount, vertices, tcount, indices, maxDepth, minLeafSize, minAxisSize);
+	return (RayCastMesh*)(m);
 }
 #endif
 

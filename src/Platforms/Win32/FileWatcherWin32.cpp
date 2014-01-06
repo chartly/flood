@@ -242,7 +242,7 @@ FileWatchId FileWatcherWin32::addWatch(const String& directory, void* userdata)
 	size_t len = directory.length()+1;
 	watch->mWatchid = watchid;
 	watch->mWatcher = this;
-	watch->mDirName = new char[len];
+	watch->mDirName = (char*) AllocatorAllocate(AllocatorGetHeap(), len, 4);
 	strcpy_s(watch->mDirName, len, directory.c_str());
 	watch->mCustomData = userdata;
 

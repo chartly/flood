@@ -46,8 +46,7 @@ MeshShape::~MeshShape()
 #if 0
 btTriangleIndexVertexArray* MeshShape::convertMesh()
 {
-	btTriangleIndexVertexArray* vertexArray;
-	vertexArray = new btTriangleIndexVertexArray();
+    auto vertexArray = Allocate(AllocatorGetHeap(), btTriangleIndexVertexArray, {});
 
 	const EntityPtr& node = getEntity();
 	
@@ -55,7 +54,7 @@ btTriangleIndexVertexArray* MeshShape::convertMesh()
 	{
 		const.renderableVector& rends = geometry->ge.renderables();
 
-		foreach( const.renderablePtr& rend, rends )
+		for( const auto& rend : rends )
 		{
 			if( rend->getPrimitiveType() != PrimitiveType::Triangles )
 				continue;

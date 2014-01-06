@@ -38,7 +38,7 @@ RenderContext::RenderContext()
 	, backend(nullptr)
 {
 #ifdef ENABLE_RENDERER_OPENGL
-    glewContext = new GLEWContext();
+    glewContext = Allocate(AllocatorGetHeap(), GLEWContext, {});
 	backend = RenderCreateBackendGLES2();
 #endif
 }

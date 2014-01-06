@@ -112,7 +112,7 @@ bool Body::createBody()
 	btCollisionShape* bulletShape = getBulletShape();
 	if( !bulletShape ) return false;
 
-	motionState = new BodyMotionState( entity->getTransform() );
+	motionState = Allocate(AllocatorGetHeap(), BodyMotionState, entity->getTransform());
 
 	btVector3 localInertia;
 	localInertia.setZero();
