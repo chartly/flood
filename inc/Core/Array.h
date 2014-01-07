@@ -123,6 +123,12 @@ public:
     Array(Allocator& a, size_t count, const T& val);
 
     /**
+    *	Creates an array with the provided elements.
+    *	@param elems initializer list of element values
+    */
+    Array(std::initializer_list<T> elems);
+
+    /**
     *	Destructor.
     */
     ~Array();
@@ -321,6 +327,17 @@ Array<T, TrivialT>::Array(Allocator& a, size_t count, const T& val)
     reserve(count);
     for (size_t i = 0; i < count; ++i)
         pushBack(val);
+}
+
+//-----------------------------------//
+
+template <typename T, bool TrivialT>
+Array<T, TrivialT>::Array(std::initializer_list<T> elems)
+: _allocator(AllocatorGetHeap())
+{
+    reserve(elems.size());
+    for (auto e : elems)
+        pushBack(e);
 }
 
 //-----------------------------------//
