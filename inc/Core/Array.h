@@ -275,10 +275,10 @@ private:
     void grow(size_t min_capacity = 0);
 
 private:
-    Allocator *_allocator;
-    size_t _size;
-    size_t _capacity;
-    T *_data;
+    Allocator * _allocator;
+    size_t _size = 0;
+    size_t _capacity = 0;
+    T * _data = nullptr;
 };
 
 //-----------------------------------//
@@ -288,7 +288,7 @@ Array<T, TrivialT>::Array()
 : _allocator(AllocatorGetHeap())
 , _size(0)
 , _capacity(0)
-, _data(0)
+, _data(nullptr)
 {}
 
 //-----------------------------------//
@@ -298,7 +298,7 @@ Array<T, TrivialT>::Array(Allocator& allocator)
 : _allocator(&allocator)
 , _size(0)
 , _capacity(0)
-, _data(0)
+, _data(nullptr)
 {}
 
 //-----------------------------------//
@@ -308,7 +308,7 @@ Array<T, TrivialT>::Array(size_t count, const T& val)
 : _allocator(AllocatorGetHeap())
 , _size(0)
 , _capacity(0)
-, _data(0)
+, _data(nullptr)
 {
     reserve(count);
     for (size_t i = 0; i < count; ++i)
@@ -322,7 +322,7 @@ Array<T, TrivialT>::Array(Allocator& a, size_t count, const T& val)
 : _allocator(&a)
 , _size(0)
 , _capacity(0)
-, _data(0)
+, _data(nullptr)
 {
     reserve(count);
     for (size_t i = 0; i < count; ++i)
@@ -334,6 +334,9 @@ Array<T, TrivialT>::Array(Allocator& a, size_t count, const T& val)
 template <typename T, bool TrivialT>
 Array<T, TrivialT>::Array(std::initializer_list<T> elems)
 : _allocator(AllocatorGetHeap())
+, _size(0)
+, _capacity(0)
+, _data(nullptr)
 {
     reserve(elems.size());
     for (auto e : elems)
@@ -347,7 +350,7 @@ Array<T, TrivialT>::Array(const Array& other)
 : _allocator(other._allocator)
 , _size(0)
 , _capacity(0)
-, _data(0)
+, _data(nullptr)
 {
     const size_t n = other._size;
     setCapacity(n);
