@@ -10,11 +10,11 @@ solution "Dependencies"
 
 	configurations { "Debug", "Release" }
 	platforms { "x32", "x64", "pnacl" }
-	defaultplatform "x32"
+	--defaultplatform "x32"
 
-	configuration "pnacl"
-		system "nacl"
-		architecture "pnacl"
+	--configuration "pnacl"
+	--	system "nacl"
+	--	architecture "pnacl"
 
 	configuration {}
 

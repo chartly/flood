@@ -102,9 +102,9 @@ end
 function SetupNativeBuildFlags()
 	-- Compiler-specific options
 
-	configuration "pnacl"
-		system "nacl"
-		architecture "pnacl"
+	--configuration "pnacl"
+	--	system "nacl"
+	--	architecture "pnacl"
 	
 	configuration { "vs*", "not pnacl" }
 		buildoptions { msvc_buildflags, "/wd4251" }
