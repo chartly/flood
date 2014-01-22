@@ -55,8 +55,6 @@ project "Engine"
 	
 	Engine.deps =
 	{
-		"Bullet",
-		"OpenAL",
 		"OggVorbis",
 		"stb_image",
 		Graphics.deps,

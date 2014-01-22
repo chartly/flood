@@ -1,52 +1,48 @@
 /************************************************************************
 *
-* Flood Project Â© (2008-201x)
-* Licensed under the simplified BSD license. All rights reserved.
+* Corbin Hart © (2008-201x)
+* All rights reserved.
 *
 ************************************************************************/
 
-#pragma once
+//---------------------------------------------------------------------//
+// Base API
+//---------------------------------------------------------------------//
+#include "Platforms/API.h"
 
 //---------------------------------------------------------------------//
-// Core Includes
+// Framework includes
 //---------------------------------------------------------------------//
+#include <glew/glew.h>
+#include <glew/wglew.h>
+#include <glfw/glfw3.h>
+#include <AntTweakBar/AntTweakBar.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/constants.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <miniformat/miniformat.h>
 
-#include "Core/API.h"
-#include "Resources/API.h"
-
-//---------------------------------------------------------------------//
-// API Namespaces
-//---------------------------------------------------------------------//
-
-#define NAMESPACE_GRAPHICS_BEGIN NAMESPACE_CORE_BEGIN
-#define NAMESPACE_GRAPHICS_END NAMESPACE_CORE_END
-
-//---------------------------------------------------------------------//
-// API Exports
-//---------------------------------------------------------------------//
-
-#if defined(API_GRAPHICS_DLL) && defined(API_GRAPHICS_DLL_EXPORT)
-	#define API_GRAPHICS API_EXPORT
-#elif defined(API_GRAPHICS_DLL)
-	#define API_GRAPHICS API_IMPORT
-#else
-	#define API_GRAPHICS
-#endif
-
-#define AllocateGraphics AllocateHeap
-
-NAMESPACE_GRAPHICS_BEGIN
-
-API_GRAPHICS Allocator* GetRenderAllocator();
-API_GRAPHICS Allocator* GetFrameAllocator();
-
-API_GRAPHICS void GraphicsInitialize();
-API_GRAPHICS void GraphicsDeinitialize();
-
-NAMESPACE_GRAPHICS_END
+#include <array>
+#include <functional>
 
 //---------------------------------------------------------------------//
-// Logging. Use and abuse it.
+// Namespace adapters ---> uggghh
 //---------------------------------------------------------------------//
+namespace dit {
+    using namespace fld;
 
-#include "Core/Log.h"
+    using glm::vec2;
+    using glm::vec3;
+    using glm::vec4;
+    using glm::mat4;
+    using glm::one;
+    using glm::zero;
+    using glm::quarter_pi;
+    using glm::normalize;
+    using glm::cross;
+    using glm::rotate;
+    using glm::length;
+    using glm::inverse;
+    using glm::rotate;
+    using glm::perspective;
+}
