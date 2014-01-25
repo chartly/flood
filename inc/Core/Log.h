@@ -11,7 +11,6 @@
 #include "Core/Event.h"
 #include "Core/String.h"
 #include "Core/Timer.h"
-#include "Core/Concurrency.h"
 
 #include <miniformat/miniformat.h>
 
@@ -48,7 +47,6 @@ public:
     void write(LogEntry* entry);
 
     Timer timer;
-    Mutex mutex;
     Event1<LogEntry*> handlers;
 };
 

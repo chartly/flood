@@ -13,6 +13,7 @@
 
 #include "Core/API.h"
 #include "Core/Reflection.h"
+#include "Core/Event.h"
 
 //---------------------------------------------------------------------//
 // API Exports

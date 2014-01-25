@@ -6,9 +6,8 @@
 ************************************************************************/
 
 #include "Core/API.h"
-#include "Core/Concurrency.h"
 #include "Core/Log.h"
-#include "Core/References.h"
+#include "Core/RefPtr.h"
 #include "Core/Object.h"
 #include "Core/Math/Hash.h"
 
@@ -438,17 +437,21 @@ Allocator* AllocatorCreateBump( Allocator* alloc, int32 size )
 
 int32 ReferenceGetCount(ReferenceCounted* ref)
 {
-	return ref->references.read();
+	return ref->references.load();
 }
 
 void ReferenceAdd(ReferenceCounted* ref)
 {
-	ref->references.increment();
+    auto n = ref->references.fetch_add(1);
+    ref->references.store(n);
 }
 
 bool ReferenceRelease(ReferenceCounted* ref)
 {
-	return ref->references.decrement() == 0;
+    auto n = ref->references.fetch_sub(1);
+    ref->references.store(n);
+
+    return n == 0;
 }
 
 //-----------------------------------//

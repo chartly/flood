@@ -34,18 +34,19 @@ API_INPUT InputManager* GetInputManager();
 
 class API_INPUT InputManager
 {
-	DECLARE_UNCOPYABLE(InputManager)
-
 public:
 
-	InputManager();
-	virtual ~InputManager();
+    InputManager();
+    virtual ~InputManager();
 
-	/// Gets a keyboard device if it exists.
-	virtual Keyboard* getKeyboard() = 0;
-	
-	/// Gets a mouse device if it exists.
-	virtual Mouse* getMouse() = 0;
+    InputManager(const InputManager&) = delete;
+    InputManager& operator=(const InputManager&) = delete;
+
+    /// Gets a keyboard device if it exists.
+    virtual Keyboard* getKeyboard() = 0;
+    
+    /// Gets a mouse device if it exists.
+    virtual Mouse* getMouse() = 0;
 };
 
 //-----------------------------------//

@@ -9,7 +9,6 @@
 #include "Core/Log.h"
 #include "Core/Memory.h"
 #include "Core/Stream.h"
-#include "Core/Task.h"
 
 #ifdef PLATFORM_WINDOWS
     #include "Core/FileWatcherWin32.h"
@@ -29,7 +28,6 @@ Core::Core()
     , stack(nullptr)
     , log(nullptr)
     , logStream(nullptr)
-    , taskPool(nullptr)
     , fileWatcher(nullptr)
     , resourceManager(nullptr)
 {}
@@ -56,9 +54,6 @@ void Core::init()
     LogInfo("Core is initializing...");
     LogInfo("Log created...");
 
-    // init the task pool
-    s_Core->taskPool = Allocate(s_Core->heap, TaskPool, 4);
-
     // init the file watcher
     LogInfo("File watcher created...");
 #ifdef PLATFORM_WINDOWS
@@ -73,7 +68,6 @@ void Core::shutdown()
     LogInfo("Core shutting down...");
 
     Deallocate(s_Core->fileWatcher);
-    Deallocate(s_Core->taskPool);
     Deallocate(s_Core->log);
     Deallocate(s_Core->logStream);
     s_Core->stack = nullptr;

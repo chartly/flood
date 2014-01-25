@@ -75,6 +75,7 @@
  **********************************************************************/
 
 #include "Core/API.h"
+#include "Core/Memory.h"
 
 #if defined(PLATFORM_WINDOWS) && defined(COMPILER_MSVC)
 

@@ -44,11 +44,3 @@ solution "Flood"
 		dofile( srcdir .. "/Resources/Resources.lua")
 		dofile( srcdir .. "/Graphics/Graphics.lua")
 		dofile( srcdir .. "/Engine/Engine.lua")
-
-	group "DIT"
-
-		dofile( srcdir .. "/CS350/CS350.lua")
-        
-	group "Tests"
-
-		dofile( srcdir .. "/Tests/UnitTests.lua")

@@ -31,12 +31,6 @@ project "Core"
 	vpaths
 	{
 		["*"] = { ".", path.join(incdir,"Core") },
-		["Platforms/*"] = { path.join( srcdir,"Platforms") },
-	}
-
-	excludes
-	{
-		"Test/**",
 	}
 	
 	includedirs
@@ -67,14 +61,9 @@ project "Core"
 	}
 
 	configuration "windows"
-	
-		files { path.join(srcdir, "Platforms/Win32/FileWatcherWin32.cpp") }
-		files { path.join(srcdir, "Platforms/Win32/ConcurrencyWin32.cpp") }
 		
 		links { "ws2_32", "winmm" }
 		deps { Core.extradeps }
-		--table.insert(Core.links, "ws2_32")
-		--table.insert(Core.links, "winmm")
 
 	configuration "pnacl"
 		files

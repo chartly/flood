@@ -8,7 +8,7 @@
 #pragma once
 
 #include "Engine/API.h"
-#include "Core/References.h"
+#include "Core/RefPtr.h"
 
 NAMESPACE_ENGINE_BEGIN
 

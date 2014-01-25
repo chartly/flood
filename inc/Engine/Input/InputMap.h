@@ -27,11 +27,11 @@ class API_INPUT InputAction
 {
 public:
 
-	// Adds a new binding for the action.
-	void addBinding();
+    // Adds a new binding for the action.
+    void addBinding();
 
-	// Name of the action.
-	String name;
+    // Name of the action.
+    String name;
 };
 
 //-----------------------------------//
@@ -46,11 +46,11 @@ class API_INPUT InputSchema
 {
 public:
 
-	// Creates a new input action.
-	InputAction* createAction(const String& name);
+    // Creates a new input action.
+    InputAction* createAction(const String& name);
 
-	// Name of the schema.
-	String name;
+    // Name of the schema.
+    String name;
 };
 
 //-----------------------------------//
@@ -63,25 +63,26 @@ public:
 
 class API_INPUT InputMap
 {
-	DECLARE_UNCOPYABLE(InputMap);
-
 public:
 
-	InputMap(InputManager& input);
-	~InputMap();
+    InputMap(InputManager& input);
+    ~InputMap();
 
-	// Creates a new input schema.
-	InputSchema* createSchema(const String& name);
+    InputMap(const InputMap&) = delete;
+    InputMap& operator=(const InputMap&) = delete;
 
-	// Sets the current input schema.
-	void setSchema(InputSchema* schema);
+    // Creates a new input schema.
+    InputSchema* createSchema(const String& name);
+
+    // Sets the current input schema.
+    void setSchema(InputSchema* schema);
 
 protected:
 
-	// Input callbacks.
-	void onKeyPress(const KeyEvent& event);
-	void onMousePress(const MouseButtonEvent& event);
-	void onJoyPress(const JoyButtonEvent& event);
+    // Input callbacks.
+    void onKeyPress(const KeyEvent& event);
+    void onMousePress(const MouseButtonEvent& event);
+    void onJoyPress(const JoyButtonEvent& event);
 };
 
 //-----------------------------------//

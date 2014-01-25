@@ -9,8 +9,6 @@
 
 #ifdef ENABLE_RESOURCE_INDEXER
 
-#include "Core/Concurrency.h"
-#include "Core/Task.h"
 #include "Resources/Resource.h"
 #include "Resources/ResourceDatabase.h"
 
@@ -42,9 +40,9 @@ public:
 	Event1<const ResourceMetadata&> onResourceIndexed;
 
 	// Indexes found resources.
-	void indexResources(Task*);
+	void indexResources(const Path& path);
 
-	ConcurrentQueue<ResourceMetadata> resourcesIndexed;
+	Array<ResourceMetadata> resourcesIndexed;
 };
 
 //-----------------------------------//

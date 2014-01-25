@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "Core/References.h"
+#include "Core/RefPtr.h"
 
 NAMESPACE_CORE_BEGIN
 
@@ -27,7 +27,7 @@ typedef HashMap<ReferenceCounted*> HandleMap; // keyed by HandleId
 struct API_CORE HandleManager
 {
 	HandleMap handles;
-	Atomic<uint32> nextHandle;
+	std::atomic<uint32> nextHandle;
 };
 
 API_CORE HandleManager*    HandleCreateManager( Allocator* );
@@ -37,7 +37,6 @@ API_CORE void              HandleDestroy(HandleManager*, HandleId id);
 API_CORE ReferenceCounted* HandleFind(HandleManager*, HandleId id);
 API_CORE void              HandleGarbageCollect(HandleManager*);
 
-typedef scoped_ptr<HandleManager, HandleDestroyManager> HandleManagerPtr;
 #define pHandleCreateManager(alloc, ...) CreateScopedPtr(HandleCreateManager, \
 	alloc, __VA_ARGS__)
 

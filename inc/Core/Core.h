@@ -14,7 +14,6 @@ NAMESPACE_CORE_BEGIN
 struct Allocator;
 class Log;
 class Stream;
-class TaskPool;
 class FileWatcher;
 class ResourceManager;
 
@@ -38,7 +37,6 @@ public:
     Allocator* stack;
     Log* log;
     Stream* logStream;
-    TaskPool* taskPool;
     FileWatcher* fileWatcher;
     ResourceManager* resourceManager;
 

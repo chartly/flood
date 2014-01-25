@@ -79,9 +79,7 @@ void Log::removeHandler(LogFunction fn)
 
 void Log::write(LogEntry* entry)
 {
-	mutex.lock();
 	handlers(entry);
-	mutex.unlock();
 }
 
 //-----------------------------------//

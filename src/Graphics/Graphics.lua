@@ -1,13 +1,19 @@
 local boost = "C:/Users/Corbin/Desktop/Dev/thirdparty/boost/boost_1_55_0/"
 
+Graphics = {}
+Graphics.name = "Graphics"
+Graphics.shared = true
+Graphics.defines = {}
+
 project "Graphics"
 
-	kind "ConsoleApp"
+	kind "StaticLib"
 
 	SetupNativeProjects()
 
 	files
 	{
+		path.join(incdir,"Graphics/**.h"),
 		"**.lua",
 		"**.h",
 		"**.cpp",
@@ -16,7 +22,9 @@ project "Graphics"
 
 	excludes { "GLFW/*InputManager.*" }
 
-	defines { Engine.defines, "GLEW_MX" }
+	table.insert(Graphics.defines, { Core.defines })
+
+	defines { "GLEW_MX" }
 
 	includedirs
 	{
@@ -30,9 +38,9 @@ project "Graphics"
 		boost
 	}
 	
-	libdirs { Engine.libdirs }
+	libdirs { Core.libdirs }
 
-	links { Engine.name, Engine.links }
+	links { Core.name, Core.links }
 
 	deps { "glew", "glfw3", "anttweakbar" }
 

@@ -7,14 +7,14 @@
 
 #pragma once
 
-#include "CS350/API.h"
-#include "CS350/GL/GLPlatform.h"
-#include "CS350/GL/GLBuffers.h"
-#include "CS350/GL/HalfEdgeMesh.h"
-#include "CS350/GL/GLSLProgram.h"
-#include "CS350/Camera.h"
-#include "CS350/Crosshair.h"
-#include "CS350/Quad.h"
+#include "Graphics/API.h"
+#include "Graphics/GL/GLPlatform.h"
+#include "Graphics/GL/GLBuffers.h"
+#include "Graphics/GL/HalfEdgeMesh.h"
+#include "Graphics/GL/GLSLProgram.h"
+#include "Graphics/Camera.h"
+#include "Graphics/Crosshair.h"
+#include "Graphics/Quad.h"
 
 #include "Engine/Engine.h"
 #include "Resources/ResourceManager.h"

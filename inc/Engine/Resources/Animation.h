@@ -10,7 +10,7 @@
 #include "Core/Math/Vector.h"
 #include "Core/Math/EulerAngles.h"
 #include "Core/Math/Matrix4x3.h"
-#include "Core/References.h"
+#include "Core/RefPtr.h"
 
 FWD_DECL_INTRUSIVE(Bone)
 FWD_DECL_INTRUSIVE(Animation)

@@ -21,9 +21,9 @@ NAMESPACE_ENGINE_BEGIN
 
 enum struct InputDeviceType
 {
-	Keyboard,
-	Mouse,
-	Joystick
+    Keyboard,
+    Mouse,
+    Joystick
 };
 
 REFLECT_DECLARE_ENUM(InputDeviceType)
@@ -36,12 +36,13 @@ REFLECT_DECLARE_ENUM(InputDeviceType)
 
 struct API_INPUT InputEvent
 {
-	DECLARE_UNCOPYABLE(InputEvent)
-
 public:
 
-	InputEvent( InputDeviceType );
-	InputDeviceType deviceType;
+    InputEvent(InputDeviceType);
+    InputEvent(const InputEvent &) = delete;
+    InputEvent& operator=(const InputEvent &) = delete;
+
+    InputDeviceType deviceType;
 };
 
 //-----------------------------------//
@@ -52,18 +53,18 @@ public:
 
 class API_INPUT InputDevice
 {
-	DECLARE_UNCOPYABLE(InputDevice)
-
 public:
 
-	InputDevice();
-	virtual ~InputDevice();
+    InputDevice();
+    InputDevice(const InputDevice&) = delete;
+    virtual ~InputDevice();
+    InputDevice& operator=(const InputDevice&) = delete;
 
-	// Processes an event.
-	virtual void processEvent( const InputEvent& event ) = 0;
+    // Processes an event.
+    virtual void processEvent( const InputEvent& event ) = 0;
 
-	// Gets the type of this device.
-	virtual const InputDeviceType getType() const = 0;
+    // Gets the type of this device.
+    virtual const InputDeviceType getType() const = 0;
 };
 
 //-----------------------------------//

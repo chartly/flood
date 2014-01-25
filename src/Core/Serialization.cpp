@@ -11,7 +11,7 @@
 
 #include "Core/Serialization.h"
 #include "Core/SerializationHelpers.h"
-#include "Core/References.h"
+#include "Core/RefPtr.h"
 #include "Core/Reflection.h"
 #include "Core/Object.h"
 #include "Core/Log.h"

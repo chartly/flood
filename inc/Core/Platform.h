@@ -166,8 +166,6 @@ typedef uint32 uint;
 #define __FILE__LINE__ __FILE__ "(" TOSTRING(__LINE__) ") : "
 #define TODO( x )  message( __FILE__LINE__" TODO :   " #x ) 
 
-#define FLD_ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
-
 //---------------------------------------------------------------------//
 // Error handling
 //---------------------------------------------------------------------//
@@ -190,26 +188,6 @@ typedef uint32 uint;
 //---------------------------------------------------------------------//
 
 #define FWD_DECL(T) NAMESPACE_CORE_BEGIN class T; NAMESPACE_CORE_END
-
-//---------------------------------------------------------------------//
-// Acessors
-//---------------------------------------------------------------------//
-
-#define GETTER(name, type, var) \
-	type get##name() const { return var; }
-
-#define SETTER(name, type, var) \
-	void set##name(type v) { var = v; }
-
-#define ACCESSOR(name, type, var) \
-	GETTER(name, type, var) \
-	SETTER(name, type, var)
-
-#define DECLARE_UNCOPYABLE(Type) \
-	private: \
-		Type( const Type& ); \
-		const Type& operator=( const Type& ); \
-	public:
 
 //---------------------------------------------------------------------//
 // Binder macros

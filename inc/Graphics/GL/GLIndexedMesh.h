@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "CS350/API.h"
-#include "CS350/GL/GLBuffers.h"
+#include "Graphics/API.h"
+#include "Graphics/GL/GLBuffers.h"
 
 namespace dit {
 

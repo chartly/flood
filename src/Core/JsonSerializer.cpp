@@ -15,7 +15,7 @@
 #include "Core/Reflection.h"
 #include "Core/Object.h"
 #include "Core/Utilities.h"
-#include "Core/References.h"
+#include "Core/RefPtr.h"
 #include "Core/Stream.h"
 #include "Core/Log.h"
 

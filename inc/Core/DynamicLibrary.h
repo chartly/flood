@@ -14,9 +14,9 @@ NAMESPACE_CORE_BEGIN
 //-----------------------------------//
 
 #ifdef PLATFORM_WINDOWS
-	typedef void* DynLibHandle;
+    typedef void* DynLibHandle;
 #else
-	#error "Support for dynamic libraries not found"
+    #error "Support for dynamic libraries not found"
 #endif
 
 //-----------------------------------//
@@ -29,23 +29,22 @@ NAMESPACE_CORE_BEGIN
 
 class CORE_API DynamicLibrary
 {
-	DECLARE_UNCOPYABLE(DynamicLibrary)
-
 public:
+    DynamicLibrary( const String& name );
+    DynamicLibrary(const DynamicLibrary&) = delete;
+    ~DynamicLibrary();
+    DynamicLibrary& operator=(const DynamicLibrary&) = delete;
 
-	DynamicLibrary( const String& name );
-	~DynamicLibrary();
-
-	// Gets a pointer to the given symbol.
-	void* getSymbol( const String& symbol );
+    // Gets a pointer to the given symbol.
+    void* getSymbol( const String& symbol );
 
 private:
 
-	// Loads the dynamic library.
-	bool load();
-	
-	String _name;
-	DynLibHandle _handle;
+    // Loads the dynamic library.
+    bool load();
+    
+    String _name;
+    DynLibHandle _handle;
 };
 
 //-----------------------------------//

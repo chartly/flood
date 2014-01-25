@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "CS350/API.h"
+#include "Graphics/API.h"
 #include "Core/Object.h"
 
 namespace dit {

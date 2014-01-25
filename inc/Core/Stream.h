@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "Core/Pointers.h"
+#include "Core/ScopedPtr.h"
 #include "Core/String.h"
 #include <cstdio>
 
@@ -24,10 +24,10 @@ NAMESPACE_CORE_BEGIN
  */
 enum struct StreamOpenMode
 {
-	Read,
-	Write,
-	Append,
-	Default
+    Read,
+    Write,
+    Append,
+    Default
 };
 
 /**
@@ -35,9 +35,9 @@ enum struct StreamOpenMode
  */
 enum struct StreamSeekMode
 {
-	Absolute,
-	Relative,
-	RelativeEnd
+    Absolute,
+    Relative,
+    RelativeEnd
 };
 
 //-----------------------------------//
@@ -49,121 +49,121 @@ enum struct StreamSeekMode
 class API_CORE Stream
 {
 public:
-	
-	enum FLD_IGNORE { EndOfStream = 0, InvalidState = -1 };
+    
+    enum FLD_IGNORE { EndOfStream = 0, InvalidState = -1 };
 
 protected:
 
-	/**
-	 * Creates stream from a path in a given access mode.
-	 * \param path stream path
-	 * \param mode stream opening mode
-	 */
-	Stream(const Path& path, StreamOpenMode mode);
+    /**
+     * Creates stream from a path in a given access mode.
+     * \param path stream path
+     * \param mode stream opening mode
+     */
+    Stream(const Path& path, StreamOpenMode mode);
 
 public:
 
     virtual ~Stream() {}
 
-	/**
-	 * Opens the stream.
-	 * \return indication whether opening succeeded  
-	 */
-	virtual bool open();
-	
-	/**
-	 * Closes the stream.
-	 * \return indication whether closing was succeeded 
-	 */
-	virtual bool close();
-	
-	/**
-	 * Reads from the the stream into a buffer.
-	 * \param buffer buffer to read into
-	 * \param size number of bytes to read
-	 * \return number of bytes read 
-	 */
-	virtual int64 read(void* buffer, uint64 size) const;
-	
-	/** 
-	 * Writes from buffer into the the stream.
-	 * \param buffer buffer to write from
-	 * \param size number of bytes to write
-	 * \return number of bytes written 
-	 */
-	virtual int64 write(void* buffer, uint64 size);
+    /**
+     * Opens the stream.
+     * \return indication whether opening succeeded  
+     */
+    virtual bool open();
+    
+    /**
+     * Closes the stream.
+     * \return indication whether closing was succeeded 
+     */
+    virtual bool close();
+    
+    /**
+     * Reads from the the stream into a buffer.
+     * \param buffer buffer to read into
+     * \param size number of bytes to read
+     * \return number of bytes read 
+     */
+    virtual int64 read(void* buffer, uint64 size) const;
+    
+    /** 
+     * Writes from buffer into the the stream.
+     * \param buffer buffer to write from
+     * \param size number of bytes to write
+     * \return number of bytes written 
+     */
+    virtual int64 write(void* buffer, uint64 size);
 
-	/**
-	 * Retrieves stream current position.
-	 * \return stream position  
-	 */
-	virtual int64 getPosition() const;
+    /**
+     * Retrieves stream current position.
+     * \return stream position  
+     */
+    virtual int64 getPosition() const;
 
-	/**
-	 * Set stream position.
-	 * \param pos offset position in stream
-	 * \param mode set pos offset mode
-	 */
-	virtual void setPosition(int64 pos, StreamSeekMode mode);
+    /**
+     * Set stream position.
+     * \param pos offset position in stream
+     * \param mode set pos offset mode
+     */
+    virtual void setPosition(int64 pos, StreamSeekMode mode);
 
-	/**
-	 * Get stream size.
-	 * \return stream size
-	 */
-	virtual uint64 size() const;
+    /**
+     * Get stream size.
+     * \return stream size
+     */
+    virtual uint64 size() const;
 
-	/**
-	 * Resize stream.
-	 * \param size new size
-	 */
-	virtual void resize(int64 size);
+    /**
+     * Resize stream.
+     * \param size new size
+     */
+    virtual void resize(int64 size);
 
-	/** 
-	 * Reads from the the stream into a byte vector.
-	 * \param data byte vector to read into
-	 * \return number of bytes read 
-	 */ 
-	int64 read(Array<uint8>& data) const;
+    /** 
+     * Reads from the the stream into a byte vector.
+     * \param data byte vector to read into
+     * \return number of bytes read 
+     */ 
+    int64 read(Array<uint8>& data) const;
 
-	/** 
-	 * Reads from the the stream into a buffer.
-	 * \param buffer buffer to read into
-	 * \param size number of bytes to read
-	 * \return number of bytes read 
-	 */ 
-	int64 readBuffer(void* buffer, int64 size) const;
-	
-	/** 
-	 * Reads from the the stream into a string.
-	 * \param str string to read into
-	 * \return string size 
-	 */ 
-	int64 readString(String& text) const;
+    /** 
+     * Reads from the the stream into a buffer.
+     * \param buffer buffer to read into
+     * \param size number of bytes to read
+     * \return number of bytes read 
+     */ 
+    int64 readBuffer(void* buffer, int64 size) const;
+    
+    /** 
+     * Reads from the the stream into a string.
+     * \param str string to read into
+     * \return string size 
+     */ 
+    int64 readString(String& text) const;
 
-	/** 
-	 * Reads from the the stream into a list of lines.
-	 * \param lines string vector to read into
-	 * \return text size 
-	 */ 
-	int64 readLines(Array<String>& lines) const;
-	
-	/** 
-	 * Writes from buffer into the the stream.
-	 * \param buffer buffer to write from
-	 * \param size number of bytes to write
-	 * \return number of bytes written 
-	 */
-	int64 write(uint8* buf, uint64 size);
-	
-	/** 
-	 * Writes from string into the the stream.
-	 * \param string string to write from
-	 * \return number of bytes written 
-	 */
-	int64 writeString(const String& string);
+    /** 
+     * Reads from the the stream into a list of lines.
+     * \param lines string vector to read into
+     * \return text size 
+     */ 
+    int64 readLines(Array<String>& lines) const;
+    
+    /** 
+     * Writes from buffer into the the stream.
+     * \param buffer buffer to write from
+     * \param size number of bytes to write
+     * \return number of bytes written 
+     */
+    int64 write(uint8* buf, uint64 size);
+    
+    /** 
+     * Writes from string into the the stream.
+     * \param string string to write from
+     * \return number of bytes written 
+     */
+    int64 writeString(const String& string);
 
-	String path; //!< stream path
-	StreamOpenMode mode; //!< stream open mode
+    String path; //!< stream path
+    StreamOpenMode mode; //!< stream open mode
 };
 
 //-----------------------------------//
@@ -172,76 +172,76 @@ class API_CORE FileStream : public Stream
 {
 public:
 
-	/** 
-	 * Opens file by its path in a given access mode.
-	 * \param path file path
-	 * \param mode file opening mode
-	 */
-	FileStream(const Path& path, StreamOpenMode mode);
+    /** 
+     * Opens file by its path in a given access mode.
+     * \param path file path
+     * \param mode file opening mode
+     */
+    FileStream(const Path& path, StreamOpenMode mode);
 
-	/**
-	 * \note calls \see close()
-	 */
-	virtual ~FileStream();
+    /**
+     * \note calls \see close()
+     */
+    virtual ~FileStream();
 
-	/** 
-	 * Opens the stream.
-	 * \return indication whether opening succeeded
-	 */
-	virtual bool open() override;
-	
-	/** 
-	 * Closes the stream.
-	 * \return indication whether closing was succeeded 
-	 */
-	virtual bool close() override;
-	
-	/** 
-	 * Reads from the the stream into a buffer.
-	 * \param buffer buffer to read into
-	 * \param size number of bytes to read
-	 * \return number of bytes read or \see Stream::InvalidState if file handle not set
-	 */ 
-	virtual int64 read(void* buffer, uint64 size) const override;
-	
-	using Stream::read;
+    /** 
+     * Opens the stream.
+     * \return indication whether opening succeeded
+     */
+    virtual bool open() override;
+    
+    /** 
+     * Closes the stream.
+     * \return indication whether closing was succeeded 
+     */
+    virtual bool close() override;
+    
+    /** 
+     * Reads from the the stream into a buffer.
+     * \param buffer buffer to read into
+     * \param size number of bytes to read
+     * \return number of bytes read or \see Stream::InvalidState if file handle not set
+     */ 
+    virtual int64 read(void* buffer, uint64 size) const override;
+    
+    using Stream::read;
 
-	/** 
-	 * Writes from buffer into the the stream.
-	 * \param buffer buffer to write from
-	 * \param size number of bytes to write
-	 * \return number of bytes written or \see Stream::InvalidState if file handle not set
-	 */
-	virtual int64 write(void* buffer, uint64 size) override;
+    /** 
+     * Writes from buffer into the the stream.
+     * \param buffer buffer to write from
+     * \param size number of bytes to write
+     * \return number of bytes written or \see Stream::InvalidState if file handle not set
+     */
+    virtual int64 write(void* buffer, uint64 size) override;
 
-	/** 
-	 * Retrieves stream current position.
-	 * \return stream position or \see Stream::InvalidState if file handle not set  
-	 */
-	virtual int64 getPosition() const override;
+    /** 
+     * Retrieves stream current position.
+     * \return stream position or \see Stream::InvalidState if file handle not set  
+     */
+    virtual int64 getPosition() const override;
 
-	/** 
-	 * Set stream position.
-	 * \param pos offset position in stream  
-	 * \param mode set pos offset mode
-	 */
-	virtual void setPosition(int64 pos, StreamSeekMode mode) override;
-	
-	/** 
-	 * Get stream size.
-	 * \return stream size  or \see Stream::InvalidState if file handle not set 
-	 */
-	virtual uint64 size() const override;
-	
-	/** 
-	 * Controls wether IO buffering is active or not.
-	 * \param state true to set buffering active, false to do otherwise  
-	 */
-	void setBuffering(bool state);
+    /** 
+     * Set stream position.
+     * \param pos offset position in stream  
+     * \param mode set pos offset mode
+     */
+    virtual void setPosition(int64 pos, StreamSeekMode mode) override;
+    
+    /** 
+     * Get stream size.
+     * \return stream size  or \see Stream::InvalidState if file handle not set 
+     */
+    virtual uint64 size() const override;
+    
+    /** 
+     * Controls wether IO buffering is active or not.
+     * \param state true to set buffering active, false to do otherwise  
+     */
+    void setBuffering(bool state);
 
-	FILE* fileHandle; //!< file handle
+    FILE* fileHandle; //!< file handle
 
-	bool isValid; 
+    bool isValid; 
 };
 
 //-----------------------------------//
@@ -250,156 +250,160 @@ class API_CORE MemoryStream : public Stream
 {
 public:
 
-	/**
-	 * Creates Memory stream.
-	 */
-	MemoryStream();
+    /**
+     * Creates Memory stream.
+     */
+    MemoryStream();
 
-	/**
-	 * Creates Memory stream with an initial size. 
-	 * \param size buffer initial size
-	 */
-	MemoryStream(uint64 size);
+    /**
+     * Creates Memory stream with an initial size. 
+     * \param size buffer initial size
+     */
+    MemoryStream(uint64 size);
 
-	/**
-	 * \note calls \see close()
-	 */
-	virtual ~MemoryStream();
+    /**
+     * \note calls \see close()
+     */
+    virtual ~MemoryStream();
 
-	/** 
-	 * Set stream buffer.
-	 * \param buffer buffer to use for the stream
-	 */
-	void setRawBuffer(uint8* buffer);
+    /** 
+     * Set stream buffer.
+     * \param buffer buffer to use for the stream
+     */
+    void setRawBuffer(uint8* buffer);
 
-	/** 
-	 * Opens the stream.
-	 * \return indication whether opening succeeded  
-	 */
-	virtual bool open() override;
-	
-	/** 
-	 * Closes the stream.
-	 * \return indication whether closing was succeeded 
-	 */
-	virtual bool close() override;
+    /** 
+     * Opens the stream.
+     * \return indication whether opening succeeded  
+     */
+    virtual bool open() override;
+    
+    /** 
+     * Closes the stream.
+     * \return indication whether closing was succeeded 
+     */
+    virtual bool close() override;
 
-	/** 
-	 * Reads from the the stream into a buffer.
-	 * \param buffer buffer to read into
-	 * \param size number of bytes to read
-	 * \return number of bytes read 
-	 */ 
-	virtual int64 read(void* buffer, uint64 size) const override;
+    /** 
+     * Reads from the the stream into a buffer.
+     * \param buffer buffer to read into
+     * \param size number of bytes to read
+     * \return number of bytes read 
+     */ 
+    virtual int64 read(void* buffer, uint64 size) const override;
 
-	/** 
-	 * Writes from buffer into the the stream.
-	 * \param buffer buffer to write from
-	 * \param size number of bytes to write
-	 * \return number of bytes written 
-	 */
-	virtual int64 write(void* buffer, uint64 size) override;
+    /** 
+     * Writes from buffer into the the stream.
+     * \param buffer buffer to write from
+     * \param size number of bytes to write
+     * \return number of bytes written 
+     */
+    virtual int64 write(void* buffer, uint64 size) override;
 
-	/** 
-	 * Retrieves stream current position.
-	 * \return stream position  
-	 */
-	virtual int64 getPosition() const override;
-	
-	/** 
-	 * Set stream position.
-	 * \param pos offset position in stream  
-	 * \param mode set pos offset mode
-	 */
-	virtual void setPosition(int64 pos, StreamSeekMode mode) override;
-		
-	/** 
-	 * Get stream size.
-	 * \return stream size  
-	 */
-	virtual uint64 size() const override;
-	
-	/** 
-	 * Resize stream. 
-	 * \param size new size  
-	 */
-	virtual void resize(int64 size) override;
+    /** 
+     * Retrieves stream current position.
+     * \return stream position  
+     */
+    virtual int64 getPosition() const override;
+    
+    /** 
+     * Set stream position.
+     * \param pos offset position in stream  
+     * \param mode set pos offset mode
+     */
+    virtual void setPosition(int64 pos, StreamSeekMode mode) override;
+        
+    /** 
+     * Get stream size.
+     * \return stream size  
+     */
+    virtual uint64 size() const override;
+    
+    /** 
+     * Resize stream. 
+     * \param size new size  
+     */
+    virtual void resize(int64 size) override;
 
-	/** 
-	 * Init memory stream.
-	 */
-	void init();
+    /** 
+     * Init memory stream.
+     */
+    void init();
 
 public:
 
-	Array<uint8> data; //!< buffer vector
-	uint8* buffer; //!< pointer to buffer start
-	mutable uint64 position; //!< current position in buffer
-	bool useRawBuffer; //!< using set buffer or data
+    Array<uint8> data; //!< buffer vector
+    uint8* buffer; //!< pointer to buffer start
+    mutable uint64 position; //!< current position in buffer
+    bool useRawBuffer; //!< using set buffer or data
 };
 
 //-----------------------------------//
+
+#ifdef ENABLE_NETWORKING_CURL
 
 class API_CORE WebStream : public Stream
 {
 public:
 
-	/**
-	 * Creates Web stream.
-	 * \param URL url webstream is using 
-	 * \param mode access mode to url
-	 */
-	WebStream(const String& URL, StreamOpenMode mode);
+    /**
+     * Creates Web stream.
+     * \param URL url webstream is using 
+     * \param mode access mode to url
+     */
+    WebStream(const String& URL, StreamOpenMode mode);
 
-	/**
-	 * \note calls \see close()
-	 */
-	virtual ~WebStream();
-	
-	/** 
-	 * Opens the stream.
-	 * \return indication whether opening succeeded  
-	 */
-	virtual bool open() override;
-	
-	/** 
-	 * Closes the stream.
-	 * \return indication whether closing was succeeded 
-	 */
-	virtual bool close() override;
-	
-	/** 
-	 * Reads from the the stream into a buffer.
-	 * \param buffer buffer to read into
-	 * \param size number of bytes to read
-	 * \return number of bytes read 
-	 */ 
-	virtual int64 read(void* buffer, uint64 size) const override;	
-	
-	/** 
-	 * Writes from buffer into the the stream.
-	 * \param buffer buffer to write from
-	 * \param size number of bytes to write
-	 * \return number of bytes written 
-	 */
-	virtual int64 write(void* buffer, uint64 size) override;
+    /**
+     * \note calls \see close()
+     */
+    virtual ~WebStream();
+    
+    /** 
+     * Opens the stream.
+     * \return indication whether opening succeeded  
+     */
+    virtual bool open() override;
+    
+    /** 
+     * Closes the stream.
+     * \return indication whether closing was succeeded 
+     */
+    virtual bool close() override;
+    
+    /** 
+     * Reads from the the stream into a buffer.
+     * \param buffer buffer to read into
+     * \param size number of bytes to read
+     * \return number of bytes read 
+     */ 
+    virtual int64 read(void* buffer, uint64 size) const override;	
+    
+    /** 
+     * Writes from buffer into the the stream.
+     * \param buffer buffer to write from
+     * \param size number of bytes to write
+     * \return number of bytes written 
+     */
+    virtual int64 write(void* buffer, uint64 size) override;
 
-	/** 
-	 * Get stream size.
-	 * \return stream size  
-	 */
-	virtual uint64 size() const override;
+    /** 
+     * Get stream size.
+     * \return stream size  
+     */
+    virtual uint64 size() const override;
 
-	/** 
-	 * Update memory stream from current url content.
-	 * \return success of update  
-	 */
-	bool perform() const;
+    /** 
+     * Update memory stream from current url content.
+     * \return success of update  
+     */
+    bool perform() const;
 
-	CURL* handle; //!< curl handle
-	MemoryStream ms; //!< memory stream
-	bool isPerformDone; //!< wether perform has been run once
+    CURL* handle; //!< curl handle
+    MemoryStream ms; //!< memory stream
+    bool isPerformDone; //!< wether perform has been run once
 };
+
+#endif
 
 //-----------------------------------//
 
@@ -407,58 +411,58 @@ class API_CORE ZipStream : public Stream
 {
 private:
 
-	ZipStream();
-	ZipStream(ZZIP_DIR* dir, ZZIP_FILE* handle, String path, StreamOpenMode mode);
+    ZipStream();
+    ZipStream(ZZIP_DIR* dir, ZZIP_FILE* handle, String path, StreamOpenMode mode);
 
 public:
 
-	/**
-	 * \note calls \see close()
-	 */
-	virtual ~ZipStream();
+    /**
+     * \note calls \see close()
+     */
+    virtual ~ZipStream();
 
-	/** 
-	 * Opens the stream.
-	 * \return indication whether opening succeeded 
-	 */
-	virtual bool open() override;
+    /** 
+     * Opens the stream.
+     * \return indication whether opening succeeded 
+     */
+    virtual bool open() override;
 
-	/** 
-	 * Closes the stream.
-	 * \return indication whether closing was succeeded 
-	 */
-	virtual bool close() override;
+    /** 
+     * Closes the stream.
+     * \return indication whether closing was succeeded 
+     */
+    virtual bool close() override;
 
-	/** 
-	 * Reads from the the stream into a buffer.
-	 * \param buffer buffer to read into
-	 * \param size number of bytes to read
-	 * \return number of bytes read 
-	 */ 
-	virtual int64 read(void* buffer, uint64 size) const override;
-	
-	/** 
-	 * Retrieves stream current position.
-	 * \return stream position  
-	 */
-	virtual int64 getPosition() const override;
+    /** 
+     * Reads from the the stream into a buffer.
+     * \param buffer buffer to read into
+     * \param size number of bytes to read
+     * \return number of bytes read 
+     */ 
+    virtual int64 read(void* buffer, uint64 size) const override;
+    
+    /** 
+     * Retrieves stream current position.
+     * \return stream position  
+     */
+    virtual int64 getPosition() const override;
 
-	/** 
-	 * Set stream position.
-	 * \param pos offset position in stream  
-	 * \param mode set pos offset mode
-	 */
-	virtual void setPosition(int64 pos, StreamSeekMode mode) override;
-	
-	/** 
-	 * Get stream size.
-	 * \return stream size  
-	 */
-	virtual uint64 size() const override;
+    /** 
+     * Set stream position.
+     * \param pos offset position in stream  
+     * \param mode set pos offset mode
+     */
+    virtual void setPosition(int64 pos, StreamSeekMode mode) override;
+    
+    /** 
+     * Get stream size.
+     * \return stream size  
+     */
+    virtual uint64 size() const override;
 
-	friend class ArchiveZip;
-	ZZIP_DIR* dir; //!< archive directory
-	ZZIP_FILE* handle; //!< archive file handle
+    friend class ArchiveZip;
+    ZZIP_DIR* dir; //!< archive directory
+    ZZIP_FILE* handle; //!< archive file handle
 };
 
 //-----------------------------------//

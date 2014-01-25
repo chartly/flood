@@ -44,6 +44,9 @@ public:
         Destroy(px);
     }
 
+    scoped_ptr(scoped_ptr const &) = delete;
+    scoped_ptr & operator=(scoped_ptr const &) = delete;
+
     void reset(T * p = 0) // never throws
     {
         assert( p == 0 || p != px ); // catch self-reset errors
@@ -87,9 +90,6 @@ public:
 private:
 
     T* px;
-
-    scoped_ptr(scoped_ptr const &);
-    scoped_ptr & operator=(scoped_ptr const &);
 
     void operator==( scoped_ptr const& ) const;
     void operator!=( scoped_ptr const& ) const;

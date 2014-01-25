@@ -320,13 +320,13 @@ Path PathNormalize(const Path& path)
 
 Path PathGetCurrentDir()
 {
-	char buf[256];
+    std::array<char, 256> buf;
 #ifdef PLATFORM_WINDOWS
-	_getcwd(buf, FLD_ARRAY_SIZE(buf));
+	_getcwd(buf.data(), buf.size());
 #else
-	getcwd(buf, FLD_ARRAY_SIZE(buf));
+	getcwd(buf.data(), buf.size());
 #endif
-	return String(buf);
+	return String(buf.data());
 }
 
 //-----------------------------------//

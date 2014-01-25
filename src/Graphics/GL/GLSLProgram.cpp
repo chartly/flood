@@ -5,9 +5,9 @@
 *
 ************************************************************************/
 
-#include "CS350/API.h"
-#include "CS350/GL/GLSLProgram.h"
-#include "CS350/GL/GLApp.h"
+#include "Graphics/API.h"
+#include "Graphics/GL/GLSLProgram.h"
+#include "Graphics/GL/GLApp.h"
 #include "Engine/Resources/Text.h"
 #include "Core/Log.h"
 #include "Core/Math/Hash.h"

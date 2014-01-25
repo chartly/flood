@@ -7,8 +7,7 @@
 
 #pragma once
 
-#include "CS350/API.h"
-#include "Engine/PlatformManager.h"
+#include "Graphics/API.h"
 #include "Engine/Window/WindowManager.h"
 #include "Engine/Input/InputManager.h"
 #include "Engine/Input/Keyboard.h"
@@ -24,9 +23,9 @@ namespace dit
         GLWindowManager();
         virtual ~GLWindowManager();
 
-        Window* createWindow(const WindowSettings& settings) override;
-        Window* openFileDialog(const String& wildcard, FileDialogFlags flags) override              { return nullptr; }
-        Window* openDirectoryDialog(const String& wildcard, DirectoryDialogFlags flags) override    { return nullptr; }
+        Window* createWindow(const WindowSettings& settings);
+        Window* openFileDialog(const String& wildcard, FileDialogFlags flags)              { return nullptr; }
+        Window* openDirectoryDialog(const String& wildcard, DirectoryDialogFlags flags)    { return nullptr; }
 
         Array<GLWindow*> windows;
 

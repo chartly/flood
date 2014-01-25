@@ -8,7 +8,6 @@
 #pragma once
 
 #include "Core/API.h"
-#include "Core/Pointers.h"
 #include "Core/FileWatcher.h"
 
 NAMESPACE_CORE_BEGIN

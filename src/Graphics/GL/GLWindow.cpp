@@ -5,8 +5,8 @@
 *
 ************************************************************************/
 
-#include "CS350/API.h"
-#include "CS350/GL/GLWindow.h"
+#include "Graphics/API.h"
+#include "Graphics/GL/GLWindow.h"
 
 namespace dit {
 

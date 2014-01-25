@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "CS350/API.h"
+#include "Graphics/API.h"
 #include "Core/Object.h"
 
 namespace dit {
@@ -70,7 +70,7 @@ namespace dit {
 
     //////////////////////////////////////////////////////////////////////////
 
-    class ALIGN_BEGIN(32) HalfEdgeMesh : public Object
+    class ALIGN_BEGIN(32) HalfEdgeMesh : public ReferenceCounted
     {
     public:
         HalfEdgeMesh() = default;

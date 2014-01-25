@@ -5,10 +5,10 @@
 *
 ************************************************************************/
 
-#include "CS350/API.h"
-#include "CS350/GL/GLPlatform.h"
-#include "CS350/GL/GLWindow.h"
-#include "CS350/GL/GLApp.h"
+#include "Graphics/API.h"
+#include "Graphics/GL/GLPlatform.h"
+#include "Graphics/GL/GLWindow.h"
+#include "Graphics/GL/GLApp.h"
 
 #include "Engine/Engine.h"
 

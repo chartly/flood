@@ -5,9 +5,9 @@
 *
 ************************************************************************/
 
-#include "CS350/API.h"
-#include "CS350/GL/GLIndexedMesh.h"
-#include "CS350/GL/GLApp.h"
+#include "Graphics/API.h"
+#include "Graphics/GL/GLIndexedMesh.h"
+#include "Graphics/GL/GLApp.h"
 
 namespace dit {
 

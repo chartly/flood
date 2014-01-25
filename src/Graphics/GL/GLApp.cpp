@@ -5,10 +5,10 @@
 *
 ************************************************************************/
 
-#include "CS350/API.h"
-#include "CS350/GL/GLApp.h"
-#include "CS350/GL/GLWindow.h"
-#include "CS350/GL/HalfEdgeMesh.h"
+#include "Graphics/API.h"
+#include "Graphics/GL/GLApp.h"
+#include "Graphics/GL/GLWindow.h"
+#include "Graphics/GL/HalfEdgeMesh.h"
 #include "Engine/Input/Keyboard.h"
 #include "Engine/Input/Mouse.h"
 #include "Engine/Resources/Text.h"

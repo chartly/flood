@@ -25,8 +25,8 @@ NAMESPACE_CORE_BEGIN
 
 enum struct FrustumProjection
 {
-	Orthographic,
-	Perspective
+    Orthographic,
+    Perspective
 };
 
 API_CORE REFLECT_DECLARE_ENUM(Projection);
@@ -41,52 +41,52 @@ API_CORE REFLECT_DECLARE_CLASS(Frustum)
 
 struct API_CORE FLD_VALUE_TYPE Frustum
 {
-	//REFLECT_DECLARE_OBJECT(Frustum)
+    //REFLECT_DECLARE_OBJECT(Frustum)
 
-	Frustum();
-	Frustum( const Frustum& rhs );
+    Frustum();
+    Frustum( const Frustum& rhs );
 
-	// Updates the projection matrix.
-	void updateProjection();
+    // Updates the projection matrix.
+    void updateProjection();
 
-	// Updates the frustum planes.
-	void updatePlanes( const Matrix4x3& matView );
+    // Updates the frustum planes.
+    void updatePlanes( const Matrix4x3& matView );
 
-	// Updates the frustum corners.
-	void updateCorners( const Matrix4x3& matView );
+    // Updates the frustum corners.
+    void updateCorners( const Matrix4x3& matView );
 
-	// Checks if the box is inside the frustum.
-	bool intersects( const BoundingBox& box ) const;
+    // Checks if the box is inside the frustum.
+    bool intersects( const BoundingBox& box ) const;
 
 public:
 
-	// Projection type.
-	FrustumProjection projection;
+    // Projection type.
+    FrustumProjection projection;
 
-	// Projection matrix.
-	Matrix4x4 matProjection;
+    // Projection matrix.
+    Matrix4x4 matProjection;
 
-	// Field of view.
-	float fieldOfView;
+    // Field of view.
+    float fieldOfView;
 
-	// Near clipping plane.
-	float nearPlane;
+    // Near clipping plane.
+    float nearPlane;
 
-	// Far clipping plane.
-	float farPlane;
+    // Far clipping plane.
+    float farPlane;
 
-	// Aspect ratio of the frustum.
-	float aspectRatio;
+    // Aspect ratio of the frustum.
+    float aspectRatio;
 
-	// Ortographic view size.
-	Vector3 orthoSize;
+    // Ortographic view size.
+    Vector3 orthoSize;
 
-	// Stores the planes that make up the frustum.
-	// Order: Left, Right, Top, Bottom, Near, Far.
-	Plane planes[6];
+    // Stores the planes that make up the frustum.
+    // Order: Left, Right, Top, Bottom, Near, Far.
+    std::array<Plane, 6> planes;
 
-	// Frustum corner points.
-	Vector3 corners[8];
+    // Frustum corner points.
+    std::array<Vector3, 8> corners;
 };
 
 //-----------------------------------//

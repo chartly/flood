@@ -64,6 +64,10 @@
 //---------------------------------------------------------------------//
 
 #include "Core/Core.h"
+#include "Core/Memory.h"
+
+#include <array>
+#include <functional>
 
 /** Any translation unit using these containers should include "Core/Memory.h". 
   * Also, to avoid redundant includes, only "Core/HashMap.h" is included here, as it

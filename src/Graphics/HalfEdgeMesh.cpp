@@ -5,8 +5,8 @@
 *
 ************************************************************************/
 
-#include "CS350/API.h"
-#include "CS350/GL/HalfEdgeMesh.h"
+#include "Graphics/API.h"
+#include "Graphics/HalfEdgeMesh.h"
 #include "Core/Memory.h"
 
 namespace dit {

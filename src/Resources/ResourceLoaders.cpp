@@ -57,17 +57,4 @@ void ResourceLoadOptions::addOption(int key, int value)
 
 //-----------------------------------//
 
-ExtensionMetadata* ResourceLoader::getMetadata()
-{
-	static ExtensionMetadata s_ResourceExtension =
-	{
-		"Resource Loader",
-		"Extends the resource loading services to support more resource types."
-	};
-
-	return &s_ResourceExtension;
-}
-
-//-----------------------------------//
-
 NAMESPACE_RESOURCES_END

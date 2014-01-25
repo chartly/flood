@@ -10,7 +10,7 @@
 #include "Resources/API.h"
 #include "Core/Object.h"
 #include "Core/Reflection.h"
-#include "Core/References.h"
+#include "Core/RefPtr.h"
 #include "Core/Handle.h"
 
 NAMESPACE_RESOURCES_BEGIN
@@ -25,10 +25,10 @@ NAMESPACE_RESOURCES_BEGIN
 
 enum class ResourceStatus
 {
-	Error = 0,
-	Unloaded,
-	Loading,
-	Loaded
+    Error = 0,
+    Unloaded,
+    Loading,
+    Loaded
 };
 
 API_RESOURCE REFLECT_DECLARE_ENUM(ResourceStatus)
@@ -43,16 +43,16 @@ API_RESOURCE REFLECT_DECLARE_ENUM(ResourceStatus)
 
 enum class ResourceGroup
 {
-	General = 0,
-	Images,
-	Meshes,
-	Fonts,
-	Shaders,
-	Audio,
-	Scripts,
-	Scenes,
-	Materials,
-	Particles,
+    General = 0,
+    Images,
+    Meshes,
+    Fonts,
+    Shaders,
+    Audio,
+    Scripts,
+    Scenes,
+    Materials,
+    Particles,
 };
 
 API_RESOURCE REFLECT_DECLARE_ENUM(ResourceGroup)
@@ -75,47 +75,43 @@ struct ResourceStream;
 
 class API_RESOURCE Resource : public Object
 {
-	DECLARE_UNCOPYABLE(Resource)
-	REFLECT_DECLARE_OBJECT(Resource)
+    REFLECT_DECLARE_OBJECT(Resource)
 
 public:
 
-	virtual ~Resource();
+    virtual ~Resource();
 
-	/// Gets/sets the path that identifies this resource.
-	ACCESSOR(Path, const Path&, path)
+    Resource(const Resource&) = delete;
+    Resource& operator=(const Resource&) = delete;
 
-	/// Gets/sets the resource loading status.
-	ACCESSOR(Status, ResourceStatus, status)
+    /// Gets if the resource is fully loaded.
+    bool isLoaded() const;
 
-	/// Gets if the resource is fully loaded.
-	bool isLoaded() const;
+    /// Gets the resource group associated with this resource.
+    virtual ResourceGroup getResourceGroup() const = 0;
 
-	/// Gets the resource group associated with this resource.
-	virtual ResourceGroup getResourceGroup() const = 0;
+    /// Path to the resource.
+    Path path;
 
-	/// Path to the resource.
-	Path path;
+    /// Status of the resource.
+    ResourceStatus status;
 
-	/// Status of the resource.
-	ResourceStatus status;
-
-	/// Resource stream.
-	ResourceStream* stream;
+    /// Resource stream.
+    ResourceStream* stream;
 
 protected:
 
-	Resource();
+    Resource();
 };
 
 FLD_IGNORE API_RESOURCE ReferenceCounted* ResourceHandleFind(HandleId id);
 FLD_IGNORE API_RESOURCE void  ResourceHandleDestroy(HandleId id);
 
 #define RESOURCE_HANDLE_TYPE(T) \
-	Handle<T, ResourceHandleFind, ResourceHandleDestroy>
+    Handle<T, ResourceHandleFind, ResourceHandleDestroy>
 
 #define TYPEDEF_RESOURCE_HANDLE_FROM_TYPE(T) \
-	typedef RESOURCE_HANDLE_TYPE(T) T##Handle;
+    typedef RESOURCE_HANDLE_TYPE(T) T##Handle;
 
 TYPEDEF_RESOURCE_HANDLE_FROM_TYPE(Resource);
 

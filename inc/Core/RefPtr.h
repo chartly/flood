@@ -7,9 +7,8 @@
 
 #pragma once
 
-#include "Core/Concurrency.h"
-
-//#define ENABLE_REFERENCES_DEBUG
+#include "Core/API.h"
+#include <atomic>
 
 #ifdef ENABLE_REFERENCES_DEBUG
 #include <type_traits>
@@ -34,7 +33,7 @@ struct API_CORE NO_VTABLE ReferenceCounted
 	inline void addReference() { ReferenceAdd(this); }
 	inline bool releaseReference() { return ReferenceRelease(this); }
 
-	Atomic<uint32> references;
+	std::atomic<uint32> references;
 };
 
 //-----------------------------------//

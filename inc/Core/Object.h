@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "Core/References.h"
+#include "Core/RefPtr.h"
 #include "Core/Reflection.h"
 
 NAMESPACE_CORE_BEGIN
