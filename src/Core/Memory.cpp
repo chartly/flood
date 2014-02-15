@@ -110,7 +110,7 @@ static void AllocatorTrackGroup(AllocationMetadata* metadata, bool alloc)
 	auto key = MurmurHash64(metadata->group, strlen(metadata->group), 0);
 	auto group = GetMemoryGroupMap().get(key, AllocationGroup());
 	group.total += alloc ? metadata->size : 0;
-	group.freed == alloc ? 0 : metadata->size;
+	group.freed += alloc ? 0 : metadata->size;
 
    GetMemoryGroupMap().set(key, group);
 }

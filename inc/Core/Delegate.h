@@ -428,8 +428,8 @@ struct SimplifyMemFunc<SINGLE_MEMFUNCPTR_SIZE + 2*sizeof(int) >
 		} u2;
 		// Check that the horrible_cast<>s will work
 		typedef int ERROR_CantUsehorrible_cast[sizeof(function_to_bind)==sizeof(u.s)
-			&& sizeof(function_to_bind)==sizeof(u.ProbeFunc)
-			&& sizeof(u2.virtfunc)==sizeof(u2.s) ? 1 : -1];
+			|| sizeof(function_to_bind)==sizeof(u.ProbeFunc)
+			|| sizeof(u2.virtfunc)==sizeof(u2.s) ? 1 : -1];
    // Unfortunately, taking the address of a MF prevents it from being inlined, so
    // this next line can't be completely optimised away by the compiler.
 		u2.virtfunc = &GenericVirtualClass::GetThis;

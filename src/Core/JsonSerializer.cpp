@@ -789,7 +789,7 @@ SerializerJSON::SerializerJSON(Allocator* alloc, ReflectionHandleContextMap* han
 	dCtx.userData = this;
 	dCtx.walkCompositeFields = DeserializeFields;
 	dCtx.walkCompositeField = DeserializeField;
-	sCtx.handleContextMap = handleContextMap;
+	dCtx.handleContextMap = handleContextMap;
 }
 
 //-----------------------------------//

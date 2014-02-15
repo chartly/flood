@@ -96,7 +96,7 @@ int64 FileStream::write(void* buffer, uint64 size)
 		return InvalidState;
 
 	assert( mode == StreamOpenMode::Write || mode == StreamOpenMode::Append );
-	assert( buffer && size >= 0 );
+	assert( buffer && size > 0 );
 
 	return fwrite(buffer, size_t(size), 1, fileHandle);
 }

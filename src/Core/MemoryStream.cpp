@@ -74,7 +74,7 @@ bool MemoryStream::close()
 
 int64 MemoryStream::read(void* buffer, uint64 size) const
 {
-	if(size < 0) return -1;
+	if(size == 0) return -1;
 
 	if(!useRawBuffer)
 	{
