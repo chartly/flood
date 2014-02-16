@@ -153,7 +153,7 @@ bool BoundingBox::intersects( const Ray& ray, float& distance ) const
 			hitpoint = ray.origin + ray.direction * t;
 			if (hitpoint.y >= min.y && hitpoint.y <= max.y &&
 				hitpoint.z >= min.z && hitpoint.z <= max.z &&
-				(!hit && t < lowt))
+				t < lowt)
 			{
 				hit = true;
 				lowt = t;
