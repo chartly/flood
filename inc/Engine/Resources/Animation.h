@@ -31,9 +31,6 @@ struct API_ENGINE KeyFrame
 	EulerAngles rotation;
 };
 
-typedef Array<KeyFrame> KeyFramesVector;
-typedef HashMap<KeyFramesVector> KeyFramesMap; // keyed by BonePtr
-
 //-----------------------------------//
 
 /**
@@ -57,28 +54,17 @@ public:
 	// Gets the interpolated key frame matrix.
 	Matrix4x3 getKeyFrameMatrix(const BonePtr& bone, float time);
 
-	// Sets the keyframes for the animation.
-	void setKeyFrames(const BonePtr& bone, const KeyFramesVector& frames);
-
-	// Gets the key frames of the animation.
-	GETTER(KeyFrames, const KeyFramesMap&, keyFrames)
-
-	// Gets/sets the name of the animation.
-	ACCESSOR(Name, const String&, name)
-
-protected:
-
 	// Name of this animation.
 	String name;
 
 	// Loop state of this animation.
 	bool looped;
 
-	// Key frames of this animation per bone.
-	KeyFramesMap keyFrames;
+    // Key frames of this animation.
+    Array<KeyFrame> keyFramesVector;
 
-	// Key frames of this animation.
-	KeyFramesVector keyFramesVector;
+	// Key frames of this animation per bone.
+    HashMap<Array<KeyFrame>> keyFrames;
 };
 
 //-----------------------------------//
