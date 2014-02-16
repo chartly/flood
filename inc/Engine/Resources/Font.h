@@ -49,27 +49,21 @@ REFLECT_DECLARE_CLASS(Font)
 
 class API_ENGINE Font : public Resource
 {
-	REFLECT_DECLARE_OBJECT(Font)
+    REFLECT_DECLARE_OBJECT(Font)
 
 public:
 
-	virtual bool getGlyphInfo(int codepoint, int size, FLD_OUT Glyph& glyph) const = 0;
-	virtual ImageHandle createGlyphImage(int codepoint, int size) const = 0;
+    virtual bool getGlyphInfo(int codepoint, int size, FLD_OUT Glyph& glyph) const = 0;
+    virtual ImageHandle createGlyphImage(int codepoint, int size) const = 0;
 
-	virtual Vector2 getKerning(int codepoint1, int codepoint2, int fontSize)  const = 0;
+    virtual Vector2 getKerning(int codepoint1, int codepoint2, int fontSize)  const = 0;
 
-	// Gets/sets the font name.
-	ACCESSOR(Name, const String&, name)
-
-	// Gets the resource group of the font.
-	GETTER(ResourceGroup, ResourceGroup, ResourceGroup::Fonts)
-
-	// Font name.
-	String name;
+    // Font name.
+    String name;
 
 protected:
 
-	Font();
+    Font();
 };
 
 TYPEDEF_RESOURCE_HANDLE_FROM_TYPE( Font );
