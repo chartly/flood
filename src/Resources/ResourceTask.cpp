@@ -15,7 +15,7 @@
 #include "Core/Archive.h"
 #include "Core/Utilities.h"
 
-NAMESPACE_RESOURCES_BEGIN
+namespace fld {
 
 //-----------------------------------//
 
@@ -23,4 +23,4 @@ NAMESPACE_RESOURCES_BEGIN
 
 //-----------------------------------//
 
-NAMESPACE_RESOURCES_END
+}

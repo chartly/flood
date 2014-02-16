@@ -10,70 +10,70 @@
 #include "Resources/API.h"
 #include "Resources/Resource.h"
 
-NAMESPACE_RESOURCES_BEGIN
+namespace fld {
 
-//-----------------------------------//
+    //-----------------------------------//
 
-API_RESOURCE REFLECT_DECLARE_CLASS(ResourceMetadata)
+    API_RESOURCE REFLECT_DECLARE_CLASS(ResourceMetadata)
 
-struct API_RESOURCE ResourceMetadata
-{
-	// Hash of the resource.
-	uint32 hash;
+    struct API_RESOURCE ResourceMetadata
+    {
+        // Hash of the resource.
+        uint32 hash;
 
-	// Path to the resource.
-	Path path;
+        // Path to the resource.
+        Path path;
 
-	// Path to preview of the resource.
-	Path preview;
+        // Path to preview of the resource.
+        Path preview;
 
-	// Group of the resource.
-	ResourceGroup group;
-};
+        // Group of the resource.
+        ResourceGroup group;
+    };
 
-typedef Array<ResourceMetadata> ResourcesCache;
-typedef HashMap<ResourceMetadata> ResourcesCacheMap; // keyed by uint32
+    typedef Array<ResourceMetadata> ResourcesCache;
+    typedef HashMap<ResourceMetadata> ResourcesCacheMap; // keyed by uint32
 
-//-----------------------------------//
+    //-----------------------------------//
 
-class ResourceIndexer;
+    class ResourceIndexer;
 
-/**
- * Resource database is used to keep an indexed list of all the resources.
- */
+    /**
+     * Resource database is used to keep an indexed list of all the resources.
+     */
 
-API_RESOURCE REFLECT_DECLARE_CLASS(ResourceDatabase)
+    API_RESOURCE REFLECT_DECLARE_CLASS(ResourceDatabase)
 
-class API_RESOURCE ResourceDatabase : public Object
-{
-	REFLECT_DECLARE_OBJECT(ResourceDatabase)
+    class API_RESOURCE ResourceDatabase : public Object
+    {
+        REFLECT_DECLARE_OBJECT(ResourceDatabase)
 
-public:
+    public:
 
-	ResourceDatabase();
-	~ResourceDatabase();
-	
-	// Adds a new metadata entry to the database.
-	void addMetadata(const ResourceMetadata&);
+        ResourceDatabase();
+        ~ResourceDatabase();
 
-	// Sets the resource indexer.
-	void setIndexer(ResourceIndexer*);
+        // Adds a new metadata entry to the database.
+        void addMetadata(const ResourceMetadata&);
 
-	// Gets called when a resource is indexed.
-	void onResourceIndexed(const ResourceMetadata&);
+        // Sets the resource indexer.
+        void setIndexer(ResourceIndexer*);
 
-	// Serialization fix-up.
-	void fixUp() OVERRIDE;
+        // Gets called when a resource is indexed.
+        void onResourceIndexed(const ResourceMetadata&);
 
-	// Event when a resource is added to the database.
-	Event1<const ResourceMetadata&> onResourceAdded;
+        // Serialization fix-up.
+        void fixUp() OVERRIDE;
 
-	// Caches all the resources metadata.
-	ResourcesCache resources;
-	ResourcesCacheMap resourcesCache;
-	ResourceIndexer* indexer;
-};
+        // Event when a resource is added to the database.
+        Event1<const ResourceMetadata&> onResourceAdded;
 
-//-----------------------------------//
+        // Caches all the resources metadata.
+        ResourcesCache resources;
+        ResourcesCacheMap resourcesCache;
+        ResourceIndexer* indexer;
+    };
 
-NAMESPACE_RESOURCES_END
+    //-----------------------------------//
+
+}

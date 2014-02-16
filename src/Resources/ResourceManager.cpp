@@ -17,7 +17,7 @@
 #include "Core/Serialization.h"
 #include "Core/Math/Hash.h"
 
-NAMESPACE_RESOURCES_BEGIN
+namespace fld {
 
 //-----------------------------------//
 
@@ -160,8 +160,7 @@ ResourceEvent::ResourceEvent()
 //-----------------------------------//
 
 ResourceManager::ResourceManager()
-    : taskPool(nullptr)
-    , archive(nullptr)
+    : archive(nullptr)
     , handleManager(nullptr)
     , numResourcesQueuedLoad(0)
     , asynchronousLoading(true)
@@ -577,4 +576,4 @@ void ResourceManager::handleWatchResource(Archive*, const FileWatchEvent& evt)
 
 //-----------------------------------//
 
-NAMESPACE_RESOURCES_END
+}

@@ -12,7 +12,7 @@
 #include "Resources/Resource.h"
 #include "Resources/ResourceDatabase.h"
 
-NAMESPACE_RESOURCES_BEGIN
+namespace fld {
 
 //-----------------------------------//
 
@@ -47,6 +47,6 @@ public:
 
 //-----------------------------------//
 
-NAMESPACE_RESOURCES_END
+}
 
 #endif

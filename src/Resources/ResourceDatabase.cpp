@@ -10,7 +10,7 @@
 #include "Resources/ResourceIndexer.h"
 #include "Core/Log.h"
 
-NAMESPACE_RESOURCES_BEGIN
+namespace fld {
 
 //-----------------------------------//
 
@@ -76,4 +76,4 @@ void ResourceDatabase::setIndexer(ResourceIndexer* indexer)
 
 //-----------------------------------//
 
-NAMESPACE_RESOURCES_END
+}

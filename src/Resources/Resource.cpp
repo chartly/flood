@@ -14,7 +14,7 @@
 FL_INSTANTIATE_TEMPLATES()
 #endif
 
-NAMESPACE_RESOURCES_BEGIN
+namespace fld {
 
 //-----------------------------------//
 
@@ -80,4 +80,4 @@ ResourceLoader::~ResourceLoader()
 
 //-----------------------------------//
 
-NAMESPACE_RESOURCES_END
+}

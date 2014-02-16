@@ -15,183 +15,181 @@
 
 FWD_DECL_INTRUSIVE(ResourceLoader)
 
-NAMESPACE_RESOURCES_BEGIN
+namespace fld {
 
-//-----------------------------------//
+    //-----------------------------------//
 
-class Stream;
-class Archive;
-class TaskPool;
-struct FileWatchEvent;
+    class Stream;
+    class Archive;
+    struct FileWatchEvent;
 
-class ResourceTask;
-class ResourceManager;
+    class ResourceTask;
+    class ResourceManager;
 
-//-----------------------------------//
+    //-----------------------------------//
 
-/**
- * Event fired whenever an operation on the resource happens.
- * This can be useful to know when monitoring for changes,
- * for example in editors.
- */
+    /**
+     * Event fired whenever an operation on the resource happens.
+     * This can be useful to know when monitoring for changes,
+     * for example in editors.
+     */
 
-struct API_RESOURCE ResourceEvent
-{
-    ResourceEvent();
-
-    Resource* resource;
-    Resource* oldResource;
-    ResourceHandle handle;
-};
-
-//-----------------------------------//
-
-API_RESOURCE void ResourcesInitialize();
-API_RESOURCE void ResourcesDeinitialize();
-
-typedef HashMap<ResourceHandle> ResourceMap; // keyed by string
-typedef HashMap<ResourceLoaderPtr> ResourceLoaderMap; // keyed by string
-typedef Array<ResourceEvent> ResourceEventQueue;
-
-/**
- * Responsible for managing a set of resources that are added by the app.
- * It should be possible to enforce a strict memory budget, and the manager
- * will automatically load or unload the resources from memory, using for 
- * example an LRU policy.
- *
- * Each resource is mapped by an extension to a specific resource handler.
- * Various resource handlers can be registered to the same type and the one
- * found first the one used to handle the given resource. In the future the
- * resource matching could be extended to work with magic format signatures
- * which should prove to be less error-prone in case of a corrupt resource.
- */
-
-class API_RESOURCE ResourceManager
-{
-public:
-
-    ResourceManager();
-    virtual ~ResourceManager();
- 
-    // Gets an already loaded resource by its name.
-    ResourceHandle getResource(const Path& name);
-
-    // Loads or returns an already loaded resource by its name.
-    ResourceHandle loadResource(const Path& name);
-
-    // Loads or returns an already loaded resource by its name.
-    ResourceHandle loadResource(ResourceLoadOptions& options);
-
-    // Finds the true resource if it exists.
-    bool findResource( ResourceLoadOptions& options );
-
-    // Removes a resource from the manager.
-    void removeResource(Resource* resource);
-
-    // Removes a resource from the manager.
-    void removeResource(const String& name);
-    void removeResource(uint64 key);
-
-    // Removes unused resources.
-    void removeUnusedResources();
-
-    // Waits until all queued resources are loaded.
-    void loadQueuedResources();
-
-    // Sends resource events to the subscribers.
-    void update();
-
-    // Finds the loader for the given extension.
-    ResourceLoader* findLoader(const String& extension);
-
-    // Finds the loader for the given type.
-    ResourceLoader* findLoaderByClass(const Class* klass);
-
-    // Sets up the default resource loaders.
-    void setupResourceLoaders(Class* klass);
-
-    // Gets an already loaded resource by its name.
-    template <typename T>
-    RESOURCE_HANDLE_TYPE(T) getResource(const String& name)
+    struct API_RESOURCE ResourceEvent
     {
-        ResourceHandle res = getResource(name);
-        return HandleCast<T>(res);
-    }
+        ResourceEvent();
 
-    // Creates a new resource and returns the specific resource type.
-    template <typename T>
-    RESOURCE_HANDLE_TYPE(T) loadResource(const String& name)
+        Resource* resource;
+        Resource* oldResource;
+        ResourceHandle handle;
+    };
+
+    //-----------------------------------//
+
+    API_RESOURCE void ResourcesInitialize();
+    API_RESOURCE void ResourcesDeinitialize();
+
+    typedef HashMap<ResourceHandle> ResourceMap; // keyed by string
+    typedef HashMap<ResourceLoaderPtr> ResourceLoaderMap; // keyed by string
+    typedef Array<ResourceEvent> ResourceEventQueue;
+
+    /**
+     * Responsible for managing a set of resources that are added by the app.
+     * It should be possible to enforce a strict memory budget, and the manager
+     * will automatically load or unload the resources from memory, using for
+     * example an LRU policy.
+     *
+     * Each resource is mapped by an extension to a specific resource handler.
+     * Various resource handlers can be registered to the same type and the one
+     * found first the one used to handle the given resource. In the future the
+     * resource matching could be extended to work with magic format signatures
+     * which should prove to be less error-prone in case of a corrupt resource.
+     */
+
+    class API_RESOURCE ResourceManager
     {
-        ResourceHandle res = loadResource(name);
-        return HandleCast<T>(res);
-    }
+    public:
 
-    // Creates a new resource and returns the specific resource type.
-    template <typename T>
-    RESOURCE_HANDLE_TYPE(T) loadResource(ResourceLoadOptions& options)
-    {
-        ResourceHandle res = loadResource(options);
-        return HandleCast<T>(res);
-    }
+        ResourceManager();
+        virtual ~ResourceManager();
 
-    template <typename T>
-    RESOURCE_HANDLE_TYPE(T) createResource()
-    {
-        ResourceHandle res = ResourceHandleCreate(AllocateHeap(T));
-        return HandleCast<T>(res);
-    }
+        // Gets an already loaded resource by its name.
+        ResourceHandle getResource(const Path& name);
 
-    // These events are sent when their corresponding actions happen.
-    Event1< const ResourceEvent& > onResourcePrepared;
-    Event1< const ResourceEvent& > onResourceLoaded;
-    Event1< const ResourceEvent& > onResourceRemoved;
-    Event1< const ResourceEvent& > onResourceReloaded;
-    Event1< const ResourceLoader&> onResourceLoaderRegistered;
+        // Loads or returns an already loaded resource by its name.
+        ResourceHandle loadResource(const Path& name);
 
-protected:
+        // Loads or returns an already loaded resource by its name.
+        ResourceHandle loadResource(ResourceLoadOptions& options);
 
-    // Validates if the resource exists and if there is a loader for it.
-    bool validateResource( const Path& path );
+        // Finds the true resource if it exists.
+        bool findResource(ResourceLoadOptions& options);
 
-    // Returns a new resource ready to be processed by a loader.
-    Resource* prepareResource( ResourceLoadOptions& options );
+        // Removes a resource from the manager.
+        void removeResource(Resource* resource);
 
-    // Processes the resource with the right resource loader.
-    void decodeResource( ResourceLoadOptions& options );
+        // Removes a resource from the manager.
+        void removeResource(const String& name);
+        void removeResource(uint64 key);
 
-    // Watches a resource for changes and auto-reloads it.
-    void handleWatchResource(Archive*, const FileWatchEvent& event);
+        // Removes unused resources.
+        void removeUnusedResources();
 
-    // Sends pending resource events.
-    void sendPendingEvents();
+        // Waits until all queued resources are loaded.
+        void loadQueuedResources();
 
-    // Destroy the resource handles.
-    void destroyHandles();
+        // Sends resource events to the subscribers.
+        void update();
 
-    // Registers a resource handler.
-    void registerLoader(ResourceLoader*);
+        // Finds the loader for the given extension.
+        ResourceLoader* findLoader(const String& extension);
 
- public:
-    // Maps a name to a resource.
-    ResourceMap resources;
+        // Finds the loader for the given type.
+        ResourceLoader* findLoaderByClass(const Class* klass);
 
-    // Maps extensions to resource loaders.
-    ResourceLoaderMap resourceLoaders;
+        // Sets up the default resource loaders.
+        void setupResourceLoaders(Class* klass);
 
-    // When tasks finish, they queue an event.
-    ResourceEventQueue resourceEvents;
+        // Gets an already loaded resource by its name.
+        template <typename T>
+        RESOURCE_HANDLE_TYPE(T) getResource(const String& name)
+        {
+            ResourceHandle res = getResource(name);
+            return HandleCast<T>(res);
+        }
 
-    // Keeps track if asynchronous loading is enabled.
-    bool asynchronousLoading;
+        // Creates a new resource and returns the specific resource type.
+        template <typename T>
+        RESOURCE_HANDLE_TYPE(T) loadResource(const String& name)
+        {
+            ResourceHandle res = loadResource(name);
+            return HandleCast<T>(res);
+        }
 
-    Archive* archive;
-    TaskPool* taskPool;
-    HandleManager* handleManager;
+        // Creates a new resource and returns the specific resource type.
+        template <typename T>
+        RESOURCE_HANDLE_TYPE(T) loadResource(ResourceLoadOptions& options)
+        {
+            ResourceHandle res = loadResource(options);
+            return HandleCast<T>(res);
+        }
 
-    // Number of resources queued for loading.
-    std::atomic<uint32> numResourcesQueuedLoad;
-};
+        template <typename T>
+        RESOURCE_HANDLE_TYPE(T) createResource()
+        {
+            ResourceHandle res = ResourceHandleCreate(AllocateHeap(T));
+            return HandleCast<T>(res);
+        }
 
-//-----------------------------------//
+        // These events are sent when their corresponding actions happen.
+        Event1< const ResourceEvent& > onResourcePrepared;
+        Event1< const ResourceEvent& > onResourceLoaded;
+        Event1< const ResourceEvent& > onResourceRemoved;
+        Event1< const ResourceEvent& > onResourceReloaded;
+        Event1< const ResourceLoader&> onResourceLoaderRegistered;
 
-NAMESPACE_RESOURCES_END
+    protected:
+
+        // Validates if the resource exists and if there is a loader for it.
+        bool validateResource(const Path& path);
+
+        // Returns a new resource ready to be processed by a loader.
+        Resource* prepareResource(ResourceLoadOptions& options);
+
+        // Processes the resource with the right resource loader.
+        void decodeResource(ResourceLoadOptions& options);
+
+        // Watches a resource for changes and auto-reloads it.
+        void handleWatchResource(Archive*, const FileWatchEvent& event);
+
+        // Sends pending resource events.
+        void sendPendingEvents();
+
+        // Destroy the resource handles.
+        void destroyHandles();
+
+        // Registers a resource handler.
+        void registerLoader(ResourceLoader*);
+
+    public:
+        // Maps a name to a resource.
+        ResourceMap resources;
+
+        // Maps extensions to resource loaders.
+        ResourceLoaderMap resourceLoaders;
+
+        // When tasks finish, they queue an event.
+        ResourceEventQueue resourceEvents;
+
+        // Keeps track if asynchronous loading is enabled.
+        bool asynchronousLoading;
+
+        Archive* archive;
+        HandleManager* handleManager;
+
+        // Number of resources queued for loading.
+        std::atomic<uint32> numResourcesQueuedLoad;
+    };
+
+    //-----------------------------------//
+
+}

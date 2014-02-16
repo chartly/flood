@@ -24,6 +24,8 @@ class API_ENGINE Text : public Resource
 {
     REFLECT_DECLARE_OBJECT(Text)
 
+    virtual ResourceGroup getResourceGroup() const { return ResourceGroup::General; }
+
 public:
 
     String data;
@@ -45,6 +47,9 @@ public:
 
     virtual Resource* prepare(ResourceLoadOptions& opts) override;
     virtual bool decode(ResourceLoadOptions& opts) override;
+
+    virtual const String getName() const { return "TextLoader"; }
+    virtual ResourceGroup getResourceGroup() const { return ResourceGroup::General; }
 };
 
 TYPEDEF_RESOURCE_HANDLE_FROM_TYPE( Text );

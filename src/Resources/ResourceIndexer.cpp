@@ -18,108 +18,108 @@
 #include "Core/Log.h"
 #include "Core/Math/Hash.h"
 
-NAMESPACE_RESOURCES_BEGIN
+namespace fld {
 
-//-----------------------------------//
+    //-----------------------------------//
 
-ResourceIndexer::ResourceIndexer()
-{
-}
-
-//-----------------------------------//
-
-ResourceIndexer::~ResourceIndexer()
-{
-}
-
-//-----------------------------------//
-
-void ResourceIndexer::update()
-{
-    // Send pending events.
-    ResourceMetadata metadata;
-    for(auto& md : resourcesIndexed)
+    ResourceIndexer::ResourceIndexer()
     {
-        onResourceIndexed(metadata);
-    }
-}
-
-//-----------------------------------//
-
-void ResourceIndexer::addArchive(Archive* archive)
-{
-    Array<Path> res;
-    archive->enumerateFiles(res);
-    
-    for(auto& i : res)
-    {
-        Path fullPath = archive->combinePath(i);
-        indexResources(fullPath);
-    }
-}
-
-//-----------------------------------//
-
-static bool GetResourceGroupFromPath(const Path& path, ResourceGroup& group)
-{
-    String ext = PathGetFileExtension(path);
-    
-    auto res = fldCore()->resourceManager;
-    
-    ResourceLoader* loader = res->findLoader(ext);
-    if( !loader ) return false;
-
-    group = loader->getResourceGroup();
-
-    return true;
-}
-
-//-----------------------------------//
-
-void ResourceIndexer::indexResources(const Path& path)
-{
-    Path basePath = PathGetFile(path);
-
-    ResourceGroup group;
-        
-    if( !GetResourceGroupFromPath(path, group) )
-    {
-        //LogDebug("Error indexing resource '%s': no loader was found", basePath.c_str());
-        return;
     }
 
-    //LogDebug("Indexing file '%s'", basePath.c_str());
+    //-----------------------------------//
 
-    FileStream stream(path, StreamOpenMode::Read);
-        
-    if( !stream.isValid )
+    ResourceIndexer::~ResourceIndexer()
     {
-        LogWarn("Error indexing resource '%s': cannot open stream", basePath.c_str());
-        return;
     }
 
-    Array<byte> data;
-    stream.read(data);
-    stream.close();
+    //-----------------------------------//
 
-    if( data.empty() )
+    void ResourceIndexer::update()
     {
-        LogWarn("Resource '%s' is empty", basePath.c_str());
-        return;
+        // Send pending events.
+        ResourceMetadata metadata;
+        for (auto& md : resourcesIndexed)
+        {
+            onResourceIndexed(metadata);
+        }
     }
 
-    uint32 hash = MurmurHash2(0xBEEF, &data[0], data.size());
-        
-    ResourceMetadata metadata;
-    metadata.hash = hash;
-    metadata.path = path;
-    metadata.group = group;
+    //-----------------------------------//
 
-    resourcesIndexed.pushBack(metadata);
+    void ResourceIndexer::addArchive(Archive* archive)
+    {
+        Array<Path> res;
+        archive->enumerateFiles(res);
+
+        for (auto& i : res)
+        {
+            Path fullPath = archive->combinePath(i);
+            indexResources(fullPath);
+        }
+    }
+
+    //-----------------------------------//
+
+    static bool GetResourceGroupFromPath(const Path& path, ResourceGroup& group)
+    {
+        String ext = PathGetFileExtension(path);
+
+        auto res = fldCore()->resourceManager;
+
+        ResourceLoader* loader = res->findLoader(ext);
+        if (!loader) return false;
+
+        group = loader->getResourceGroup();
+
+        return true;
+    }
+
+    //-----------------------------------//
+
+    void ResourceIndexer::indexResources(const Path& path)
+    {
+        Path basePath = PathGetFile(path);
+
+        ResourceGroup group;
+
+        if (!GetResourceGroupFromPath(path, group))
+        {
+            //LogDebug("Error indexing resource '%s': no loader was found", basePath.c_str());
+            return;
+        }
+
+        //LogDebug("Indexing file '%s'", basePath.c_str());
+
+        FileStream stream(path, StreamOpenMode::Read);
+
+        if (!stream.isValid)
+        {
+            LogWarn("Error indexing resource '%s': cannot open stream", basePath.c_str());
+            return;
+        }
+
+        Array<byte> data;
+        stream.read(data);
+        stream.close();
+
+        if (data.empty())
+        {
+            LogWarn("Resource '%s' is empty", basePath.c_str());
+            return;
+        }
+
+        uint32 hash = MurmurHash2(0xBEEF, &data[0], data.size());
+
+        ResourceMetadata metadata;
+        metadata.hash = hash;
+        metadata.path = path;
+        metadata.group = group;
+
+        resourcesIndexed.pushBack(metadata);
+    }
+
+    //-----------------------------------//
+
 }
-
-//-----------------------------------//
-
-NAMESPACE_RESOURCES_END
 
 #endif

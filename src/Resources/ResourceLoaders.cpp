@@ -9,7 +9,7 @@
 #include "Resources/ResourceLoader.h"
 #include "Resources/ResourceManager.h"
 
-NAMESPACE_RESOURCES_BEGIN
+namespace fld {
 
 //-----------------------------------//
 
@@ -57,4 +57,4 @@ void ResourceLoadOptions::addOption(int key, int value)
 
 //-----------------------------------//
 
-NAMESPACE_RESOURCES_END
+}
