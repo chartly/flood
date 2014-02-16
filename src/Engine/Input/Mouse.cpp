@@ -77,8 +77,6 @@ void Mouse::processEvent( const InputEvent& event )
 
 bool Mouse::isButtonPressed( MouseButton button ) const
 {
-	const MouseInfo& mouseInfo = getMouseInfo();
-
 	switch( button )
 	{
 		case MouseButton::Left:
