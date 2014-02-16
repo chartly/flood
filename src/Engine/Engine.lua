@@ -24,7 +24,7 @@ project "Engine"
 		Graphics.defines,
 	})
 
-	defines { Engine.defines }
+	defines { Core.defines, Engine.defines }
 
 	pchheader "Engine/API.h"
 	pchsource "Engine.cpp"
@@ -54,8 +54,6 @@ project "Engine"
 		path.join(depsdir, "glew/glew/include/"),
 		path.join(depsdir, "glfw/include/"),
 		path.join(depsdir, "glm/"),
-		path.join(depsdir, "miniformat/"),
-		path.join(depsdir, "anttweakbar/include/")
 	}
 	
 	Engine.deps =

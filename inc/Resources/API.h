@@ -26,16 +26,3 @@
 #else
 	#define API_RESOURCE
 #endif
-
-#define NAMESPACE_RESOURCES_BEGIN NAMESPACE_CORE_BEGIN
-#define NAMESPACE_RESOURCES_END NAMESPACE_CORE_END
-
-//---------------------------------------------------------------------//
-// Custom Allocators
-//---------------------------------------------------------------------//
-
-NAMESPACE_RESOURCES_BEGIN
-
-API_RESOURCE Allocator* GetResourcesAllocator();
-
-NAMESPACE_RESOURCES_END

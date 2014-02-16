@@ -24,16 +24,16 @@ project "Graphics"
 
 	table.insert(Graphics.defines, { Core.defines })
 
-	defines { "GLEW_MX" }
+	defines { "GLEW_MX", Core.defines }
 
 	includedirs
 	{
 		incdir,
 		srcdir,
+		path.join(depsdir, "miniformat/"),
+		path.join(depsdir, "glm/"),
 		path.join(depsdir, "glew/glew/include/"),
 		path.join(depsdir, "glfw/include/"),
-		path.join(depsdir, "glm/"),
-		path.join(depsdir, "miniformat/"),
 		path.join(depsdir, "anttweakbar/include/"),
 		boost
 	}

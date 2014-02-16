@@ -1,7 +1,7 @@
 Core = {}
 Core.name = "Core"
 Core.isShared = true
-Core.defines = {}
+Core.defines = { "NOMINMAX" }
 
 project "Core"
 
@@ -37,6 +37,7 @@ project "Core"
 	{
 		incdir,
 		path.join(depsdir,"Dirent"),
+		path.join(depsdir, "glm/"),
 		path.join(depsdir, "miniformat/"),
 	}
 	

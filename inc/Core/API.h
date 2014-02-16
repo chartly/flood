@@ -35,11 +35,11 @@
 //---------------------------------------------------------------------//
 
 #if defined(API_CORE_DLL) && defined(API_CORE_DLL_EXPORT)
-	#define API_CORE API_EXPORT
+    #define API_CORE API_EXPORT
 #elif defined(API_CORE_DLL)
-	#define API_CORE API_IMPORT
+    #define API_CORE API_IMPORT
 #else
-	#define API_CORE
+    #define API_CORE
 #endif
 
 #ifndef SWIG
@@ -63,14 +63,37 @@
 // Global includes
 //---------------------------------------------------------------------//
 
-#include "Core/Core.h"
-#include "Core/Memory.h"
-
 #include <array>
 #include <functional>
+#include <miniformat/miniformat.h>
 
-/** Any translation unit using these containers should include "Core/Memory.h". 
-  * Also, to avoid redundant includes, only "Core/HashMap.h" is included here, as it
-  * includes "Core/Array.h".
-  */
+#include <glm/glm.hpp>
+#include <glm/gtc/constants.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "Core/Core.h"
+#include "Core/Memory.h"
 #include "Core/HashMap.h"
+
+//---------------------------------------------------------------------//
+// Namespace adapters ---> uggghh
+//---------------------------------------------------------------------//
+namespace fld {
+    using glm::vec2;
+    using glm::vec3;
+    using glm::vec4;
+    using glm::mat4;
+    using glm::one;
+    using glm::zero;
+    using glm::quarter_pi;
+    using glm::normalize;
+    using glm::cross;
+    using glm::rotate;
+    using glm::length;
+    using glm::inverse;
+    using glm::rotate;
+    using glm::perspective;
+    using glm::infinitePerspective;
+    using glm::scale;
+    using glm::smoothstep;
+}
