@@ -10,7 +10,7 @@
 #include "Graphics/API.h"
 #include "Graphics/GL/GLPlatform.h"
 #include "Graphics/GL/GLBuffers.h"
-#include "Graphics/GL/HalfEdgeMesh.h"
+#include "Graphics/HalfEdgeMesh.h"
 #include "Graphics/GL/GLSLProgram.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Crosshair.h"

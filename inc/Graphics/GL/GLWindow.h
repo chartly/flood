@@ -8,7 +8,6 @@
 #pragma once
 
 #include "Graphics/API.h"
-#include "Engine/Window/Window.h"
 
 //-----------------------------------//
 
@@ -18,23 +17,19 @@ namespace dit {
      *	OpenGL window implementation using GLFW to wrap platform-level
      *	windowing and GLEW to wrap the graphics context.
      */
-    class GLWindow : public Window
+    class GLWindow
     {
     public:
-        GLWindow(const WindowSettings& settings, GLFWwindow * window, GLEWContext* context);
+        GLWindow(GLFWwindow * window, GLEWContext* context);
         virtual ~GLWindow();
 
-        RenderContext* createContext(const RenderContextSettings& settings) override;
+        void update();
+        void makeCurrent();
+        void show(bool visible = true);
 
-        void update() override;
-        void makeCurrent() override;
-        void show(bool visible = true) override;
-
-        void setTitle(const String& title) override;
-        void setCursorVisible(bool state) override;
-        bool isCursorVisible() const override;
-        Vector2i getCursorPosition() const override;
-        void setCursorPosition(int32 x, int32 y) override;
+        void setTitle(const String& title);
+        void setCursorVisible(bool state);
+        bool isCursorVisible() const;
 
         GLFWwindow* window;
         GLEWContext* context;

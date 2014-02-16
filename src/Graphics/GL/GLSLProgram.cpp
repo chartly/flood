@@ -142,7 +142,7 @@ namespace dit
             else
             {
                 String msg;
-                mini::format(msg, "\t^ %0", smd.resource->getPath().c_str());
+                mini::format(msg, "\t^ %0", smd.resource->path.c_str());
                 LogError(msg.c_str());
             }
         }

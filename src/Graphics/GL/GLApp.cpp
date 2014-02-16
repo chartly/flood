@@ -8,7 +8,7 @@
 #include "Graphics/API.h"
 #include "Graphics/GL/GLApp.h"
 #include "Graphics/GL/GLWindow.h"
-#include "Graphics/GL/HalfEdgeMesh.h"
+#include "Graphics/HalfEdgeMesh.h"
 #include "Engine/Input/Keyboard.h"
 #include "Engine/Input/Mouse.h"
 #include "Engine/Resources/Text.h"
@@ -44,7 +44,6 @@ namespace dit {
 
     GLApp::GLApp()
         : platform()
-        , engine(&platform)
     {
         assert(s_instance == nullptr);
         s_instance = this;
@@ -86,8 +85,8 @@ namespace dit {
 
         // set up the resource manager
         auto res = fldCore()->resourceManager;
-        res->setArchive(archive);
-        res->setAsynchronousLoading(false);
+        res->archive = archive;
+        res->asynchronousLoading = false;
 
         // load shaders
         shaders.init();
@@ -123,7 +122,7 @@ namespace dit {
         engine.update();
 
         // input
-        auto mouse = platform.input->mouse->getMouseInfo();
+        auto mouse = platform.input->mouse->mouseInfo;
         auto kb = platform.input->keyboard;
         auto mousePos = vec2{ (float)mouse.x, (float)mouse.y };
         auto mouseDelta = .007f * (mousePos - lastMousePos);
@@ -223,7 +222,7 @@ namespace dit {
         init();
 
         // create the window
-        window = (GLWindow *)platform.windows->createWindow({ 1280, 720, "Flood Engine", WindowStyles::None });
+        window = (GLWindow *)platform.windows->create({ 1280, 720, "Flood Engine", nullptr, WindowStyles::None });
 
         // call anything that needs to be init'd after the window is created
         onLoad();

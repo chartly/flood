@@ -8,24 +8,54 @@
 #pragma once
 
 #include "Graphics/API.h"
-#include "Engine/Window/WindowManager.h"
 #include "Engine/Input/InputManager.h"
 #include "Engine/Input/Keyboard.h"
 #include "Engine/Input/Mouse.h"
 
 namespace dit
 {
-    class GLWindow;
+    /**
+    * Represents window styles as bit-flags.
+    */
+    enum class WindowStyles
+    {
+        None = 0,
+        /// A top-level window is a window that is not a child.
+        TopLevel = 1 << 1,
+        /// A miniframe is a window with minimal chrome.
+        MiniFrame = 1 << 2,
+        /// A borderless window has no chrome.
+        Borderless = 1 << 3,
+        /// Fullscreen windows take the full space of the screen.
+        Fullscreen = 1 << 4,
+    };
 
-    class GLWindowManager : public WindowManager
+    /**
+    * Represents window settings.
+    */
+    class WindowSettings
+    {
+    public:
+        WindowSettings() = default;
+        WindowSettings(uint16 w, uint16 h, const char * t, void* hdl, WindowStyles s)
+            : width(w), height(h), title(t), handle(hdl), styles(s)
+        {}
+
+        uint16 width;
+        uint16 height;
+        String title;
+        void* handle;
+        WindowStyles styles;
+    };
+
+    class GLWindow;
+    class GLWindowManager
     {
     public:
         GLWindowManager();
         virtual ~GLWindowManager();
 
-        Window* createWindow(const WindowSettings& settings);
-        Window* openFileDialog(const String& wildcard, FileDialogFlags flags)              { return nullptr; }
-        Window* openDirectoryDialog(const String& wildcard, DirectoryDialogFlags flags)    { return nullptr; }
+        GLWindow* create(const WindowSettings& settings);
 
         Array<GLWindow*> windows;
 
@@ -55,16 +85,13 @@ namespace dit
         static MouseButton ConvertFromGLFWMouseButton(int32 button);
     };
 
-    class GLPlatform : public PlatformManager
+    class GLPlatform
     {
     public:
-        virtual ~GLPlatform();
+        ~GLPlatform();
 
-        virtual void init() override;
-        virtual void update() override;
-
-        virtual WindowManager* getWindowManager() override;
-        virtual InputManager* getInputManager() override;
+        void init();
+        void update();
 
         GLWindowManager* windows = nullptr;
         GLInputManager* input = nullptr;

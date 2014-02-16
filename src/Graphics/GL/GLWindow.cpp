@@ -7,25 +7,20 @@
 
 #include "Graphics/API.h"
 #include "Graphics/GL/GLWindow.h"
+#include "Core/Log.h"
 
 namespace dit {
 
     //-----------------------------------//
 
-    GLWindow::GLWindow(const WindowSettings& settings, GLFWwindow* win, GLEWContext* con)
-        : Window(settings)
-        , window(win)
+    GLWindow::GLWindow(GLFWwindow* win, GLEWContext* con)
+        : window(win)
         , context(con)
     {}
 
     GLWindow::~GLWindow()
     {
         glfwDestroyWindow(window);
-    }
-
-    RenderContext* GLWindow::createContext(const RenderContextSettings& settings)
-    {
-        return nullptr;
     }
 
     void GLWindow::update() 
@@ -61,18 +56,6 @@ namespace dit {
     bool GLWindow::isCursorVisible() const
     {
         return glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL;
-    }
-
-    void GLWindow::setCursorPosition(int32 x, int32 y)
-    {
-        glfwSetCursorPos(window, (double)x, (double)y);
-    }
-
-    Vector2i GLWindow::getCursorPosition() const
-    {
-        double x, y;
-        glfwGetCursorPos(window, &x, &y);
-        return Vector2i((int32)x, (int32)y);
     }
 
     //-----------------------------------//

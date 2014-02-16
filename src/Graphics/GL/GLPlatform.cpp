@@ -6,6 +6,7 @@
 ************************************************************************/
 
 #include "Graphics/API.h"
+#include "Graphics/GL/GLApp.h"
 #include "Graphics/GL/GLPlatform.h"
 #include "Graphics/GL/GLWindow.h"
 #include "Graphics/GL/GLApp.h"
@@ -29,7 +30,7 @@ namespace dit {
         }
     }
     
-    Window* GLWindowManager::createWindow(const WindowSettings& settings)
+    GLWindow* GLWindowManager::create(const WindowSettings& settings)
     {
         LogInfo("Creating a glfw window..");
 
@@ -92,7 +93,7 @@ namespace dit {
         }
 
         // alloc the adapter class
-        auto glWindow = Allocate(AllocatorGetHeap(), GLWindow, settings, window, fldApp()->context);
+        auto glWindow = Allocate(AllocatorGetHeap(), GLWindow, window, fldApp()->context);
         return glWindow;
     }
 
@@ -143,7 +144,7 @@ namespace dit {
         ke.shiftPressed = mods & GLFW_MOD_SHIFT;
         ke.ctrlPressed = mods & GLFW_MOD_CONTROL;
 
-        auto keyboard = fldEngine()->getPlatformManager()->getInputManager()->getKeyboard();
+        auto keyboard = fldApp()->platform.input->keyboard;
         keyboard->processEvent(ke);
     }
 
@@ -160,7 +161,7 @@ namespace dit {
         me.x = (int16)x;
         me.y = (int16)y;
 
-        auto mouse = fldEngine()->getPlatformManager()->getInputManager()->getMouse();
+        auto mouse = fldApp()->platform.input->keyboard;
         mouse->processEvent(me);
     }
 
@@ -170,11 +171,11 @@ namespace dit {
         TwEventMouseButtonGLFW(button, action);
 
         // forward to the engine
-        auto mouse = fldEngine()->getPlatformManager()->getInputManager()->getMouse();
+        auto mouse = fldApp()->platform.input->mouse;
 
         MouseButtonEvent mb( (action == GLFW_PRESS) ? MouseEventType::MousePress : MouseEventType::MouseRelease );
-        mb.x = mouse->getMouseInfo().x;
-        mb.y = mouse->getMouseInfo().y;
+        mb.x = mouse->mouseInfo.x;
+        mb.y = mouse->mouseInfo.y;
         mb.button = ConvertFromGLFWMouseButton(button);
 
         mouse->processEvent(mb);
@@ -225,18 +226,8 @@ namespace dit {
             //  windowsToRemove.pushBack(w)
         }
 
-        input->keyboard->resetKeys();
+        input->keyboard->reset();
         glfwPollEvents();
-    }
-
-    WindowManager* GLPlatform::getWindowManager()
-    {
-        return windows;
-    }
-
-    InputManager* GLPlatform::getInputManager()
-    {
-        return input;
     }
 
     void GLPlatform::OnError(int32 error, const char * desc)

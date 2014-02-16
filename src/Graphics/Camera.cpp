@@ -5,8 +5,8 @@
 *
 ************************************************************************/
 
-#include "CS350/API.h"
-#include "CS350/Camera.h"
+#include "Graphics/API.h"
+#include "Graphics/Camera.h"
 
 namespace dit {
 
