@@ -13,31 +13,22 @@ NAMESPACE_ENGINE_BEGIN
 
 //-----------------------------------//
 
-void API_INPUT InputInitialize();
-void API_INPUT InputDeinitialize();
-
 class InputDevice;
 struct InputEvent;
 
 class Keyboard;
 class Mouse;
-class Joystick;
-
-class Window;
 
 /**
  * Manages a set of input devices.
  */
 
-class InputManager;
-API_INPUT InputManager* GetInputManager();
-
 class API_INPUT InputManager
 {
 public:
 
-    InputManager();
-    virtual ~InputManager();
+    InputManager() = default;
+    virtual ~InputManager() = default;
 
     InputManager(const InputManager&) = delete;
     InputManager& operator=(const InputManager&) = delete;

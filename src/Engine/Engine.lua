@@ -51,16 +51,17 @@ project "Engine"
 		path.join(depsdir,"SeanBarrett"),
 		path.join(depsdir,"Jansson/include"),
 		path.join(depsdir, "miniformat/"),
+		path.join(depsdir, "glew/glew/include/"),
+		path.join(depsdir, "glfw/include/"),
+		path.join(depsdir, "glm/"),
+		path.join(depsdir, "miniformat/"),
+		path.join(depsdir, "anttweakbar/include/")
 	}
 	
 	Engine.deps =
 	{
-		"OggVorbis",
-		"stb_image",
 		Graphics.deps,
-		"stb_truetype",
 		"FreeType",
-		--"LodePNG",
 	}
 
 	Engine.links =

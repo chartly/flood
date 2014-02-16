@@ -1,4 +1,4 @@
-/************************************************************************
+/***************,,,,,,mjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjvbx*********************************************************
 *
 * Flood Project © (2008-201x)
 * Licensed under the simplified BSD license. All rights reserved.
@@ -6,7 +6,6 @@
 ************************************************************************/
 
 #pragma once
-
 #include "Engine/API.h"
 #include "Core/Reflection.h"
 #include "Core/Event.h"
@@ -37,7 +36,6 @@ REFLECT_DECLARE_ENUM(InputDeviceType)
 struct API_INPUT InputEvent
 {
 public:
-
     InputEvent(InputDeviceType);
     InputEvent(const InputEvent &) = delete;
     InputEvent& operator=(const InputEvent &) = delete;
@@ -54,17 +52,14 @@ public:
 class API_INPUT InputDevice
 {
 public:
-
     InputDevice();
-    InputDevice(const InputDevice&) = delete;
     virtual ~InputDevice();
+
+    InputDevice(const InputDevice&) = delete;
     InputDevice& operator=(const InputDevice&) = delete;
 
     // Processes an event.
     virtual void processEvent( const InputEvent& event ) = 0;
-
-    // Gets the type of this device.
-    virtual const InputDeviceType getType() const = 0;
 };
 
 //-----------------------------------//

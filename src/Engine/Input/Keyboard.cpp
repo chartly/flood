@@ -26,7 +26,7 @@ bool Keyboard::isKeyPressed( Keys keycode ) const
 
 //-----------------------------------//
 
-void Keyboard::resetKeys()
+void Keyboard::reset()
 {
 	std::fill(keyState.begin(), keyState.end(), false);
 }

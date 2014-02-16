@@ -8,25 +8,8 @@
 #pragma once
 
 #include "Engine/API.h"
-#include "Core/RefPtr.h"
 
 NAMESPACE_ENGINE_BEGIN
-
-//-----------------------------------//
-
-class Stream;
-class TaskPool;
-
-class Subsystem;
-class ResourceManager;
-class RenderDevice;
-class AudioDevice;
-class PhysicsManager;
-class PageManager;
-class InputManager;
-class ScriptManager;
-class WindowManager;
-class PlatformManager;
 
 //-----------------------------------//
 
@@ -42,7 +25,7 @@ class API_ENGINE Engine
 {
 public:
 	
-	Engine(PlatformManager* platform);
+	Engine();
 	~Engine();
 
 	// Initialize the engine subsystems.
@@ -50,38 +33,6 @@ public:
 
 	// Updates the main subsystems.
 	void update();
-
-	// Gets/sets the platform manager.
-	ACCESSOR(PlatformManager, PlatformManager*, platformManager)
-
-	// Gets the render device.
-	GETTER(RenderDevice, RenderDevice*, renderDevice)
-
-	// Gets the audio device.
-	GETTER(AudioDevice, AudioDevice*, audioDevice)
-
-	// Gets the scripts manager.
-	GETTER(ScriptManager, ScriptManager*, scriptManager)
-
-	// Gets/sets the physics manager.
-	ACCESSOR(PhysicsManager, PhysicsManager*, physicsManager)
-
-protected:
-
-	// Platform manager.
-	PlatformManager* platformManager;
-
-	// Rendering device.
-	RenderDevice* renderDevice;
-
-	// Audio device.
-	AudioDevice* audioDevice;
-
-	// Physics manager.
-	PhysicsManager* physicsManager;
-
-	// Script manager.
-	ScriptManager* scriptManager;
 };
 
 // Gets the engine instance.

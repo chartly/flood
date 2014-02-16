@@ -43,17 +43,11 @@ class API_ENGINE Mouse : public InputDevice
 {
 public:
 
-    // Return this device as a mouse.
-    GETTER(Type, const InputDeviceType, InputDeviceType::Mouse)
-
     // Processes a mouse input event.
     FLD_IGNORE virtual void processEvent(const InputEvent& event) override;
 
     // Returns whether a given mouse button is pressed.
     bool isButtonPressed( MouseButton button ) const;
-
-    // Gets a structure with the current mouse state.
-    GETTER(MouseInfo, const MouseInfo&, mouseInfo)
 
     // Mouse move event.
     Event1< const MouseMoveEvent& > onMouseMove;
