@@ -43,7 +43,6 @@ namespace dit {
         Engine engine;
         GLWindow* window = nullptr;
         GLEWContext* context = nullptr;
-        TwBar* tweakbar = nullptr;
         Timer loadClock;
         uint32 fpsCam = 1;
 

@@ -128,14 +128,18 @@ namespace dit {
 
     void GLInputManager::OnCharInput(GLFWwindow* window, uint32 key)
     {
+#ifdef ENABLE_ANTTWEAKBAR
         // forward to anttweakbar
         TwEventCharGLFW((int32)key, GLFW_PRESS);
+#endif
     }
 
     void GLInputManager::OnKeyboardInput(GLFWwindow* window, int32 key, int32 scancode, int32 action, int32 mods)
     {
+#ifdef ENABLE_ANTTWEAKBAR
         // forward to anttweakbar
         TwEventCharGLFW(key, scancode);
+#endif
 
         // forward to the engine
         KeyEvent ke = (scancode != GLFW_RELEASE) ? (KeyboardEventType::KeyPressed) : KeyboardEventType::KeyReleased;
@@ -153,8 +157,10 @@ namespace dit {
 
     void GLInputManager::OnMouseMove(GLFWwindow * window, double x, double y)
     {
+#ifdef ENABLE_ANTTWEAKBAR
         // forward to anttweakbar
         TwEventMousePosGLFW((int32)x, (int32)y);
+#endif
 
         // forward to the engine
         MouseMoveEvent me;
@@ -167,8 +173,10 @@ namespace dit {
 
     void GLInputManager::OnMouseButton(GLFWwindow * window, int32 button, int32 action, int32 mods)
     {
+#ifdef ENABLE_ANTTWEAKBAR
         // forward to anttweakbar
         TwEventMouseButtonGLFW(button, action);
+#endif
 
         // forward to the engine
         auto mouse = fldApp()->platform.input->mouse;
@@ -183,8 +191,10 @@ namespace dit {
 
     void GLInputManager::OnMouseScroll(GLFWwindow * window, double xOffset, double yOffset)
     {
+#ifdef ENABLE_ANTTWEAKBAR
         // forward to anttweakbar
         TwEventMouseWheelGLFW((int)xOffset);
+#endif
     }
 
     //-----------------------------------//

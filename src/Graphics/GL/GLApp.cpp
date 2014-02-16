@@ -105,8 +105,6 @@ namespace dit {
             cf.buffer.destroy();
         crosshair.buffer.destroy();
 
-        TwTerminate();
-
         auto kb = platform.input->keyboard;
         kb->onKeyRelease.Disconnect(this, &GLApp::onKeyRelease);
         kb->onKeyPress.Disconnect(this, &GLApp::onKeyPress);
@@ -136,22 +134,23 @@ namespace dit {
             // fps wasd controls
             auto fwd = camera.forward();
             auto right = camera.right();
-            auto delta = zero<vec3>();
+            auto d = zero<vec3>();
 
             if (kb->isKeyPressed(Keys::W))
-                delta += fwd;
+                d += fwd;
             if (kb->isKeyPressed(Keys::S))
-                delta -= fwd;
+                d -= fwd;
             if (kb->isKeyPressed(Keys::A))
-                delta -= right;
+                d -= right;
             if (kb->isKeyPressed(Keys::D))
-                delta += right;
+                d += right;
 
-            if (length(delta) > 0.f)
-                delta = normalize(delta);
-            delta.z *= 1.f;
-            delta.x *= .025f;
-            camera.position() += delta;
+            auto lengthsq = d.x * d.x + d.y * d.y + d.z * d.z;
+            if (lengthsq > 0.f)
+                d = normalize(d);
+            d.z *= 1.f;
+            d.x *= .025f;
+            camera.position() += d;
         }
 
         lastMousePos = mousePos;
@@ -211,8 +210,6 @@ namespace dit {
             glDrawArrays(GL_LINES, 0, cf.vtx.size());
         }
 
-        TwDraw();
-
         glfwSwapBuffers(window->window);
     }
 
@@ -253,50 +250,6 @@ namespace dit {
         LogInfo(msg.c_str());
 
         reloadMesh();
-    }
-
-    //////////////////////////////////////////////////////////////////////////
-
-    void GLApp::initTweakbar()
-    {
-        int32 w, h;
-        glfwGetWindowSize(window->window, &w, &h);
-
-        TwInit(TW_OPENGL, nullptr);
-        TwWindowSize(w, h);
-        tweakbar = TwNewBar("flood");
-
-        TwAddVarRO(tweakbar, "fps cam", TW_TYPE_INT32, &fpsCam, nullptr);
-
-        TwAddSeparator(tweakbar, nullptr, nullptr);
-
-        uint32 val = 0;
-        TwAddVarCB(tweakbar, "Mesh", TW_TYPE_INT32, [](const void* value, void*)
-            {
-                auto val = (int32*)value;
-                fldApp()->meshIdx = *val % fldApp()->meshNames.size();
-            }, [](void* value, void*) {
-                auto& val = *(int32*)value;
-                val = fldApp()->meshIdx;
-            }, nullptr, nullptr);
-        TwAddVarCB(tweakbar, "Vertices", TW_TYPE_UINT32, nullptr, [](void* value, void*) 
-            {
-                auto& val = *((uint32*)value);
-                val = 0;
-                if (fldApp()->mesh)
-                    val = fldApp()->mesh->vertexPositions.size();
-            }, nullptr, nullptr);
-        TwAddVarCB(tweakbar, "Faces", TW_TYPE_UINT32, nullptr, [](void* value, void*)
-        {
-            auto& val = *((uint32*)value);
-            val = 0;
-            if (fldApp()->mesh)
-                val = fldApp()->mesh->faceVertices.size();
-        }, nullptr, nullptr);
-
-        TwAddSeparator(tweakbar, nullptr, nullptr);
-
-        TwAddButton(tweakbar, "reload", [](void* data){ fldApp()->onReloadButton(data); }, nullptr, nullptr);
     }
 
     //////////////////////////////////////////////////////////////////////////
